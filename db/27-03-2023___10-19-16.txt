@@ -1,0 +1,2160 @@
+-- ----------------------
+-- dump de la base c2mprodserver398_dounia au 27-Mar-2023
+-- ----------------------
+
+
+-- -----------------------------
+-- Structure de la table achat
+-- -----------------------------
+CREATE TABLE `achat` (
+  `id_achat` int(11) NOT NULL AUTO_INCREMENT,
+  `id_fournisseur` int(11) DEFAULT NULL,
+  `montant` double DEFAULT NULL,
+  `date_achat` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `valide` int(11) DEFAULT 0,
+  `num_facture` text DEFAULT NULL,
+  `num_bon` text DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_achat`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table agence
+-- -----------------------------
+CREATE TABLE `agence` (
+  `id_agence` int(11) NOT NULL AUTO_INCREMENT,
+  `raisonsocial` varchar(255) DEFAULT NULL,
+  `telephone` varchar(200) DEFAULT NULL,
+  `fax` varchar(16) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `iff` varchar(30) DEFAULT NULL,
+  `rc` varchar(30) DEFAULT NULL,
+  `patente` varchar(30) DEFAULT NULL,
+  `adresse` varchar(100) DEFAULT NULL,
+  `logo` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_agence`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table avoir
+-- -----------------------------
+CREATE TABLE `avoir` (
+  `id_avoir` int(11) NOT NULL AUTO_INCREMENT,
+  `id_client` int(11) DEFAULT NULL,
+  `date_avoir` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `numbon` int(11) DEFAULT NULL,
+  `datebon` date DEFAULT NULL,
+  `remarquebon` text DEFAULT NULL,
+  `num_devi` int(11) DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_avoir`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table boncommande
+-- -----------------------------
+CREATE TABLE `boncommande` (
+  `id_bon` int(11) NOT NULL AUTO_INCREMENT,
+  `id_client` int(11) DEFAULT NULL,
+  `date_bon` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `numbon` int(100) DEFAULT NULL,
+  `remarquebon` text DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_bon`)
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table boncommandevendeur
+-- -----------------------------
+CREATE TABLE `boncommandevendeur` (
+  `id_bon` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vendeur` int(11) DEFAULT NULL,
+  `date_bon` text DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `etat` varchar(200) NOT NULL DEFAULT 'En cours',
+  `numbon` text DEFAULT NULL,
+  `remarquebon` text DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_bon`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table caisse
+-- -----------------------------
+CREATE TABLE `caisse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `designation` varchar(250) DEFAULT NULL,
+  `type_reg` varchar(250) DEFAULT NULL,
+  `date_caisse` date DEFAULT NULL,
+  `montant` varchar(250) DEFAULT '0',
+  `image` text DEFAULT NULL,
+  `id_user` text DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `date_add` timestamp NULL DEFAULT current_timestamp(),
+  `date_update` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `date_delete` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table categorie
+-- -----------------------------
+CREATE TABLE `categorie` (
+  `id_categorie` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(25) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id_categorie`)
+) ENGINE=MyISAM AUTO_INCREMENT=125 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table charge
+-- -----------------------------
+CREATE TABLE `charge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_achat` text DEFAULT NULL,
+  `designation` varchar(250) DEFAULT NULL,
+  `mode_reg` varchar(250) DEFAULT NULL,
+  `num_cheque` varchar(250) DEFAULT NULL,
+  `date_charge` date DEFAULT NULL,
+  `date_validation` date DEFAULT NULL,
+  `devise` varchar(300) DEFAULT NULL,
+  `montant` varchar(250) DEFAULT '0',
+  `image` text DEFAULT NULL,
+  `id_user` text DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table client
+-- -----------------------------
+CREATE TABLE `client` (
+  `id_client` int(255) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `prenom` varchar(255) DEFAULT NULL,
+  `nom_prenom_ar` varchar(255) DEFAULT NULL,
+  `cin` varchar(225) DEFAULT NULL,
+  `ice` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `adresse` varchar(250) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `date_creation` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `archive` tinyint(1) DEFAULT 0,
+  `date_archive` date DEFAULT NULL,
+  `id_archiveur` int(11) DEFAULT NULL,
+  `type_compte` int(11) DEFAULT 0,
+  `plafond` double DEFAULT NULL,
+  `plafond2` double DEFAULT NULL,
+  `prix_vente` int(11) DEFAULT 1,
+  `responsable` text DEFAULT NULL,
+  `iff` text DEFAULT NULL,
+  `rc` text DEFAULT NULL,
+  `ville` text DEFAULT NULL,
+  `activite` text DEFAULT NULL,
+  PRIMARY KEY (`id_client`)
+) ENGINE=MyISAM AUTO_INCREMENT=71 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table commande_usine
+-- -----------------------------
+CREATE TABLE `commande_usine` (
+  `id_cmd` int(11) NOT NULL AUTO_INCREMENT,
+  `id_client` int(11) DEFAULT -1,
+  `date_cmd` text DEFAULT NULL,
+  `id_usine` int(11) NOT NULL DEFAULT -1,
+  `remarque` text DEFAULT NULL,
+  `id_vente` int(11) NOT NULL DEFAULT -1,
+  `id_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_cmd`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table compte
+-- -----------------------------
+CREATE TABLE `compte` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `num_compte` varchar(100) NOT NULL,
+  `nom_compte` varchar(100) NOT NULL,
+  `nom_banque` varchar(50) DEFAULT NULL,
+  `responsable` varchar(60) DEFAULT NULL,
+  `telephone` varchar(50) DEFAULT NULL,
+  `fax` varchar(50) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL,
+  `remarque` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- -----------------------------
+-- Structure de la table depot
+-- -----------------------------
+CREATE TABLE `depot` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table depot_op
+-- -----------------------------
+CREATE TABLE `depot_op` (
+  `id_depot_op` int(11) NOT NULL AUTO_INCREMENT,
+  `remarque` text DEFAULT NULL,
+  `date_op` date DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_depot_op`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table design
+-- -----------------------------
+CREATE TABLE `design` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `libele` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_achat
+-- -----------------------------
+CREATE TABLE `detail_achat` (
+  `id_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_achat` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `prix_produit` decimal(10,2) DEFAULT NULL,
+  `qte_achete` decimal(10,2) DEFAULT NULL,
+  `devise_produit` varchar(11) DEFAULT '1',
+  `remise` decimal(10,2) DEFAULT NULL,
+  `cout_device` double NOT NULL DEFAULT 1,
+  `f_approch` double NOT NULL DEFAULT 1,
+  `id_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_avoir
+-- -----------------------------
+CREATE TABLE `detail_avoir` (
+  `id_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_avoir` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` decimal(10,2) DEFAULT NULL,
+  `qte_rendu` decimal(10,2) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `remise` decimal(4,2) DEFAULT NULL,
+  `unit` text DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_bon_vendeur
+-- -----------------------------
+CREATE TABLE `detail_bon_vendeur` (
+  `id_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_bon` int(11) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` double DEFAULT NULL,
+  `qte_vendu` double DEFAULT NULL,
+  `qte_actuel` double DEFAULT NULL,
+  `remise` double DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `unit` text DEFAULT NULL,
+  `valunit` text DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_commande
+-- -----------------------------
+CREATE TABLE `detail_commande` (
+  `id_detail` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_bon` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` double DEFAULT NULL,
+  `qte_vendu` double DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `remise` double DEFAULT NULL,
+  `valunit` double DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM AUTO_INCREMENT=158 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_depot_op
+-- -----------------------------
+CREATE TABLE `detail_depot_op` (
+  `id_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_depot_op` int(11) DEFAULT NULL,
+  `id_depot_src` int(11) DEFAULT NULL,
+  `id_depot_dest` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `qte_op` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_entre
+-- -----------------------------
+CREATE TABLE `detail_entre` (
+  `id_de` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cmd` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` double DEFAULT NULL,
+  `qte_vendu` double DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `remise` double DEFAULT NULL,
+  `valunit` double DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `valide_entre` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_de`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_produit
+-- -----------------------------
+CREATE TABLE `detail_produit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_produit` int(11) NOT NULL,
+  `id_ingredient` int(11) NOT NULL,
+  `qte` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_sortie
+-- -----------------------------
+CREATE TABLE `detail_sortie` (
+  `id_ds` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cmd` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` double DEFAULT NULL,
+  `qte_vendu` double DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `remise` double DEFAULT NULL,
+  `valunit` double DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `valide_sortie` int(11) NOT NULL DEFAULT 0,
+  `valide_entre` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_ds`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table detail_vente
+-- -----------------------------
+CREATE TABLE `detail_vente` (
+  `id_detail` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_vente` int(11) DEFAULT NULL,
+  `id_produit` int(11) DEFAULT NULL,
+  `prix_produit` double DEFAULT NULL,
+  `qte_vendu` double DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `remise` double DEFAULT NULL,
+  `valunit` double DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `id_bon_vendeur` int(11) DEFAULT NULL,
+  `valide_sortie` int(11) NOT NULL DEFAULT 0,
+  `id_usine` int(11) NOT NULL DEFAULT -1,
+  `remarque_usine` text DEFAULT NULL,
+  PRIMARY KEY (`id_detail`)
+) ENGINE=MyISAM AUTO_INCREMENT=334 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table export
+-- -----------------------------
+CREATE TABLE `export` (
+  `lien` text NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table facture
+-- -----------------------------
+CREATE TABLE `facture` (
+  `id_facture` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vente` varchar(100) DEFAULT NULL,
+  `date_facture` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `tva` int(11) DEFAULT NULL,
+  `taux` int(11) DEFAULT NULL,
+  `num_fact` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_facture`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table facture_avoir
+-- -----------------------------
+CREATE TABLE `facture_avoir` (
+  `id_facture` int(11) NOT NULL AUTO_INCREMENT,
+  `id_avoir` varchar(100) DEFAULT NULL,
+  `date_facture` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `tva` int(11) DEFAULT NULL,
+  `taux` int(11) DEFAULT NULL,
+  `num_fact` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_facture`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table fournisseur
+-- -----------------------------
+CREATE TABLE `fournisseur` (
+  `id_fournisseur` int(11) NOT NULL AUTO_INCREMENT,
+  `code_fournisseur` text DEFAULT NULL,
+  `raison_sociale` varchar(25) NOT NULL,
+  `ice` varchar(25) DEFAULT NULL,
+  `rc` varchar(25) DEFAULT NULL,
+  `iff` varchar(25) DEFAULT NULL,
+  `patente` varchar(25) DEFAULT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `adresse` varchar(60) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `date_creation` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `responsable` varchar(40) DEFAULT NULL,
+  `tph_respo` varchar(20) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `archive` tinyint(1) DEFAULT NULL,
+  `date_archive` date DEFAULT NULL,
+  `id_archiveur` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_fournisseur`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table ingredient
+-- -----------------------------
+CREATE TABLE `ingredient` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `designation` varchar(200) NOT NULL,
+  `qte` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table produit
+-- -----------------------------
+CREATE TABLE `produit` (
+  `id_produit` int(11) NOT NULL AUTO_INCREMENT,
+  `code_bar` varchar(255) DEFAULT NULL,
+  `tva` decimal(4,2) DEFAULT 0.20,
+  `designation` varchar(255) DEFAULT NULL,
+  `designation_ar` varchar(255) DEFAULT NULL,
+  `poid` decimal(10,2) DEFAULT NULL,
+  `qte_actuel` decimal(10,2) DEFAULT NULL,
+  `minqte` decimal(10,2) DEFAULT 10.00,
+  `prix_achat` decimal(10,2) DEFAULT NULL,
+  `prix_achat_i` double NOT NULL DEFAULT 0,
+  `prix_vente` decimal(10,2) DEFAULT NULL,
+  `prix_vente2` double NOT NULL DEFAULT 0,
+  `prix_vente3` double NOT NULL DEFAULT 0,
+  `image` varchar(100) DEFAULT NULL,
+  `emplacement` varchar(25) DEFAULT 'Depot 1',
+  `date_insertion` timestamp NULL DEFAULT current_timestamp(),
+  `id_categorie` int(11) DEFAULT NULL,
+  `remarque` varchar(100) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `archive` tinyint(1) DEFAULT 0,
+  `date_archive` date DEFAULT NULL,
+  `id_archiveur` int(11) DEFAULT NULL,
+  `unite` varchar(20) DEFAULT 'U',
+  `unite2` double DEFAULT 1,
+  `fournisseur` text DEFAULT NULL,
+  `type_produit` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_produit`),
+  KEY `designation` (`designation`)
+) ENGINE=MyISAM AUTO_INCREMENT=229 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table produit_depot
+-- -----------------------------
+CREATE TABLE `produit_depot` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_produit` int(11) DEFAULT NULL,
+  `id_depot` int(11) DEFAULT NULL,
+  `qte` double NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=226 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_achat
+-- -----------------------------
+CREATE TABLE `reg_achat` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_achat` int(11) DEFAULT NULL,
+  `mode_reg` varchar(25) DEFAULT NULL,
+  `montant` decimal(10,2) DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `num_cheque` varchar(30) DEFAULT NULL,
+  `date_reg` date DEFAULT NULL,
+  `etat` tinyint(1) DEFAULT NULL,
+  `date_validation` date DEFAULT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='reg_achat';
+
+-- -----------------------------
+-- Structure de la table reg_avoir
+-- -----------------------------
+CREATE TABLE `reg_avoir` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_avoir` int(11) DEFAULT NULL,
+  `date_reg` date DEFAULT NULL,
+  `montant` decimal(10,2) DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `mode_reg` varchar(25) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `num_cheque` varchar(30) DEFAULT NULL,
+  `etat` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_client
+-- -----------------------------
+CREATE TABLE `reg_client` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_client` int(11) DEFAULT NULL,
+  `date_reg` date DEFAULT NULL,
+  `montant` decimal(10,2) DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `mode_reg` varchar(50) DEFAULT NULL,
+  `num_cheque` varchar(50) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `etat` tinyint(1) DEFAULT NULL,
+  `date_validation` date DEFAULT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_commande
+-- -----------------------------
+CREATE TABLE `reg_commande` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_bon` int(11) DEFAULT NULL,
+  `date_reg` date DEFAULT NULL,
+  `montant` decimal(65,2) DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `mode_reg` varchar(25) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `num_cheque` varchar(30) DEFAULT NULL,
+  `etat` tinyint(1) DEFAULT NULL,
+  `date_validation` date DEFAULT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_fournisseur
+-- -----------------------------
+CREATE TABLE `reg_fournisseur` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_fournisseur` int(11) NOT NULL,
+  `date_reg` date NOT NULL,
+  `montant` decimal(10,2) NOT NULL,
+  `remarque` text NOT NULL,
+  `mode_reg` varchar(50) NOT NULL,
+  `num_cheque` varchar(50) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `etat` tinyint(4) NOT NULL,
+  `date_validation` date NOT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  `id_agence` text DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_vendeur
+-- -----------------------------
+CREATE TABLE `reg_vendeur` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_bon` int(11) DEFAULT NULL,
+  `mode_reg` text DEFAULT NULL,
+  `num_cheque` text DEFAULT NULL,
+  `date_reg` text DEFAULT NULL,
+  `montant` double DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `etat` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  `date_validation` text DEFAULT NULL,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table reg_vente
+-- -----------------------------
+CREATE TABLE `reg_vente` (
+  `id_reg` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vente` int(11) DEFAULT NULL,
+  `date_reg` date DEFAULT NULL,
+  `montant` decimal(65,2) DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `mode_reg` varchar(25) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `num_cheque` varchar(30) DEFAULT NULL,
+  `etat` tinyint(1) DEFAULT NULL,
+  `date_validation` date DEFAULT NULL,
+  `id_compte` int(11) DEFAULT NULL,
+  `id_reg_client` int(11) DEFAULT -1,
+  PRIMARY KEY (`id_reg`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table serial_code
+-- -----------------------------
+CREATE TABLE `serial_code` (
+  `id` int(11) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `date_activation` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table societe
+-- -----------------------------
+CREATE TABLE `societe` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `raisonsocial` varchar(255) DEFAULT NULL,
+  `telephone` varchar(200) DEFAULT NULL,
+  `fax` varchar(16) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `compte` varchar(30) DEFAULT NULL,
+  `iff` varchar(30) DEFAULT NULL,
+  `rc` varchar(30) DEFAULT NULL,
+  `patente` varchar(30) DEFAULT NULL,
+  `adresse` varchar(100) DEFAULT NULL,
+  `logo` varchar(100) DEFAULT NULL,
+  `header_footer` int(11) DEFAULT NULL,
+  `unite_util` varchar(20) DEFAULT NULL,
+  `etat_unite` int(11) DEFAULT NULL,
+  `IdUser` int(11) DEFAULT NULL,
+  `valeur_key` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `nb` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table usine
+-- -----------------------------
+CREATE TABLE `usine` (
+  `id_usine` int(11) NOT NULL AUTO_INCREMENT,
+  `raisonsocial` varchar(255) DEFAULT NULL,
+  `telephone` varchar(200) DEFAULT NULL,
+  `fax` varchar(16) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `iff` varchar(30) DEFAULT NULL,
+  `rc` varchar(30) DEFAULT NULL,
+  `patente` varchar(30) DEFAULT NULL,
+  `adresse` varchar(100) DEFAULT NULL,
+  `logo` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_usine`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table utilisateur
+-- -----------------------------
+CREATE TABLE `utilisateur` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(50) DEFAULT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `tele` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `pwd` varchar(20) DEFAULT NULL,
+  `privilege` varchar(20) DEFAULT NULL,
+  `idu` int(11) DEFAULT NULL,
+  `achat` int(2) DEFAULT NULL,
+  `vente` int(2) DEFAULT NULL,
+  `client` int(2) DEFAULT NULL,
+  `fournisseur` int(2) DEFAULT NULL,
+  `produit` int(2) DEFAULT NULL,
+  `avoir` int(2) DEFAULT NULL,
+  `charge` int(2) DEFAULT NULL,
+  `poste` varchar(200) NOT NULL DEFAULT 'Indefinie',
+  `agences` text DEFAULT NULL,
+  `id_depot` int(11) NOT NULL DEFAULT -1,
+  `id_usine` int(11) NOT NULL DEFAULT -1,
+  `display_usine` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- -----------------------------
+-- Structure de la table vente
+-- -----------------------------
+CREATE TABLE `vente` (
+  `id_vente` int(11) NOT NULL AUTO_INCREMENT,
+  `id_client` int(11) DEFAULT NULL,
+  `date_vente` date DEFAULT NULL,
+  `remarque` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `numbon` int(100) DEFAULT NULL,
+  `datebon` date DEFAULT NULL,
+  `remarquebon` text DEFAULT NULL,
+  `num_devi` int(11) DEFAULT NULL,
+  `bon_commande` text DEFAULT NULL,
+  `validite` varchar(60) DEFAULT '1 mois',
+  `client` text DEFAULT NULL,
+  `id_bon` int(11) DEFAULT NULL,
+  `localisation` text DEFAULT NULL,
+  `id_agence` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_vente`)
+) ENGINE=MyISAM AUTO_INCREMENT=206 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+
+-- -----------------------------
+-- Contenu de la table achat
+-- -----------------------------
+INSERT INTO achat VALUES('1', '2', '', '2022-12-29', '', '35', '0', '', '', '');
+INSERT INTO achat VALUES('6', '3', '', '2023-03-16', '', '35', '0', '', '', '');
+
+-- -----------------------------
+-- Contenu de la table agence
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table avoir
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table boncommande
+-- -----------------------------
+INSERT INTO boncommande VALUES('1', '9', '2022-12-22', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('2', '12', '2022-12-22', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('3', '12', '2022-12-22', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('7', '13', '2022-12-26', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('8', '21', '2022-12-28', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('9', '3', '2023-01-02', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('10', '15', '2023-01-04', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('11', '23', '2023-01-04', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('12', '28', '2023-01-09', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('13', '5', '2023-01-09', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('14', '22', '2023-01-09', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('15', '4', '2023-01-10', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('16', '25', '2023-01-10', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('19', '10', '2023-01-13', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('20', '10', '2023-01-13', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('21', '34', '2023-01-13', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('23', '19', '2023-01-17', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('24', '35', '2023-01-23', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('25', '12', '2023-01-24', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('26', '1', '2023-01-24', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('27', '40', '2023-01-24', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('28', '41', '2023-01-24', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('29', '8', '2023-01-25', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('30', '26', '2023-01-26', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('31', '2', '2023-01-26', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('32', '7', '2023-01-26', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('33', '3', '2023-01-26', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('34', '43', '2023-01-27', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('35', '22', '2023-01-27', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('36', '46', '2023-02-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('37', '46', '2023-02-03', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('38', '47', '2023-02-03', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('39', '41', '2023-02-03', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('40', '48', '2023-02-06', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('41', '49', '2023-02-06', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('42', '5', '2023-02-06', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('43', '40', '2023-02-08', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('44', '2', '2023-02-08', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('46', '28', '2023-02-08', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('47', '4', '2023-02-10', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('48', '5', '2023-02-10', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('49', '3', '2023-02-14', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('50', '55', '2023-02-15', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('51', '5', '2023-02-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('52', '4', '2023-02-21', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('53', '19', '2023-02-23', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('54', '49', '2023-02-23', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('55', '46', '2023-02-23', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('56', '53', '2023-02-24', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('57', '58', '2023-02-27', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('58', '3', '2023-03-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('59', '4', '2023-03-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('61', '13', '2023-03-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('62', '22', '2023-03-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('63', '5', '2023-03-01', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('64', '21', '2023-03-03', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('65', '10', '2023-03-06', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('66', '46', '2023-03-07', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('67', '46', '2023-03-08', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('68', '3', '2023-03-09', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('69', '66', '2023-03-16', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('70', '22', '2023-03-17', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('71', '22', '2023-03-17', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('72', '67', '2023-03-17', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('73', '24', '2023-03-17', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('74', '58', '2023-03-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('75', '67', '2023-03-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('76', '4', '2023-03-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('77', '3', '2023-03-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('78', '53', '2023-03-20', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('79', '69', '2023-03-22', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('80', '12', '2023-03-23', '', '35', '', '', '');
+INSERT INTO boncommande VALUES('82', '42', '2023-03-23', '', '35', '', '', '');
+
+-- -----------------------------
+-- Contenu de la table boncommandevendeur
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table caisse
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table categorie
+-- -----------------------------
+INSERT INTO categorie VALUES('1', 'Autres', '35');
+INSERT INTO categorie VALUES('116', 'FILM BEURRE', '35');
+INSERT INTO categorie VALUES('115', 'FILM DOUBLE FACE', '35');
+INSERT INTO categorie VALUES('114', 'FILM NAPPE', '35');
+INSERT INTO categorie VALUES('113', 'M1', '35');
+INSERT INTO categorie VALUES('112', 'SAC TRS', '35');
+INSERT INTO categorie VALUES('111', 'FILM FROMAGE', '35');
+INSERT INTO categorie VALUES('108', 'GAINE', '35');
+INSERT INTO categorie VALUES('109', 'FILM LBEN', '35');
+INSERT INTO categorie VALUES('110', 'FILM Arôme', '35');
+INSERT INTO categorie VALUES('117', 'clichés', '35');
+INSERT INTO categorie VALUES('118', 'SAC TISSEL', '35');
+INSERT INTO categorie VALUES('119', 'ROULEAUX PLASTIQUE', '35');
+INSERT INTO categorie VALUES('120', 'SACS LAITIERE ', '35');
+INSERT INTO categorie VALUES('121', 'FEUILLE ', '35');
+INSERT INTO categorie VALUES('122', 'FILM THERMO', '35');
+INSERT INTO categorie VALUES('123', 'FILM ETIRABLE', '35');
+INSERT INTO categorie VALUES('124', 'PAILLAGE', '35');
+INSERT INTO categorie VALUES('106', 'SAC', '35');
+INSERT INTO categorie VALUES('107', 'FILM LAIT', '35');
+
+-- -----------------------------
+-- Contenu de la table charge
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table client
+-- -----------------------------
+INSERT INTO client VALUES('1', '', ' Test', '', '', '', '', '', '', '', '', '2022-12-12', '', '35', '0', '2022-12-12', '0', '1', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('2', '', 'COLAIMO ', '', '', '', '001730150000083', '0522352207', 'colaimo.achat@gmail.com', 'ROUTE AOUNIA  OUJDA BP 3133 TAKADOUM', '', '2022-12-13', '', '35', '0', '2022-12-13', '0', '1', '100000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('3', '', 'ARCOL ', '', '', '', '000085490000079', '0522967200', 'ARCOL@gmail.com', 'km.20 route d\'El Jadida, route second.3005 26100 Berrechid - Maroc', '', '2022-12-13', '', '35', '0', '2022-12-13', '0', '0', '100000', '', '3', '', '', '', '', '');
+INSERT INTO client VALUES('4', '', 'COLAINORD', '', '', '', '0016474220000077', '0539975134', 'CONTACT@COLAINORD.MA', 'Km 12-rte Sebta-Malalyenne - BP 295 93000 Tétouan - Maroc', '', '2022-12-13', '', '35', '0', '2022-12-13', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('5', '', 'PROLAINAT   ', '', '', '', '001533128000003', '0522320720', 'info@prolainat.ma', 'LOT 7 N°41 BIS ZONE INDUSTRIELLE OULED SALEH .  
+', '', '2022-12-16', '', '35', '0', '2022-12-16', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('6', '', 'NEGOLAM', '', '', '', '001529918000052', '0522510305', '', 'Route 107, Sidi Hajjaj 20640 Tit Mellil - Maroc', '', '2022-12-16', '', '35', '0', '2022-12-16', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('7', '', 'COPAG', '', '', '', '001586883000029', ' 05 28 53 61 82', '', 'BP 1001, 83 200 – Ait Iazza, Freija Taroudant - MAROC', '', '2022-12-21', '', '35', '0', '2022-12-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('8', '', 'CADEX   ', '', '', '', '001609651000079', '0522974445', '', ' LOTISS LA COLINE ISIDI MAAROUF CASABLANCA', '', '2022-12-21', '', '35', '0', '2022-12-21', '0', '0', '1000000000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('9', '', 'S.M.E   ', '', '', '', '001609646000020', '0522974445', '', ' LOTISS LA COLINE IMMEUBLE  SIDI MAAROUF', '', '2022-12-21', '', '35', '0', '2022-12-21', '0', '0', '5000000000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('10', '', 'ESSAKIA AL HAMRA', '', '', '', '002003963000084', '0528 89 08 35', '', 'ESSAKIA AL HAMRA BP 786 -LAAYOUNE', '', '2022-12-21', '', '35', '0', '2022-12-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('11', '', 'funfries ', '', '', '', '000131533000070', '05 37 58 65 70', '', '15, Avenue Al ABTAL, Appt 4 Agdal', '', '2022-12-21', '', '35', '0', '2022-12-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('12', '', 'BOUDBOUCH', '', '', '', '', '', '', '', '', '2022-12-22', '', '35', '0', '2022-12-22', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('13', '', 'EPC-MAROC', '', '', '', '000080993000054', '0522320252', '', 'B.S 204-RP3011-BOUSKOURA 27182', '', '2022-12-26', '', '35', '0', '2022-12-26', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('14', '', 'SEFITA', '', '', '', '001530489000058', '0535536052', '', 'Km 2 route Agourai 50000 Meknès - Maroc 
+
+', '', '2022-12-26', '', '35', '0', '2022-12-26', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('15', '', 'MOOVIDIS', '', '', '', '002232196000009', '0522332562', '', ' Appartement N°20 Lotissement Florida Park N° 7 Sidi Maarouf ', '', '2022-12-26', '', '35', '0', '2022-12-26', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('16', '', 'ABRA PRINT', '', '', '', '000089668000084', '0522636380', '', '52 Rue 7 Bournazil Hay Rajae 1 - Casablanca', '', '2022-12-26', '', '35', '0', '2022-12-26', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('17', '', 'TOZONE', '', '', '', '001999196000074', '05.37.74.96.11', '', '', '', '2022-12-26', '', '35', '0', '2022-12-26', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('18', '', 'EL MENZEH FOODS ', '', '', '', '000111104000014', '06.95.31.20.99', '', '8 IMM 8 RCE AL HOURIA FES ', '', '2022-12-27', '', '35', '0', '2022-12-27', '0', '0', '10000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('19', '', 'AMANOR  ', '', '', '', '000099509000060', '05.39.95.52.48', '', 'Z,I MGHOUGHA Route Tetouan Alle N°3 Lot 95  TANGER', '', '2022-12-27', '', '35', '0', '2022-12-27', '0', '0', '50000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('20', '', 'LYDEC', '', '', '', '000230990000079', '05.22.54.90.54', '', '  48, rue Mohamed Diouri 20110 CASABLANCA
+', '', '2022-12-27', '', '35', '0', '2022-12-27', '0', '0', '60000', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('21', '', 'SNEP  ', '', '', '', '000219297000055', '0523324328', 'f.legrouri@snep.ma', 'Route côtière 111 - BP 94 28810 Mohammedia - Maroc', '', '2022-12-28', '', '35', '0', '2022-12-28', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('22', '', 'COPRALIM', '', '', '', '001533006000096', '05282-48119', '', 'Route de Médiouna, km.11,5 -douar Lahfaya Casablanca', '', '2023-01-04', '', '35', '0', '2023-01-04', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('23', '', 'Mourad ', '', '', '', '', '0522665924', '', 'CASABLANCA', '', '2023-01-04', '', '35', '0', '2023-01-04', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('24', '', 'MRINI', '', '', '', '', '0622584344', '', 'CASABLANCA ', '', '2023-01-04', '', '35', '0', '2023-01-04', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('25', '', 'JOLY PRESS ', '', '', '', '000037194000003', '05 22 01 20 31 ', '', '89, Parc industr. Cfcim-Oulad Salah 27182 Bouskoura - CASA', '', '2023-01-06', '', '35', '0', '2023-01-06', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('26', '', 'I.F.L', '', '', '', '001534476000079', '0522590610', '', 'zone indust Oulad Salah , lot. 81 27182 Bouskoura - Maroc', '', '2023-01-07', '', '35', '0', '2023-01-07', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('28', '', 'COOPÉRATIVE IMLIL ', '', '', '', '001659968000005', '06.50.26.65.54', '', 'COOPERATIVE LAITIERE HALIB IMLIL  TINGHIR', '', '2023-01-09', '', '35', '0', '2023-01-09', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('29', '', 'JOLY PRESS   ', '', '', '', '000037194000003', '0522593790', '', '89, Parc industr. Cfcim-Oulad Salah 27182 Bouskoura 
+
+ ', '', '2023-01-10', '', '35', '0', '2023-01-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('30', '', 'SEFITA ', '', '', '', '001530489000058', '0535536052', '', 'Km 2 route Agourai 50000 Meknès - Maroc', '', '2023-01-10', '', '35', '0', '2023-01-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('31', '', 'Voice Of Natural Services', '', '', '', '', ' 0606-838883', '', ' 41 Bd Beni Amir, Khouribga 25000', '', '2023-01-10', '', '35', '0', '2023-01-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('32', '', 'SMAG ICE ', '', '', '', '', '', '', 'KENITRA', '', '2023-01-10', '', '35', '0', '2023-01-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('33', '', 'HASSAN MAMOUNIA', '', '', '', '', '05.22.28.53.26', '', '', '', '2023-01-10', '', '35', '0', '2023-01-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('34', '', 'MOBISPHERE', '', '', '', '002034116000074', '', '', 'Imm Saraya 4éme étage Angle Bd Riad		
+', '', '2023-01-13', '', '35', '0', '2023-01-13', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('35', '', 'COLD ASPHALT', '', '', '', '', '0671639124', 'ROADMASTERS200@GMAIL.COM', 'BD LA RESISTANCE HASSANIA 1 RUE 17 MOHAMMEDA', '', '2023-01-18', '', '35', '0', '2023-01-18', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('36', '', 'GHAZALI ', '', '', '', '', '0522383564', '', 'CASABLANCA', '', '2023-01-19', '', '35', '0', '2023-01-19', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('37', '', 'BEN OMAR ', '', '', '', '', '0522658234', '', 'CASABLANCA .MAROC', '', '2023-01-19', '', '35', '0', '2023-01-19', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('38', '', 'HASSAN MAMOUNIA', '', '', '', '', '0522356481', '', 'CASABLANCA. MAROC', '', '2023-01-19', '', '35', '0', '2023-01-19', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('39', '', 'Fratelli Met Montage s.a.r.l', '', '', '', '000225341000021', '05-39-32-17-48', '', '', '', '2023-01-20', '', '35', '0', '2023-01-20', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('40', '', 'al alia ', '', '', '', '', '05.22.56.65.32', '', 'Casablanca', '', '2023-01-21', '', '35', '0', '2023-01-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('41', '', 'PELLETTE DU MAROC ', '', '', '', '', '05.22.56.65.32', '', '', '', '2023-01-24', '', '35', '0', '2023-01-24', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('42', '', 'OUED ZA', '', '', '', '000020275000043', '', '', 'TAOURIRT', '', '2023-01-25', '', '35', '0', '2023-01-25', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('43', '', 'COLORADO', '', '', '', '', '05.22.32.36.54', '', 'CASABLANCA', '', '2023-01-27', '', '35', '0', '2023-01-27', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('44', '', 'HOBI -MOBI', '', '', '', '000079345000027', '', '', '56 rue du Docteur Roux Hay roches noires Casablanca', '', '2023-01-27', '', '35', '0', '2023-01-27', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('45', '', 'Ismail', '', '', '', '', '05.22.65.21.25', '', 'casablanca', '', '2023-01-30', '', '35', '0', '2023-01-30', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('46', '', 'BITNI MUSTAPHA', '', '', '', '', '05.22.36.25.12', '', 'Casablanca', '', '2023-02-01', '', '35', '0', '2023-02-01', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('47', '', 'ILHAM PLASTIQUE', '', '', '', '001541840000004', '05223-29559', '', '', '', '2023-02-03', '', '35', '0', '2023-02-03', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('48', '', 'ANA FLOUS', '', '', '', '', '05.22.54.23.65', '', 'CASABLANCA', '', '2023-02-06', '', '35', '0', '2023-02-06', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('49', '', 'TIJANI MARRAKECHE', '', '', '', '', '', '', 'MARRAKECHE', '', '2023-02-06', '', '35', '0', '2023-02-06', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('50', '', ' OBK PURCHASING', '', '', '', '', ' 0608245886                                                                                                                                                                                                                                                    ', '', 'marrakeche', '', '2023-02-07', '', '35', '0', '2023-02-07', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('51', '', 'BRAHIM AGADIR', '', '', '', '', '06.25.46.51.64', '', 'AGADIR', '', '2023-02-10', '', '35', '0', '2023-02-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('52', '', 'SILDA', '', '', '', '001562765000054', '0528249186', '', 'zone industrielle - rue Bouabid 80150 Aït Melloul - Maroc', '', '2023-02-10', '', '35', '0', '2023-02-10', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('53', '', 'COOPÉRATIVE LAITIÈRE ZIZ', '', '', '', '', '0535572139', '', 'Cité des cadres de l\'Ormvat - BP 30 52000 Errachidia - Maroc', '', '2023-02-13', '', '35', '0', '2023-02-13', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('54', '', 'ARMESCO ', '', '', '', '', '05-22-48-21-49', '', 'Residence Hamourabi Iii 7 Rue Ain Oulmes Magasin 4 Et 5', '', '2023-02-14', '', '35', '0', '2023-02-14', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('55', '', 'ISSAM MARRAKECHE', '', '', '', '', '', '', 'MARRAKECHE', '', '2023-02-15', '', '35', '0', '2023-02-15', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('56', '', 'Abdelouahab   ', '', '', '', '', '06.25.32.59.23', '', 'Casablanca', '', '2023-02-16', '', '35', '0', '2023-02-16', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('57', '', 'NIAMA INDIS', '', '', '', '', '05.22.36.21.23', '', '', '', '2023-02-21', '', '35', '0', '2023-02-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('58', '', 'loutta mbarek', '', '', '', '', '', '', 'casablanca', '', '2023-02-27', '', '35', '0', '2023-02-27', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('59', '', 'Ismail', '', '', '', '', '05.22.36.54.32', '', 'casablanca', '', '2023-03-02', '', '35', '0', '2023-03-02', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('60', '', 'SOCIETE VMN', '', '', '', '001527230000072', '', '', ' Z.I Lissasfa Km9 Route El Jadida CASABLANCA
+', '', '2023-03-06', '', '35', '0', '2023-03-06', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('61', '', 'SOCIETE VMN', '', '', '', '001527230000072', '', '', ' Z.I Lissasfa Km9 Route El Jadida CASABLANCA
+', '', '2023-03-06', '', '35', '0', '2023-03-06', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('62', '', 'ORBIS Real Estate', '', '', '', '', '05375-42542', '', '24, rue Mohammed El Ghazi, La Pinede - Souissi Rabat', '', '2023-03-09', '', '35', '0', '2023-03-09', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('63', '', 'DORIPLAST', '', '', '', '', '', '', 'CASABLANCA', '', '2023-03-14', '', '35', '0', '2023-03-14', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('64', '', 'LAMATEM  ', '', '', '', '', '0666828470', '', 'Zone indust Berréchid , rue n° 92, Sidi El Mekki 26100 Berrechid ', '', '2023-03-14', '', '35', '0', '2023-03-14', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('65', '', 'Coopérative Agricole TAIBA ', '', '', '', '', '', '', 'N°1 CENTRE Dchaira Commune rurale Dchaira', '', '2023-03-15', '', '35', '0', '2023-03-15', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('66', '', 'ayachi', '', '', '', '', '', '', '', '', '2023-03-16', '', '35', '0', '2023-03-16', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('67', '', 'Mohammed salmia', '', '', '', '', '', '', 'casablanca', '', '2023-03-17', '', '35', '0', '2023-03-17', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('68', '', 'OUED OUTAT', '', '', '', '', '', '', 'MIDELT', '', '2023-03-21', '', '35', '0', '2023-03-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('69', '', 'BITNI ALI ', '', '', '', '', '', '', 'CASABLANCA', '', '2023-03-21', '', '35', '0', '2023-03-21', '0', '0', '0', '', '1', '', '', '', '', '');
+INSERT INTO client VALUES('70', '', 'ALHALABI FOODS', '', '', '', '', '0522539424', '', '519, Parc indust Sapino 26200 Nouasseur - Maroc', '', '2023-03-21', '', '35', '0', '2023-03-21', '0', '0', '0', '', '1', '', '', '', '', '');
+
+-- -----------------------------
+-- Contenu de la table commande_usine
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table compte
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table depot
+-- -----------------------------
+INSERT INTO depot VALUES('6', 'DP1');
+INSERT INTO depot VALUES('5', 'PRINCIPALE');
+INSERT INTO depot VALUES('7', '1');
+
+-- -----------------------------
+-- Contenu de la table depot_op
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table design
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_achat
+-- -----------------------------
+INSERT INTO detail_achat VALUES('1', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('2', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('3', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('4', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('5', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('6', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('7', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('8', '1', '45', '6', '760.80', '8.00', '1', '', '1', '1', '35');
+INSERT INTO detail_achat VALUES('9', '1', '47', '6', '432.00', '8.00', '1', '', '1', '1', '35');
+INSERT INTO detail_achat VALUES('10', '1', '48', '6', '360.00', '12.00', '1', '', '1', '1', '35');
+INSERT INTO detail_achat VALUES('11', '1', '50', '6', '28.80', '162.00', '1', '', '1', '1', '35');
+INSERT INTO detail_achat VALUES('12', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('13', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('14', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('15', '', '', '', '', '', '1', '', '1', '1', '');
+INSERT INTO detail_achat VALUES('16', '6', '207', '6', '1965.60', '5.00', '1', '', '1', '1', '35');
+
+-- -----------------------------
+-- Contenu de la table detail_avoir
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_bon_vendeur
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_commande
+-- -----------------------------
+INSERT INTO detail_commande VALUES('1', '1', '18', '0', '60000', '35', '0', '60000', 'KG', '7');
+INSERT INTO detail_commande VALUES('2', '1', '15', '0', '2000', '35', '0', '2000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('3', '1', '14', '0', '2000', '35', '0', '2000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('4', '1', '16', '0', '2000', '35', '0', '2000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('5', '1', '17', '0', '2000', '35', '0', '2000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('6', '3', '19', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('7', '4', '34', '38.4', '1000', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('8', '5', '34', '0', '1000', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('9', '6', '10', '0', '200', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('10', '7', '34', '0', '200', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('11', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('12', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('13', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('14', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('15', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('16', '-110', '44', '3.3', '3000', '35', '0', '3000', 'unt', '6');
+INSERT INTO detail_commande VALUES('17', '8', '44', '0', '3000', '35', '0', '3000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('18', '9', '53', '0', '10000', '35', '0', '10000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('19', '9', '52', '0', '1000', '35', '0', '1000', 'UNI', '0');
+INSERT INTO detail_commande VALUES('20', '9', '54', '0', '20000', '35', '0', '20000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('21', '9', '55', '0', '20000', '35', '0', '20000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('22', '10', '60', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('23', '10', '37', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('24', '11', '62', '0', '5000', '35', '0', '5000', 'KG', '7');
+INSERT INTO detail_commande VALUES('25', '12', '67', '0', '2000', '35', '0', '2000', 'KG', '6');
+INSERT INTO detail_commande VALUES('26', '13', '56', '0', '600', '35', '0', '600', 'KG', '6');
+INSERT INTO detail_commande VALUES('27', '13', '57', '0', '600', '35', '0', '600', 'KG', '6');
+INSERT INTO detail_commande VALUES('33', '15', '70', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('34', '16', '71', '0', '10000', '35', '0', '10000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('30', '14', '58', '0', '300', '35', '0', '300', 'KG', '0');
+INSERT INTO detail_commande VALUES('31', '14', '59', '0', '200', '35', '0', '200', 'KG', '7');
+INSERT INTO detail_commande VALUES('35', '17', '12', '31', '5000', '35', '0', '5000', 'kg ', '6');
+INSERT INTO detail_commande VALUES('36', '18', '12', '31', '5000', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('37', '20', '12', '0', '5000', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('40', '22', '7', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('39', '21', '82', '0', '1000', '35', '0', '0', '', '6');
+INSERT INTO detail_commande VALUES('41', '23', '7', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('44', '25', '93', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('43', '24', '98', '0', '10000', '35', '0', '10000', 'UNI', '');
+INSERT INTO detail_commande VALUES('45', '25', '81', '0', '500', '35', '0', '500', 'KG', '6');
+INSERT INTO detail_commande VALUES('46', '26', '62', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('47', '27', '97', '0', '3500', '35', '0', '3500', 'KG', '7');
+INSERT INTO detail_commande VALUES('48', '28', '99', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('51', '29', '42', '0', '14800', '35', '0', '14800', 'UNI', '6');
+INSERT INTO detail_commande VALUES('52', '30', '95', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('53', '31', '33', '31', '3000', '35', '0', '3000', 'KG', '6');
+INSERT INTO detail_commande VALUES('54', '32', '108', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('55', '32', '107', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('56', '32', '106', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('57', '32', '105', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('58', '32', '104', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('59', '32', '103', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('64', '35', '110', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('63', '34', '109', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('62', '33', '55', '1.08', '100000', '35', '0', '100000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('65', '36', '115', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('66', '36', '116', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('67', '36', '117', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('68', '36', '118', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('69', '36', '119', '0', '300', '35', '0', '300', 'KG', '6');
+INSERT INTO detail_commande VALUES('70', '37', '135', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('71', '38', '136', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('72', '38', '137', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('73', '38', '138', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('74', '38', '139', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('75', '38', '140', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('76', '38', '142', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('77', '38', '143', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('78', '38', '144', '0', '0', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('82', '40', '147', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('80', '39', '145', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('81', '39', '146', '0', '100', '35', '0', '100', 'KG', '7');
+INSERT INTO detail_commande VALUES('83', '41', '148', '0', '5000', '35', '0', '5000', 'KG', '7');
+INSERT INTO detail_commande VALUES('84', '42', '6', '0', '250', '35', '0', '250', 'KG', '7');
+INSERT INTO detail_commande VALUES('85', '43', '97', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('86', '44', '151', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('87', '45', '1', '0', '2200', '35', '0', '2200', 'KG', '6');
+INSERT INTO detail_commande VALUES('88', '46', '67', '0', '2200', '35', '0', '2200', 'KG', '6');
+INSERT INTO detail_commande VALUES('89', '47', '155', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('90', '48', '156', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('91', '48', '57', '0', '500', '35', '0', '500', 'KG', '6');
+INSERT INTO detail_commande VALUES('92', '49', '55', '0', '20000', '35', '0', '20000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('93', '50', '159', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('94', '51', '6', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('95', '52', '164', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('96', '52', '165', '0', '1500', '35', '0', '1500', 'KG', '7');
+INSERT INTO detail_commande VALUES('97', '52', '166', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('98', '52', '167', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('99', '52', '168', '0', '1500', '35', '0', '1500', 'KG', '7');
+INSERT INTO detail_commande VALUES('100', '52', '169', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('101', '52', '170', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('102', '53', '91', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('103', '54', '171', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('104', '54', '172', '0', '2000', '35', '0', '2000', 'KG', '7');
+INSERT INTO detail_commande VALUES('105', '55', '173', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('106', '55', '174', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('109', '57', '179', '0', '10000', '35', '0', '10000', 'KG', '7');
+INSERT INTO detail_commande VALUES('108', '56', '178', '37.2', '4000', '35', '0', '4000', 'KG', '7');
+INSERT INTO detail_commande VALUES('110', '57', '180', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('111', '57', '181', '0', '300', '35', '0', '300', 'KG', '7');
+INSERT INTO detail_commande VALUES('112', '58', '53', '6.804', '5000', '35', '0', '5000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('113', '59', '182', '33.16', '1500', '35', '0', '0', '', '7');
+INSERT INTO detail_commande VALUES('114', '60', '11', '38.4', '400', '35', '0', '400', 'KG', '6');
+INSERT INTO detail_commande VALUES('115', '61', '11', '38.4', '400', '35', '0', '400', 'KG', '6');
+INSERT INTO detail_commande VALUES('116', '61', '34', '38.4', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('120', '63', '57', '22.8', '500', '35', '0', '500', 'KG', '6');
+INSERT INTO detail_commande VALUES('119', '62', '58', '22.8', '200', '35', '0', '200', 'KG', '0');
+INSERT INTO detail_commande VALUES('121', '64', '44', '3.3', '4000', '35', '0', '4000', 'UNI', '6');
+INSERT INTO detail_commande VALUES('122', '64', '176', '0.24', '10000', '35', '0', '10000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('123', '64', '175', '0', '10000', '35', '0', '10000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('124', '65', '67', '37.2', '1000', '35', '0', '0', 'KG', '6');
+INSERT INTO detail_commande VALUES('125', '66', '119', '0', '1000', '35', '0', '1000', 'KG', '6');
+INSERT INTO detail_commande VALUES('126', '67', '147', '0', '5000', '35', '0', '5000', 'KG', '7');
+INSERT INTO detail_commande VALUES('127', '67', '197', '0', '3000', '35', '0', '3000', 'KG', '7');
+INSERT INTO detail_commande VALUES('128', '67', '198', '0', '3000', '35', '0', '3000', 'KG', '7');
+INSERT INTO detail_commande VALUES('129', '67', '199', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('130', '67', '118', '0', '500', '35', '0', '500', 'KG', '6');
+INSERT INTO detail_commande VALUES('131', '68', '205', '0', '1000', '35', '0', '1000', 'UNI', '7');
+INSERT INTO detail_commande VALUES('132', '-1478', '110', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('133', '69', '62', '23.33', '3000', '35', '0', '3000', 'KG', '7');
+INSERT INTO detail_commande VALUES('134', '69', '150', '0', '3000', '35', '0', '3000', 'KG', '7');
+INSERT INTO detail_commande VALUES('135', '69', '161', '0', '3000', '35', '0', '3000', 'KG', '7');
+INSERT INTO detail_commande VALUES('136', '70', '208', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('137', '70', '209', '0', '400', '35', '0', '400', 'KG', '7');
+INSERT INTO detail_commande VALUES('138', '71', '64', '21', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('139', '71', '210', '0', '400', '35', '0', '400', 'KG', '');
+INSERT INTO detail_commande VALUES('140', '72', '211', '0', '500', '35', '0', '500', 'KG', '7');
+INSERT INTO detail_commande VALUES('141', '73', '212', '0', '400', '35', '0', '400', 'KG', '7');
+INSERT INTO detail_commande VALUES('142', '73', '213', '0', '400', '35', '0', '400', 'KG', '7');
+INSERT INTO detail_commande VALUES('143', '73', '214', '0', '400', '35', '0', '400', 'KG', '7');
+INSERT INTO detail_commande VALUES('144', '74', '215', '0', '150', '35', '0', '150', 'KG', '7');
+INSERT INTO detail_commande VALUES('145', '75', '217', '0', '1000', '35', '0', '1000', 'KG', '7');
+INSERT INTO detail_commande VALUES('146', '76', '151', '0', '1500', '35', '0', '1500', 'KG ', '7');
+INSERT INTO detail_commande VALUES('147', '77', '54', '0', '3500', '35', '0', '3500', 'unt', '7');
+INSERT INTO detail_commande VALUES('148', '78', '28', '0', '2000', '35', '0', '2000', 'kg ', '6');
+INSERT INTO detail_commande VALUES('149', '79', '199', '0', '500', '35', '0', '500', 'KG ', '7');
+INSERT INTO detail_commande VALUES('150', '80', '228', '0', '250', '35', '0', '250', 'KG', '7');
+INSERT INTO detail_commande VALUES('151', '80', '225', '0', '250', '35', '0', '250', 'KG', '7');
+INSERT INTO detail_commande VALUES('152', '80', '226', '0', '250', '35', '0', '250', 'KG', '7');
+INSERT INTO detail_commande VALUES('153', '80', '227', '0', '250', '35', '0', '250', 'KG', '7');
+INSERT INTO detail_commande VALUES('156', '82', '67', '37.2', '1500', '35', '0', '1500', 'KG ', '6');
+INSERT INTO detail_commande VALUES('155', '81', '28', '0', '500', '35', '0', '500', 'KG ', '6');
+INSERT INTO detail_commande VALUES('157', '82', '28', '0', '500', '35', '0', '500', 'KG ', '6');
+
+-- -----------------------------
+-- Contenu de la table detail_depot_op
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_entre
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_produit
+-- -----------------------------
+INSERT INTO detail_produit VALUES('5', '83', '0', '0', '35');
+INSERT INTO detail_produit VALUES('6', '84', '0', '0', '35');
+INSERT INTO detail_produit VALUES('7', '84', '0', '0', '35');
+INSERT INTO detail_produit VALUES('8', '178', '0', '4000', '35');
+INSERT INTO detail_produit VALUES('10', '182', '0', '1500', '35');
+INSERT INTO detail_produit VALUES('11', '191', '0', '0', '35');
+INSERT INTO detail_produit VALUES('13', '225', '0', '250', '35');
+INSERT INTO detail_produit VALUES('14', '226', '0', '250', '35');
+INSERT INTO detail_produit VALUES('15', '227', '0', '250', '35');
+INSERT INTO detail_produit VALUES('16', '228', '0', '250', '35');
+
+-- -----------------------------
+-- Contenu de la table detail_sortie
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table detail_vente
+-- -----------------------------
+INSERT INTO detail_vente VALUES('7', '4', '6', '25.2', '300', '35', '0', '300', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('2', '3', '2', '29', '1500', '35', '0', '1500', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('3', '3', '3', '29', '600', '35', '0', '600', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('4', '3', '4', '29', '700', '35', '0', '700', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('5', '3', '5', '29', '2000', '35', '0', '2000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('8', '5', '1', '39.6', '8000', '35', '0', '8000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('9', '6', '7', '23.88', '1680', '35', '0', '1680', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('10', '7', '8', '37.2', '840.6', '35', '0', '840.6', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('108', '74', '92', '6', '2600', '35', '0', '2600', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('12', '9', '9', '3.36', '8000', '35', '0', '8000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('15', '11', '10', '38.4', '22', '35', '0', '22', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('90', '58', '14', '38.4', '199', '35', '0', '199', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('89', '57', '15', '38.4', '57', '35', '0', '57', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('17', '12', '11', '38.4', '112', '35', '0', '112', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('20', '13', '10', '38.4', '261', '35', '0', '261', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('19', '13', '11', '38.4', '125', '35', '0', '125', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('21', '14', '11', '38.4', '125', '35', '0', '125', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('23', '15', '11', '38.4', '239', '35', '0', '239', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('24', '16', '11', '38.4', '68', '35', '0', '68', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('25', '17', '12', '37.2', '5682', '35', '0', '5682', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('26', '18', '13', '2.1', '8000', '35', '0', '8000', 'PCS', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('27', '19', '10', '38.4', '0', '35', '0', '0', '', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('76', '50', '68', '34.8', '3000', '35', '0', '3000', 'kg ', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('30', '22', '34', '38.4', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('35', '25', '35', '33.6', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('34', '24', '36', '39', '200', '35', '0', '200', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('36', '26', '8', '37.2', '3000', '35', '0', '3000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('41', '28', '39', '34.8', '540', '35', '0', '0', '', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('53', '35', '44', '3.3', '3000', '35', '0', '3000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('42', '28', '37', '34.8', '600', '35', '0', '0', '', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('43', '29', '40', '33.6', '264', '35', '0', '264', 'kg', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('45', '30', '7', '19', '1000', '35', '0', '1000', 'kg ', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('49', '33', '42', '3.36', '4600', '35', '0', '4600', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('130', '89', '14', '38.4', '567', '35', '0', '567', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('50', '34', '10', '38.4', '562', '35', '0', '562', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('51', '34', '11', '38.4', '458', '35', '0', '458', 'kg', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('52', '34', '43', '2.58', '29000', '35', '0', '29000', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('54', '36', '14', '39.6', '55', '35', '0', '55', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('55', '37', '14', '38.4', '125', '35', '0', '125', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('56', '38', '10', '38.4', '354', '35', '0', '354', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('57', '39', '10', '38.4', '158', '35', '0', '158', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('58', '39', '11', '38.4', '363', '35', '0', '0', 'kg', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('59', '40', '8', '37.2', '840', '35', '0', '840', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('139', '93', '91', '22.8', '700', '35', '0', '700', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('253', '166', '42', '3.36', '16000', '35', '0', '16000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('105', '71', '91', '22.8', '120', '35', '0', '120', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('104', '70', '31', '37.2', '834.1', '35', '0', '834.1', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('103', '70', '70', '37.2', '493', '35', '0', '0', '', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('68', '44', '3', '28', '226', '35', '0', '226', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('109', '75', '81', '25.2', '120', '35', '0', '120', 'kg', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('91', '59', '43', '2.57', '3600', '35', '0', '3600', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('71', '46', '63', '21', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('72', '46', '64', '21', '1', '35', '0', '1', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('73', '47', '65', '1.14', '10000', '35', '0', '10000', 'unt', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('74', '48', '66', '22.8', '300', '35', '0', '300', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('75', '49', '67', '37.2', '2000', '35', '0', '2000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('88', '56', '15', '38.4', '96', '35', '0', '96', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('78', '52', '68', '34.8', '100', '35', '0', '0', '', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('84', '54', '77', '21', '500', '35', '0', '500', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('80', '53', '72', '26.4', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('81', '53', '73', '26.4', '1000', '35', '0', '1000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('82', '53', '75', '26.4', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('83', '53', '76', '26.4', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('85', '54', '78', '26.4', '500', '35', '0', '500', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('92', '60', '15', '38.4', '77', '35', '0', '77', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('93', '61', '42', '3.36', '16000', '35', '0', '16000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('94', '62', '85', '3.36', '16000', '35', '0', '16000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('95', '63', '6', '25.2', '200', '35', '0', '200', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('96', '64', '42', '3.36', '4200', '35', '0', '4200', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('97', '66', '87', '0.318', '22000', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('98', '66', '88', '0.384', '20000', '35', '0', '0', '', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('99', '67', '14', '38.4', '594', '35', '0', '594', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('100', '68', '65', '0', '10000', '35', '0', '10000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('101', '69', '89', '2.5', '10000', '35', '0', '0', '', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('128', '87', '89', '2.5', '10000', '35', '0', '10000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('111', '75', '93', '25.2', '500', '35', '0', '500', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('112', '76', '62', '17.5', '5000', '35', '0', '5000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('113', '77', '60', '33.6', '534.8', '35', '0', '534.8', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('116', '78', '95', '17.5', '140', '35', '0', '140', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('115', '78', '81', '17.5', '260', '35', '0', '260', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('264', '170', '184', '0', '1765', '35', '0', '1765', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('118', '79', '81', '17.5', '400', '35', '0', '400', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('119', '80', '81', '25.2', '200', '35', '0', '200', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('120', '81', '7', '23.88', '2500', '35', '0', '2500', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('122', '82', '14', '38.4', '620', '35', '0', '620', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('123', '82', '18', '3.084', '4000', '35', '0', '4000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('124', '83', '96', '23.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('127', '86', '97', '0', '100', '35', '0', '100', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('126', '85', '62', '28', '360.8', '35', '0', '360.8', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('129', '88', '62', '17.5', '2302', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('131', '89', '43', '2.58', '6500', '35', '0', '6500', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('132', '89', '88', '0.38', '10000', '35', '0', '1900', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('135', '89', '87', '0.32', '48000', '35', '0', '48000', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('134', '90', '42', '3.228', '14800', '35', '0', '14800', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('136', '91', '100', '33', '1', '35', '0', '1', 'KG', '0', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('140', '94', '111', '0.228', '2500000', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('138', '92', '102', '37.2', '896', '35', '0', '896', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('141', '94', '112', '1140', '260', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('142', '95', '67', '37.2', '15873.1', '35', '0', '0', '', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('144', '95', '33', '37.2', '2718.5', '35', '0', '0', '', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('145', '97', '7', '22.8', '1800', '35', '0', '1800', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('146', '98', '7', '21', '500', '35', '0', '500', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('147', '99', '12', '37.2', '5100', '35', '0', '5100', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('148', '-157', '113', '0', '1000', '35', '0', '1000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('149', '-157', '53', '0', '2850', '35', '0', '2850', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('150', '100', '114', '6.804', '1500', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('151', '100', '53', '6.804', '2850', '35', '0', '2850', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('152', '100', '113', '1.296', '1000', '35', '0', '1000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('155', '102', '91', '22.8', '180', '35', '0', '180', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('154', '101', '67', '0', '836', '35', '0', '836', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('156', '103', '15', '38.4', '590', '35', '0', '590', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('157', '103', '17', '38.4', '795', '35', '0', '795', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('160', '106', '70', '37.2', '401', '35', '0', '401', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('159', '105', '110', '22.8', '1000', '35', '0', '1000', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('161', '107', '14', '38.4', '221', '35', '0', '221', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('162', '107', '34', '38.4', '199', '35', '0', '199', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('163', '108', '60', '33.6', '1200', '35', '0', '1200', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('164', '109', '81', '33.6', '500', '35', '0', '500', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('165', '110', '53', '6.804', '2150', '35', '0', '2150', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('166', '111', '115', '26.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('167', '111', '116', '26.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('168', '111', '117', '26.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('169', '111', '118', '26.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('170', '111', '119', '26.4', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('181', '121', '15', '38.4', '286', '35', '0', '286', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('182', '122', '42', '3.36', '4000', '35', '0', '4000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('174', '114', '14', '38.4', '36', '35', '0', '36', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('175', '115', '85', '3.36', '8000', '35', '0', '8000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('184', '124', '15', '38.4', '926', '35', '0', '926', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('177', '117', '15', '38.4', '150', '35', '0', '150', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('178', '118', '55', '1.296', '4200', '35', '0', '4200', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('183', '123', '7', '23.4', '3600', '35', '0', '3600', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('180', '120', '97', '0', '454', '35', '0', '454', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('185', '125', '100', '20.4', '74', '35', '0', '74', 'KG', '0', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('186', '126', '6', '25.2', '250', '35', '0', '250', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('187', '127', '149', '28.8', '300', '35', '0', '300', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('188', '128', '150', '28', '873', '35', '0', '873', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('189', '129', '53', '6.804', '8000', '35', '0', '8000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('190', '129', '54', '1.296', '10000', '35', '0', '1000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('191', '130', '15', '38.4', '423', '35', '0', '423', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('192', '131', '42', '3.36', '8000', '35', '0', '8000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('193', '133', '42', '3.36', '8000', '35', '0', '8000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('194', '134', '152', '32.4', '844', '35', '0', '844', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('195', '135', '153', '37.2', '806', '35', '0', '806', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('196', '136', '6', '22.8', '280', '35', '0', '280', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('197', '137', '154', '22.8', '180', '35', '0', '180', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('198', '138', '147', '26.4', '1038.2', '35', '0', '1038.2', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('200', '139', '53', '5.54', '2900', '35', '0', '2900', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('201', '140', '156', '22.8', '500', '35', '0', '500', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('202', '141', '102', '37.2', '866', '35', '0', '866', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('203', '142', '148', '0', '5000', '35', '0', '5000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('204', '143', '155', '27.6', '1134', '35', '0', '1134', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('205', '144', '91', '22.8', '1000', '35', '0', '1000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('206', '145', '113', '5.54', '1000', '35', '0', '1000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('207', '146', '57', '22.8', '533.4', '35', '0', '533.4', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('208', '147', '42', '3.36', '22400', '35', '0', '8000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('209', '148', '56', '26.4', '285', '35', '0', '285', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('210', '148', '116', '26.4', '287.9', '35', '0', '0', '', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('211', '148', '117', '26.4', '260', '35', '0', '260', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('212', '149', '14', '38.4', '683', '35', '0', '683', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('213', '149', '15', '38.4', '111', '35', '0', '111', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('219', '152', '16', '38.4', '100', '35', '0', '100', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('215', '150', '157', '27.6', '50', '35', '0', '50', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('216', '150', '158', '27.6', '1600', '35', '0', '1600', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('217', '151', '157', '27.6', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('218', '151', '158', '27.6', '1', '35', '0', '1', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('220', '153', '7', '19', '1500', '35', '0', '1500', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('222', '154', '97', '0', '391.9', '35', '0', '391.9', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('223', '155', '100', '34.2', '1', '35', '0', '1', 'KG', '0', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('245', '161', '14', '38.4', '1160', '35', '0', '1160', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('246', '162', '135', '27', '291', '35', '0', '291', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('243', '159', '95', '25.2', '30', '35', '0', '30', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('244', '160', '42', '3.22', '7800', '35', '0', '7800', 'UN', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('241', '157', '162', '0', '354.8', '35', '0', '354.8', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('233', '157', '161', '264', '20', '35', '0', '0', 'cls', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('232', '157', '81', '0', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('231', '156', '160', '34.2', '1', '35', '0', '1', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('242', '158', '163', '38.4', '53', '35', '0', '53', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('247', '162', '119', '27', '360', '35', '0', '360', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('248', '163', '6', '25.2', '540', '35', '0', '540', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('249', '164', '175', '0.552', '10000', '35', '0', '10000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('250', '164', '176', '0.24', '10000', '35', '0', '10000', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('251', '164', '177', '3.18', '4000', '35', '0', '4000', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('252', '165', '102', '37.2', '1114', '35', '0', '1114', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('254', '167', '14', '38.4', '841', '35', '0', '841', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('255', '168', '171', '0', '1723.2', '35', '0', '1723.2', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('256', '168', '172', '0', '2003', '35', '0', '2003', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('257', '168', '162', '0', '567.8', '35', '0', '567.8', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('258', '168', '81', '25.2', '500', '35', '0', '500', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('259', '168', '161', '0', '15', '35', '0', '15', 'CLS', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('263', '170', '183', '0', '1793', '35', '0', '1793', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('261', '169', '145', '0', '108.9', '35', '0', '108.9', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('265', '170', '185', '0', '879', '35', '0', '879', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('266', '171', '185', '37.2', '1286', '35', '0', '1286', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('267', '172', '81', '25.2', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('268', '172', '7', '25.2', '300', '35', '0', '300', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('269', '172', '186', '25.2', '400', '35', '0', '400', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('270', '173', '55', '0', '4000', '35', '0', '4000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('271', '173', '53', '6.8', '1400', '35', '0', '1400', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('272', '174', '187', '37.2', '4143.1', '35', '0', '4143.1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('273', '174', '67', '37.2', '9612', '35', '0', '9612', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('274', '175', '95', '25.2', '700', '35', '0', '700', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('275', '175', '161', '210', '20', '35', '0', '20', 'CLS', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('276', '176', '188', '27.6', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('277', '176', '191', '54', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('278', '176', '192', '29.4', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('279', '176', '193', '29.4', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('280', '176', '194', '22.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('281', '177', '188', '27.6', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('283', '177', '189', '27.6', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('284', '177', '191', '54', '1', '35', '0', '1', 'bobine', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('285', '177', '192', '29.4', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('286', '177', '193', '29.4', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('287', '177', '194', '22.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('288', '178', '9', '3.36', '16000', '35', '0', '16000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('290', '179', '15', '38.4', '487', '35', '0', '487', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('291', '180', '186', '22.8', '70', '35', '0', '70', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('292', '181', '176', '0', '10000', '35', '0', '10000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('293', '181', '175', '0', '9240', '35', '0', '9240', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('294', '181', '44', '0', '5500', '35', '0', '5500', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('295', '182', '202', '28.44', '3476', '35', '0', '3476', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('296', '182', '203', '28.44', '378', '35', '0', '378', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('297', '183', '95', '25.2', '20', '35', '0', '20', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('298', '184', '54', '0', '8000', '35', '0', '8000', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('299', '184', '53', '6.8', '2850', '35', '0', '2850', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('300', '185', '6', '25.2', '554', '35', '0', '554', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('304', '188', '58', '0', '274', '35', '0', '274', 'KG', '0', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('303', '187', '57', '0', '240', '35', '0', '240', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('306', '189', '204', '3501.16', '1', '35', '0', '1', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('307', '190', '205', '0', '469', '35', '0', '469', 'UNI', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('308', '191', '42', '3.36', '24000', '35', '0', '24000', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('309', '192', '16', '0', '320', '35', '0', '320', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('310', '193', '7', '23.88', '1', '35', '0', '1', 'KG ', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('311', '194', '95', '25.2', '2000', '35', '0', '2000', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('312', '195', '62', '23.33', '3428', '35', '0', '3428', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('313', '196', '206', '28.8', '700', '35', '0', '700', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('314', '197', '102', '37.2', '2000', '35', '0', '0', '', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('315', '198', '109', '0', '400', '35', '0', '400', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('316', '199', '110', '0', '1124', '35', '0', '1124', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('317', '199', '216', '0', '408', '35', '0', '408', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('318', '200', '53', '0', '1050', '35', '0', '1050', 'UNI', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('319', '200', '55', '5.54', '5000', '35', '0', '5000', 'UNI', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('320', '201', '57', '0', '263', '35', '0', '263', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('321', '202', '219', '0', '476', '35', '0', '476', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('322', '203', '199', '0', '440', '35', '0', '440', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('323', '203', '173', '0', '400', '35', '0', '400', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('324', '203', '198', '0', '3055', '35', '0', '3055', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('325', '203', '162', '0', '5268', '35', '0', '5268', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('326', '203', '220', '0', '2819', '35', '0', '2819', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('327', '204', '33', '33', '844', '35', '0', '844', 'KG', '6', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('328', '204', '182', '33.16', '706', '35', '0', '706', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('329', '204', '169', '0', '693', '35', '0', '693', 'KG', '', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('330', '205', '221', '25.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('331', '205', '222', '25.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('332', '205', '223', '25.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+INSERT INTO detail_vente VALUES('333', '205', '224', '25.2', '1', '35', '0', '1', 'KG', '7', '', '0', '-1', '');
+
+-- -----------------------------
+-- Contenu de la table export
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table facture
+-- -----------------------------
+INSERT INTO facture VALUES('1', ',2,', '2022-12-19', '', '35', '0', '0', '1');
+INSERT INTO facture VALUES('2', ',14,', '2022-12-26', '', '35', '0', '0', '2');
+INSERT INTO facture VALUES('3', ',20,', '2022-12-26', '', '35', '0', '0', '3');
+INSERT INTO facture VALUES('4', ',8,', '2022-12-26', '', '35', '0', '0', '4');
+INSERT INTO facture VALUES('5', ',29,', '2022-12-27', '', '35', '0', '0', '5');
+INSERT INTO facture VALUES('6', ',44,', '2023-01-18', '', '35', '0', '0', '6');
+INSERT INTO facture VALUES('7', ',72,', '2023-01-18', '', '35', '0', '0', '7');
+INSERT INTO facture VALUES('8', ',71,', '2023-01-18', '', '35', '0', '0', '8');
+INSERT INTO facture VALUES('9', ',73,', '2023-01-18', '', '35', '0', '0', '9');
+INSERT INTO facture VALUES('10', ',70,', '2023-01-18', '', '35', '0', '0', '10');
+INSERT INTO facture VALUES('11', ',69,', '2023-01-18', '', '35', '0', '0', '11');
+INSERT INTO facture VALUES('12', ',47,', '2023-01-18', '', '35', '0', '0', '12');
+
+-- -----------------------------
+-- Contenu de la table facture_avoir
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table fournisseur
+-- -----------------------------
+INSERT INTO fournisseur VALUES('1', '', ' LORILLEUX MAROC', '001526254000040', '975 Berrechid ', '', '', '0522964510', '', '', '', '2022-12-15', '', '', '', '35', '0', '2022-12-15', '0');
+INSERT INTO fournisseur VALUES('2', '', 'LMM AGENCEMENT ', '002025657000032', '398535', '25105197', '36200536', '06.79.89.41.64', 'Immagencement@gmail.com', 'Riad sofia imm N°App 110 hay hassani casablanca ', '', '2022-12-29', '', '', '', '35', '0', '2022-12-29', '0');
+INSERT INTO fournisseur VALUES('3', '', 'SERIOMAR', '', '174723', '16801936', '', '0522602620', '', 'RUE 4 -2 HAY SOUARET LA VILLETTE hay Mohammadi ', '', '2023-03-16', '', '', '', '35', '0', '2023-03-16', '0');
+
+-- -----------------------------
+-- Contenu de la table ingredient
+-- -----------------------------
+INSERT INTO ingredient VALUES('1', 'LPDE G2', '1000');
+INSERT INTO ingredient VALUES('2', 'Echelle A2 mt 2000*1000', '8');
+INSERT INTO ingredient VALUES('4', 'Longeronse EN  CC 80 CHARGE MAX1600 KG ', '12');
+INSERT INTO ingredient VALUES('5', 'LONGERONS EN CC 80 1900', '12');
+INSERT INTO ingredient VALUES('6', 'ENTRETOISE 200', '16');
+
+-- -----------------------------
+-- Contenu de la table produit
+-- -----------------------------
+INSERT INTO produit VALUES('1', 'PFLB000001', '0.20', 'FILM IMPRIME LBEN  TROIS COUCHES L: 325 *EP:80', '', '0.00', '0.00', '10.00', '0.00', '0', '39.60', '0', '0', '', '6', '2022-12-19 15:42:13', '107', '', '35', '0', '', '', 'KG', '1', 'SABIC', '1');
+INSERT INTO produit VALUES('2', 'PFDF00001', '0.20', 'FILM DOUBLE FACE L:1000*EP:52', '', '0.00', '0.00', '10.00', '0.00', '0', '29.00', '0', '0', '', '7', '2022-12-20 10:14:49', '107', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('3', 'PFD000001', '0.20', 'FILM DOUBLE FACE L:640*EP:52', '', '0.00', '-226.00', '10.00', '0.00', '0', '24.16', '0', '0', '', '7', '2022-12-20 10:14:49', '115', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('4', 'PFDF00003', '0.20', 'FILM DOUBLE FACE L:700*EP:52', '', '0.00', '0.00', '10.00', '0.00', '0', '29.00', '0', '0', '', '7', '2022-12-20 10:14:49', '107', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('5', 'PFDF00004', '0.20', 'FILM DOUBLE FACE L:840*EP52', '', '0.00', '0.00', '10.00', '0.00', '0', '29.00', '0', '0', '', '7', '2022-12-20 10:14:49', '107', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('6', 'PS00001_PRL', '0.20', 'SAC TRANSPARENT L:300/100 l: 600*EP:80', '', '0.00', '-1824.00', '10.00', '0.00', '0', '25.20', '0', '0', '', '7', '2022-12-20 11:44:17', '106', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('7', 'PS6000001', '0.20', 'SAC POUBELLE L: 600/100* l:1200', '', '1.00', '-11201.00', '10.00', '0.00', '0', '19.00', '0', '0', '', '6', '2022-12-21 09:11:13', '106', '', '35', '0', '', '', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('8', 'PFAR000001', '0.20', 'FILM IMPRIME BANANE L: 325*EP:80 ', '', '0.00', '-3840.00', '10.00', '0.00', '0', '37.20', '0', '0', '', '6', '2022-12-21 00:00:00', '110', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('9', 'PS6000001_CDX', '0.20', 'SAC TRANSPARENT IMPRIME  L:500*l:850/EP:160', '', '0.00', '-56000.00', '10.00', '0.00', '0', '3.36', '0', '0', '', '6', '2022-12-21 00:00:00', '106', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('10', 'PG300001', '0.20', 'GAINE IMPRIME L: 15*l:78', '', '0.00', '98643.00', '10.00', '0.00', '0', '38.40', '0', '0', '', '6', '2022-12-21 00:00:00', '108', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('11', 'PG300002', '0.00', 'GAINE IMPRIME  L: 15*l:47 ', '', '0.00', '8496.00', '10.00', '0.00', '0', '38.40', '0', '0', '', '6', '2022-12-21 00:00:00', '108', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('12', 'PFLB000003', '0.20', 'FILM IMPRIME LBEN TROIS COUCHES L:330* EP:85', '', '0.00', '39218.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-21 00:00:00', '109', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('13', 'PS6000002', '0.20', 'SAC POUBELLE  30L ', '', '0.00', '8000.00', '10.00', '0.00', '0', '2.10', '0', '0', '', '7', '2022-12-21 00:00:00', '106', '', '35', '0', '2022-12-21', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('14', 'PG300002', '0.00', 'GAINE L:47*EP: 150', '', '0.00', '54899.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-22 00:00:00', '108', '', '35', '0', '2022-12-22', '0', 'UNI', '0', '', '1');
+INSERT INTO produit VALUES('15', 'PG300002', '0.00', 'GAINE L:40*EP:150', '', '0.00', '-1203.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-22 00:00:00', '108', '', '35', '0', '2022-12-22', '0', 'UNI', '0', '', '1');
+INSERT INTO produit VALUES('16', 'PG300005', '0.00', 'GAINE L:78*EP:150', '', '0.00', '-420.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-22 00:00:00', '108', '', '35', '0', '2022-12-22', '0', 'UNI', '0', '', '1');
+INSERT INTO produit VALUES('17', 'PG300005', '0.00', 'GAINE L:95*EP:150', '', '0.00', '1205.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2022-12-22 00:00:00', '108', '', '35', '0', '2022-12-22', '0', 'UNI', '0', '', '1');
+INSERT INTO produit VALUES('18', 'PS1000001_SME', '0.00', 'SAC TRANSPARENT L:800*l:800/ P:100G', '', '0.00', '56000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2022-12-22 00:00:00', '106', '', '35', '0', '2022-12-22', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('19', 'PFDF00005', '0.00', 'FILM DOUBLE FACE L: 850* EP:55', '', '0.00', '500.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2022-12-22 00:00:00', '107', '', '35', '0', '2022-12-22', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('20', 'PG300006', '0.20', 'GAINE TRS IMPRIME L: 47*EP:15', '', '0.00', '-132.00', '10.00', '0.00', '0', '38.40', '0', '0', '', '6', '2022-12-23 00:00:00', '108', '', '35', '0', '2022-12-23', '0', 'KG', '0', '', '1');
+INSERT INTO produit VALUES('21', 'PG300007', '0.00', 'GAINE L:25*EP:40', '', '0.00', '10000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '108', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('22', 'PG300008', '0.00', 'GAINE L:50*EP:78', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '108', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('23', 'PG300009', '0.00', 'GAINE L :60*EP :78', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '108', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('24', 'PG300010', '0.00', 'GAINE L :60*EP :95', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '108', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('25', 'PFLT00002', '0.00', 'FILM LAIT TROIS COUCHES L:325*EP:85', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '107', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('26', 'PFLT00003', '0.00', 'FILM LAIT TROIS COUCHES L : 330*EP : 80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '107', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('27', 'PFLT00004', '0.00', 'FILM LAIT TROIS COUCHES L:325*EP:75', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '107', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('28', 'PFLB000002', '0.00', 'FILM LBEN TROIS COUCHES L: 325*EP:80', '', '0.00', '94318.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '109', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('29', 'PFLB000004', '0.00', 'FILM LBEN TROIS COUCHES L:325*EP:85', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '109', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('30', 'PFAR000002', '0.00', 'FILM PÊCHE L:325*EP: 75', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '110', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('31', 'PFAR000003', '0.00', 'FILM BANANE L:325*EP:75', '', '0.00', '-834.10', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '110', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('32', 'PFAR000004', '0.00', 'FILM VANILLE L: 325* EP:75', '', '0.00', '100000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2022-12-24 00:00:00', '110', '', '35', '0', '2022-12-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('33', 'PFAR000005', '0.00', 'FILM FRAISE  L:325*EP:80', '', '0.00', '96437.50', '10.00', '0.00', '0', '33.00', '0', '0', '', '6', '2022-12-26 00:00:00', '110', '', '35', '0', '2022-12-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('34', 'PG300011', '0.00', 'GAINE TRANSPARENT L:42*EP:150', '', '0.00', '-199.00', '10.00', '0.00', '0', '38.40', '0', '0', '', '6', '2022-12-26 00:00:00', '108', '', '35', '0', '2022-12-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('35', 'PS2000001_MVD', '0.20', 'SAC TRS L:190/80*l:250* EP: 35', '', '0.00', '99000.00', '10.00', '29.00', '0', '0.00', '0', '0', '', '6', '2022-12-26 00:00:00', '112', '', '35', '0', '2022-12-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('36', 'PS2000002_ABR', '0.20', 'SAC TRS L:390*l:500*EP:25', '', '0.00', '99800.00', '10.00', '35.00', '0', '0.00', '0', '0', '', '7', '2022-12-26 00:00:00', '112', '', '35', '0', '2022-12-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('37', 'PS2000003_MVD', '0.20', 'SAC TRS L:345/110*l:850*EP:65', '', '0.00', '499400.00', '10.00', '0.00', '0', '34.80', '0', '0', '', '6', '2022-12-27 00:00:00', '112', '', '35', '0', '2022-12-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('38', 'PS2000004_MVD', '0.20', 'SAC TRS 240/110*l:450*EP:30', '', '0.00', '600000.00', '10.00', '0.00', '0', '34.80', '0', '0', '', '6', '2022-12-27 00:00:00', '112', '', '35', '0', '2022-12-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('39', 'PS2000005_MVD', '0.20', 'SAC TRS L:290/90* l: 850*EP:65', '', '0.00', '99460.00', '10.00', '0.00', '0', '34.80', '0', '0', '', '6', '2022-12-27 00:00:00', '112', '', '35', '0', '2022-12-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('40', 'PS2000006_EMF', '0.20', 'SAC TRS IMPRIME  L :310*EP :350', '', '0.00', '0.00', '10.00', '0.00', '0', '28.00', '0', '0', '', '6', '2022-12-27 00:00:00', '112', '', '35', '0', '2022-12-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('41', 'PS1000002_LYDEC', '0.20', 'SAC POUBELLE IMPRIME  DOUBLE FACE  L650Xl1100', '', '0.00', '0.00', '10.00', '0.00', '0', '5.00', '0', '0', '', '6', '2022-12-27 00:00:00', '106', '', '35', '0', '2022-12-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('42', 'PS2000007_CDX', '0.20', 'SAC TRS IMPRIME L:500*l:850', '', '0.00', '-125200.00', '10.00', '0.00', '0', '3.36', '0', '0', '', '6', '2022-12-28 00:00:00', '112', '', '35', '0', '2022-12-28', '0', 'UNI', '0', '', '1');
+INSERT INTO produit VALUES('43', 'PS2000008_SME', '0.20', 'SAC TRS L:800*l:800', '', '0.00', '-10100.00', '10.00', '0.00', '0', '2.58', '0', '0', '', '6', '2022-12-28 00:00:00', '112', '', '35', '0', '2022-12-28', '0', 'UNI', '1', '', '1');
+INSERT INTO produit VALUES('44', 'PS2000009_SNP', '0.20', 'SAC TRANSPARENT L:580*l:900*PDS:100 G ', '', '0.00', '-5500.00', '10.00', '0.00', '0', '3.30', '0', '0', '', '6', '2022-12-28 00:00:00', '112', '', '35', '0', '2022-12-28', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('45', 'M1000001', '0.20', 'ECHELLE A 2 MONTANTS  2000*1000', '', '8.00', '0.00', '10.00', '528.33', '0', '0.00', '0', '0', '', '7', '2022-12-29 00:00:00', '113', '', '35', '0', '2022-12-29', '0', 'PS', '0', '', '1');
+INSERT INTO produit VALUES('53', 'PS1000004_ARC', '0.20', 'SAC ENDUIT CACHET BLEU L:420*l:700*PD:183G', '', '0.00', '-21200.00', '10.00', '0.00', '0', '6.80', '0', '0', '', '6', '2023-01-02 00:00:00', '106', '', '35', '0', '2023-01-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('47', 'M1000002', '0.20', 'LONGERONSE EN CC 80 CHARGE MAX 1600 KG - 2700', '', '12.00', '0.00', '10.00', '0.00', '0', '432.00', '0', '0', '', '7', '2022-12-29 00:00:00', '113', '', '35', '0', '2022-12-29', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('48', 'M1000003', '0.20', 'LONGERONSE EN  CC 80 -1900', '', '12.00', '0.00', '10.00', '0.00', '0', '360.00', '0', '0', '', '7', '2022-12-29 00:00:00', '113', '', '35', '0', '2022-12-29', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('52', 'PS1000003_ARC', '0.20', 'SAC NEUTRE L:500*l:1200*PD:100G', '', '0.00', '0.00', '10.00', '0.00', '0', '3.28', '0', '0', '', '6', '2023-01-02 00:00:00', '106', '', '35', '0', '2023-01-02', '0', 'UNI', '1', '', '1');
+INSERT INTO produit VALUES('50', 'M1000003', '0.20', 'ENTRETOISE -200', '', '16.00', '0.00', '10.00', '0.00', '0', '24.00', '0', '0', '', '7', '2022-12-29 00:00:00', '113', '', '35', '0', '2022-12-29', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('54', 'PS1000005_ARC', '0.20', 'SAC NEUTRE END POUDRE L:500*l:1000*PD:50', '', '0.00', '-18000.00', '10.00', '0.00', '0', '1.82', '0', '0', '', '7', '2023-01-02 00:00:00', '106', '', '35', '0', '2023-01-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('55', 'PS1000006_ARC', '0.20', 'SAC TOP ENDUIT POUDRE L:480*l:750*PD:150G', '', '0.00', '-13200.00', '10.00', '0.00', '0', '5.54', '0', '0', '', '7', '2023-01-02 00:00:00', '106', '', '35', '0', '2023-01-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('56', 'PS2000010_PRL', '0.20', 'SAC TRS L:600*l:900', '', '0.00', '315.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('57', 'ST2000064_CPL', '0.20', 'SAC TRANSPARENT  L:700/150*l:700*EP:50', '', '0.00', '-436.40', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('58', 'PS2000011_CPM', '0.00', 'SAC TRS L:430* l:530', '', '0.00', '-274.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('59', 'PS2000012_CPM', '0.00', 'SAC TRS L:540/50 * l:310', '', '0.00', '200.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('60', 'PS2000013_MVD', '0.00', 'SAC TRS L:260/70* l:850*EP:65', '', '0.00', '-734.80', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('61', 'PS2000014_MVD', '0.00', 'SAC TRS 340/110*l:850*EP:65', '', '0.00', '1000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-04 00:00:00', '112', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('62', 'PFN000001', '0.20', 'FILM IMPRIME NAPPE L:1280*EP:45', '', '0.00', '-6090.80', '10.00', '0.00', '0', '23.33', '0', '0', '', '6', '2023-01-04 00:00:00', '114', '', '35', '0', '2023-01-04', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('63', 'PS2000015_CPG', '0.20', 'SAC PLASTIQUE TRANSPARENT ', '', '0.00', '0.00', '10.00', '0.00', '0', '21.00', '0', '0', '', '7', '2023-01-06 00:00:00', '112', '', '35', '0', '2023-01-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('64', 'PS1000008_CPG', '0.20', 'SAC PLASTIQUE BLEU 690*690/15*EP50', '', '0.00', '-1.00', '10.00', '0.00', '0', '21.00', '0', '0', '', '7', '2023-01-06 00:00:00', '106', '', '35', '0', '2023-01-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('65', 'ST2000029_SME', '0.20', 'SAC TRS IMPRIME  56.6x44.5 cm 1 COULEUR RECTO ', '', '0.00', '-10000.00', '10.00', '0.00', '0', '1.14', '0', '0', '', '6', '2023-01-06 00:00:00', '112', '', '35', '0', '2023-01-06', '0', 'unt', '1', '', '1');
+INSERT INTO produit VALUES('66', 'PS1000010_IFL', '0.20', 'SAC POUBELLE 120L ', '', '0.00', '300.00', '10.00', '0.00', '0', '23.40', '0', '0', '', '7', '2023-01-07 00:00:00', '106', '', '35', '0', '2023-01-07', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('67', 'PFLT00005', '0.20', 'FILM LAIT IMPRIME TROIS COUCHES L: 325*EP:80', '', '0.00', '-30564.96', '10.00', '0.00', '0', '37.20', '0', '0', '', '6', '2023-01-09 00:00:00', '107', '', '35', '0', '2023-01-09', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('68', 'PB00001PRL', '0.20', 'Film plastique bleu pour beurre 5 Kg  Pure New Zealande', '', '0.00', '3000.00', '10.00', '0.00', '0', '34.80', '0', '0', '', '6', '2023-01-10 00:00:00', '116', '', '35', '0', '2023-01-10', '0', 'KG', '1', '', '1');
+INSERT INTO produit VALUES('69', 'PS2000016_FNF', '0.20', 'Sac LDPE  Transparent sans impression  L:100/40*l150 EP :90', '', '0.00', '200.00', '10.00', '0.00', '0', '33.30', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'kg ', '1', '', '1');
+INSERT INTO produit VALUES('70', 'PFR00001', '0.20', 'FILM IMPRIME FROMAGE L:640*EP:40', '', '0.00', '106.00', '10.00', '0.00', '0', '37.20', '0', '0', '', '6', '2023-01-10 00:00:00', '111', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('71', 'PS1000011_JOL', '0.20', 'SAC BLANC OPAC IMPRIME 1 COULEUR NOIR L:560.5*l:440.5*PDS:45G', '', '0.00', '10000.00', '10.00', '1.32', '0', '0.00', '0', '0', '', '7', '2023-01-10 00:00:00', '106', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('72', 'PS2000017_SFT', '0.20', 'SAC TRANSPARENT L:400*l:300', '', '0.00', '2000.00', '10.00', '0.00', '0', '0.00', '26.4', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'KG ', '1', '', '1');
+INSERT INTO produit VALUES('73', 'PS2000018_SFT', '0.20', 'SAC TRANSPARENT L400*l350', '', '0.00', '1000.00', '10.00', '0.00', '0', '0.00', '26.4', '0', '', '7', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('74', 'PS2000019_SFT', '0.00', 'SAC TRANSPARENT L:600*l:300', '', '0.00', '1000.00', '10.00', '0.00', '0', '26.40', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('75', 'PS2000020_SFT', '0.20', 'SAC TRANSPARENT L:600*l:300', '', '0.00', '1000.00', '10.00', '0.00', '0', '26.40', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'kg', '1', '', '1');
+INSERT INTO produit VALUES('76', 'PS2000021_SFT', '0.20', 'SAC TRANSPARENT L:800*l300', '', '0.00', '1000.00', '10.00', '0.00', '0', '26.40', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'kg', '1', '', '1');
+INSERT INTO produit VALUES('77', 'PS2000022_VON', '0.20', 'SAC POUBELLE NORMAL 120L,130L', '', '0.00', '500.00', '10.00', '0.00', '0', '21.00', '0', '0', '', '7', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('78', 'PS2000023_VON', '0.20', 'SAC POUBELLE TRANSPARENT 240L', '', '0.00', '500.00', '10.00', '0.00', '0', '26.40', '0', '0', '', '7', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('79', 'PS2000024_SMG', '0.20', 'SAC TRANSPARENT IMPRIME 2KG ', '', '0.00', '80.00', '10.00', '0.00', '0', '31.20', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('80', 'PS2000025_SMG', '0.20', 'SAC TRANSPARENT IMPRIME 1KG ', '', '0.00', '31.00', '10.00', '0.00', '0', '31.20', '0', '0', '', '6', '2023-01-10 00:00:00', '112', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('81', 'PS1000012', '0.20', 'SAC POUBELLE L:400*l:800', '', '0.00', '-2380.00', '10.00', '0.00', '0', '25.20', '0', '0', '', '6', '2023-01-10 00:00:00', '106', '', '35', '0', '2023-01-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('82', 'FTRS000001', '0.20', 'FILM TRANSPARENTE 1200X900', '', '1000.00', '0.00', '10.00', '0.00', '0', '33.60', '0', '0', '', '7', '2023-01-13 00:00:00', '1', '', '35', '0', '2023-01-13', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('83', 'ST2000026_FNF', '0.20', 'SAC TRANSPARENT ', '', '1000.00', '0.00', '10.00', '0.00', '0', '30.00', '0', '0', '', '6', '2023-01-16 00:00:00', '112', '', '35', '0', '2023-01-16', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('84', 'PS1000013_FUN', '0.20', 'SAC BLANC COULEUR ', '', '1000.00', '0.00', '10.00', '0.00', '0', '37.80', '0', '0', '', '6', '2023-01-16 00:00:00', '106', '', '35', '0', '2023-01-16', '0', 'KG ', '1', '', '1');
+INSERT INTO produit VALUES('85', 'ST2000027_CDX', '0.00', 'SAC TRS L:580*l:850', '', '0.00', '-8000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-17 00:00:00', '112', '', '35', '0', '2023-01-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('86', 'PG300012', '0.20', 'CHAINE COULEUR 240', '', '0.00', '68.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-17 00:00:00', '108', '', '35', '0', '2023-01-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('87', 'ST2000028_SME', '0.20', 'SAC TRS L:220*l:420*EP 60', '', '0.00', '-70000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-17 00:00:00', '112', '', '35', '0', '2023-01-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('88', 'ST2000029_SME', '0.20', 'SAC TRS L:270*l:420*EP60', '', '0.00', '-30000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-17 00:00:00', '112', '', '35', '0', '2023-01-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('113', 'PS1000026_ARC', '0.00', 'SAC ENDUIT POUDRE 5 KG', '', '0.00', '-2000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-30 00:00:00', '106', '', '35', '0', '2023-01-30', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('89', 'ST2000030_CLD', '0.20', 'SAC TRANSPARENT IMPRIME L:370/60*l:650*EP:160', '', '0.00', '-10000.00', '10.00', '0.00', '0', '3.30', '0', '0', '', '6', '2023-01-18 00:00:00', '112', '', '35', '0', '2023-01-18', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('90', 'CL00001-CLD', '0.20', 'Clichés 2 couleurs 2 faces', '', '0.00', '0.00', '10.00', '0.00', '0', '4200.00', '0', '0', '', '7', '2023-01-18 00:00:00', '117', '', '35', '0', '2023-01-18', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('91', 'PS1000014_AMN', '0.20', 'SAC POUBELLE L:600*l:700', '', '0.00', '-2000.00', '10.00', '0.00', '0', '22.80', '0', '0', '', '6', '2023-01-18 00:00:00', '106', '', '35', '0', '2023-01-18', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('92', 'PS1000015_LYD', '0.20', 'SAC DOUBLE FACE IMPRIME L:650*l:100', '', '0.00', '-2600.00', '10.00', '0.00', '0', '6.00', '0', '0', '', '7', '2023-01-19 00:00:00', '106', '', '35', '0', '2023-01-19', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('93', 'PS1000016_BDB', '0.20', 'SAC POUBELLE L:600/100*l:1200', '', '0.00', '-500.00', '10.00', '0.00', '0', '25.20', '0', '0', '', '7', '2023-01-19 00:00:00', '106', '', '35', '0', '2023-01-19', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('94', 'PS1000017_PLK', '0.00', 'SAC POUBELLE L:800*l:800', '', '0.00', '260.00', '10.00', '0.00', '0', '25.20', '0', '0', '', '7', '2023-01-19 00:00:00', '106', '', '35', '0', '2023-01-19', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('95', 'PS1000018_PLK', '0.20', 'SAC POUBELLE L:600*l:1200', '', '0.00', '-3490.00', '10.00', '0.00', '0', '25.20', '0', '0', '', '6', '2023-01-19 00:00:00', '106', '', '35', '0', '2023-01-19', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('96', 'PS1000019_FRT', '0.20', 'SAC POUBELLE 240L', '', '0.00', '300.00', '10.00', '0.00', '0', '23.40', '0', '0', '', '6', '2023-01-20 00:00:00', '106', '', '35', '0', '2023-01-20', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('97', 'PB00002_alia', '0.00', 'FILM IMPRIME BEURRE 5KG', '', '0.00', '-945.90', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-21 00:00:00', '116', '', '35', '0', '2023-01-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('98', 'PST00001_cold', '0.20', 'SAC TISSE IMPRIME L:370/60*l:650*EP:160', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-23 00:00:00', '118', '', '35', '0', '2023-01-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('99', 'ST2000031_PLT', '0.20', 'SAC TRANSPARENT IMPRIME ', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-24 00:00:00', '112', '', '35', '0', '2023-01-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('100', 'PFLT00006-CPG', '0.20', 'FILM LAIT BLANC IMPRIME  L325*EP65', '', '0.00', '-74.00', '10.00', '0.00', '0', '27.50', '0', '0', '', '6', '2023-01-25 00:00:00', '107', '', '35', '0', '2023-01-25', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('101', 'PFLT00007-CPG', '0.20', 'FILM LAIT BLANC DE RETOUR IMPRIME ', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-01-25 00:00:00', '107', '', '35', '0', '2023-01-25', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('102', 'PFLT00008-ZA', '0.20', 'FILM LAIT LACTEMBAL IMPRIME LAIT', '', '0.00', '-4876.00', '10.00', '0.00', '0', '37.20', '0', '0', '', '7', '2023-01-25 00:00:00', '107', '', '35', '0', '2023-01-25', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('103', 'ST2000032_CPG', '0.20', 'SAC TRANSPARENT L:400/160*l:600*EP:60', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '112', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('104', 'ST2000033_CPG', '0.20', 'SAC TRANSPARENT L:1000/400*l:1500*EP:90', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '112', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('105', 'PS1000020_CPG', '0.20', 'SAC BLEU L:400/160*l:600*EP:60', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '106', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('106', 'PS1000021_CPG', '0.20', 'SAC BLEU L:260/110*l:600*EP:50', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '106', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('107', 'PS1000022_CPG', '0.20', 'SAC BLEU L: 20.5*/5.50*l:230*EP:60', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '106', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('108', 'PS1000023_CPG', '0.00', 'SAC BLEU L:26.5/60*l:310*EP:60', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-26 00:00:00', '106', '', '35', '0', '2023-01-26', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('109', 'PS1000024_CLD', '0.20', 'SAC ENDUIT VERT IMPRIME L:450*l:230*EP:750', '', '0.00', '-400.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-27 00:00:00', '106', '', '35', '0', '2023-01-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('110', 'PS1000025_COP', '0.20', 'SAC BLEU IMPRIME L:690/15*l:690*EP:50', '', '0.00', '-2124.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-27 00:00:00', '106', '', '35', '0', '2023-01-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('111', 'PS1000026_HOBI', '0.20', 'SAC PLASTIQUE POUR PLANTATION L:30*l:13*EP:130(10g)', '', '0.00', '-2500000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-27 00:00:00', '106', '', '35', '0', '2023-01-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('112', 'PR00001', '0.20', 'ROULEAUX DE PLASTIQUE POUR PAILLAGE L:130*l:100*EP:50', '', '0.00', '-260.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-27 00:00:00', '119', '', '35', '0', '2023-01-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('114', 'PS1000027_ARC', '0.00', 'SAC ENDUIT CACHET BLEU LISSE', '', '0.00', '-1500.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-01-30 00:00:00', '106', '', '35', '0', '2023-01-30', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('115', 'ST2000034_PLAK', '0.20', 'SAC TRS L:600*l;900*EP:25', '', '0.00', '-300.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-01 00:00:00', '112', '', '35', '0', '2023-02-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('116', 'ST2000035_PLAK', '0.20', 'SAC TRS L:280/50*l:600*EP:50', '', '0.00', '-587.90', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-01 00:00:00', '112', '', '35', '0', '2023-02-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('117', 'ST2000036_PLAK', '0.20', 'SAC TRS L:200/40*l:450*EP:40', '', '0.00', '-560.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-01 00:00:00', '112', '', '35', '0', '2023-02-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('118', 'ST2000037_PLAK', '0.20', 'SAC TRS l:120/30*l:350*EP:25', '', '0.00', '-300.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-01 00:00:00', '112', '', '35', '0', '2023-02-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('119', 'ST2000038_PLAK', '0.20', 'SAC TRS L;230*l:380*EP:25', '', '0.00', '-660.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-01 00:00:00', '112', '', '35', '0', '2023-02-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('120', 'ST2000039_ILH', '0.20', 'SAC TRANSPARANT L160/111*l:430*EP:16', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('121', 'ST2000040_ILH', '0.20', 'SAC TRANSPARENT L90/90*l90*EP33', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('122', 'ST2000041_ILH', '0.00', 'SAC TRANSPARENT 10*37*10/90', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('123', 'ST2000042_ILH', '0.00', 'SAC TRANSPARENT 13*35*13/95', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('124', 'ST2000043_ILH', '0.00', 'SAC TRANSPARENT 10*48*10/105', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('125', 'ST2000044_ILH', '0.00', ' SAC TRANSPARENT 10*56*10/110', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('126', 'ST2000045_ILH', '0.20', 'SAC TRANSPARENT 12*32*12/80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('127', 'ST2000046_ILH', '0.00', 'SAC TRANSPARENT 6*37*6/63', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('128', 'ST2000047_ILH', '0.00', 'SAC TRANSPARENT 9*25*9/80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('129', 'ST2000048_ILH', '0.20', 'SAC TRANSPARENT 10*39*10/105', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('130', 'ST2000049_ILH', '0.00', 'SAC TRANSPARENT 6*18*6/45', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('131', 'ST2000050_ILH', '0.20', 'SAC TRANSPARENT 8*17.5*8/92', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('132', 'ST2000050_ILH', '0.20', 'SAC TRANSPARENT 8*17.5*8/92', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('133', 'ST2000051_ILH', '0.00', 'SAC TRANSPARENT 15*50*15/80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('134', 'ST2000052_ILH', '0.20', 'SAC TRANSPARENT 6*68*6/135', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-02 00:00:00', '112', '', '35', '0', '2023-02-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('135', 'ST2000053_plk', '0.20', 'SAC TRANSPARENT L180/30*L450*EP50', '', '0.00', '-291.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('136', 'ST2000052_ILH', '0.20', 'SAC TRS L500/150*L800', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('137', 'ST2000053_ILH', '0.20', 'SAC TRS 350/130*L950', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('138', 'ST2000054_ILH', '0.20', 'SAC TRS L17.5/80*L920', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('139', 'ST2000055_ILH', '0.00', 'SAC TRS L 420/140*L1250', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('140', 'ST2000056_ILH', '0.00', 'SAC TRS L680/60*L1350', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('141', 'ST2000057_ILH', '0.00', 'SAC TRS L360/120*L1180', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('142', 'ST2000057_ILH', '0.00', 'SAC TRS L360/120*L1180', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('143', 'ST2000058_ILH', '0.20', 'SAC TRS L330/90*L900', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('144', 'ST2000059_ILH', '0.00', 'SAC TRS L430/160*L111', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('145', 'ST2000060_PLT', '0.20', 'SAC TRANSPARENT IMPRIME L345/50*L740*EP80', '', '0.00', '-108.90', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '112', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('146', 'PSL00001-PLT', '0.00', 'SAC LAITIERE L345/50*740*EP80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-03 00:00:00', '120', '', '35', '0', '2023-02-03', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('147', 'PG300013', '0.20', 'GAINE TRS L150*EP30', '', '0.00', '-1038.20', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-06 00:00:00', '108', '', '35', '0', '2023-02-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('148', 'PFN000002', '0.20', 'FILM NAPPE IMPRIME L130*L130', '', '0.00', '-5000.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-06 00:00:00', '114', '', '35', '0', '2023-02-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('149', 'ST2000061_obk', '0.20', 'SAC TRANSPARENT L620/160*L1400', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-07 00:00:00', '112', '', '35', '0', '2023-02-07', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('150', 'PFN000003', '0.00', 'FILM IMPRIME NAPPE L135*EP45', '', '0.00', '-873.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-08 00:00:00', '114', '', '35', '0', '2023-02-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('151', 'PB00003_CLM', '0.20', 'FILM IMRIME BEURRE I KG L320*EP60', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-08 00:00:00', '116', '', '35', '0', '2023-02-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('152', 'PFN000005', '0.20', 'FILM NAPPE IMPRIME L120*L120', '', '0.00', '-844.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-10 00:00:00', '114', '', '35', '0', '2023-02-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('153', 'PFLT00009-SLD', '0.20', 'FILM IMPRIME LAIT L325*EP70', '', '0.00', '-806.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-10 00:00:00', '107', '', '35', '0', '2023-02-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('154', 'ST2000062_CPL', '0.00', 'SAC TRANSPARENT L310/50*540*EP90', '', '0.00', '-180.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-10 00:00:00', '112', '', '35', '0', '2023-02-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('155', 'PG300014', '0.00', 'GAINE TRANSPARENT L1000*EP60', '', '0.00', '-1134.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-10 00:00:00', '108', '', '35', '0', '2023-02-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('156', 'ST2000064_CPL', '0.20', 'SAC TRANSPARENT L600*L900*EP 50', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-10 00:00:00', '112', '', '35', '0', '2023-02-10', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('157', 'PG300015', '0.20', 'PLASTIQUE D\'EMBALLAGE EN ROULEAU
+ 
+', '', '0.00', '-50.00', '10.00', '0.00', '0', '27.60', '0', '0', '', '7', '2023-02-14 00:00:00', '108', '', '35', '0', '2023-02-14', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('158', 'PG300016', '0.20', 'PLASTIQUE LARGEUR 3M EN ROULEAU DE 40KG', '', '0.00', '-1600.00', '10.00', '0.00', '0', '27.60', '0', '0', '', '7', '2023-02-14 00:00:00', '108', '', '35', '0', '2023-02-14', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('159', 'ST2000065_PLK', '0.20', 'SAC TRANSPARENT 120L', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-15 00:00:00', '112', '', '35', '0', '2023-02-15', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('160', 'PFLT00009-CPG', '0.20', 'FILM BLANC 3 COUCHES IMPRIME L325*EP65', '', '0.00', '-1.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-15 00:00:00', '107', '', '35', '0', '2023-02-15', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('161', 'PS1000028_plk', '0.00', 'SAC POUBELLE JAWHARA', '', '0.00', '-55.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-16 00:00:00', '106', '', '35', '0', '2023-02-16', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('162', 'PG300017', '0.20', 'GAINE L:1500*EP:30', '', '0.00', '-6190.60', '10.00', '0.00', '0', '0.00', '0', '0', '', '6', '2023-02-16 00:00:00', '108', '', '35', '0', '2023-02-16', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('163', 'PG300018', '0.00', 'GAINE TRS L400*EP65', '', '0.00', '-53.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '108', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('164', 'PFAR000006', '0.20', 'FILM IMPRIME PECHE SANS GRAMMAGE', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '110', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('165', 'PFAR000007', '0.00', 'FILM IMPRIME BANANE SANS GRAMMAGE', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '110', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('166', 'PFAR000008', '0.00', 'FILM IMPRIME AVOCAT SANS GRAMMAGE', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '110', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('167', 'PFAR000009', '0.00', 'FILM IMPRIME FRAISE SANS GRAMMAGE', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '110', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('168', 'PFAR000010', '0.00', 'FILM IMPRIME VANILLE SANS GRAMMAGE', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '110', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('169', 'PFR00002', '0.00', 'FILM FROMAGE 300G', '', '0.00', '-693.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '111', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('170', 'PFLT00010', '0.00', 'FILM DEMI ECRIME SANS GRAMMAGE15 MG', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-21 00:00:00', '107', '', '35', '0', '2023-02-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('171', 'PG300019', '0.00', 'GAINE TRS  L200*EP30', '', '0.00', '-1723.20', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-23 00:00:00', '108', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('172', 'PG300020', '0.00', 'GAINE TRS L200*EP140', '', '0.00', '-2003.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-23 00:00:00', '108', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('173', 'ST2000066_PLK', '0.00', 'SAC TRS L400*L600*EP¨30', '', '0.00', '-400.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-23 00:00:00', '112', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('174', 'ST2000067_PLK', '0.00', 'GAINE TRS L 600*L900*EP25', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-23 00:00:00', '112', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('175', 'ST2000068-SNP', '0.20', 'SAC TRANSPARENT L280*l600*EP60', '', '0.00', '-9240.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-23 00:00:00', '112', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('176', 'ST2000069-SNP', '0.20', 'SAC TRANSPARENT L180*L400*EP60', '', '0.00', '-20000.00', '10.00', '0.00', '0', '0.24', '0', '0', '', '7', '2023-02-23 00:00:00', '112', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('177', 'ST2000070-SNP', '0.20', 'SAC TRANSPARENT L580*L900*EP100', '', '0.00', '-4000.00', '10.00', '0.00', '0', '3.18', '0', '0', '', '7', '2023-02-23 00:00:00', '112', '', '35', '0', '2023-02-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('178', 'PFLT00011', '0.20', 'FILM IMPRIME LAIT 47 CL', '', '0.00', '0.00', '10.00', '0.00', '0', '37.20', '0', '0', '', '7', '2023-02-24 00:00:00', '107', '', '35', '0', '2023-02-24', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('179', 'F00001', '0.20', 'FEUILLE  L380*L520*EP63', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-27 00:00:00', '121', '', '35', '0', '2023-02-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('180', 'ST2000071-PLK', '0.20', 'SAC TRS L320*L550*EP40', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-27 00:00:00', '112', '', '35', '0', '2023-02-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('181', 'ST2000072-PLK', '0.00', 'SAC TRS L630*L105*EP80', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-02-27 00:00:00', '112', '', '35', '0', '2023-02-27', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('182', 'PFR00003', '0.20', 'FILM IMPRIME FROMAGE 450 G ', '', '0.00', '-706.00', '10.00', '0.00', '0', '33.16', '0', '0', '', '7', '2023-03-01 00:00:00', '111', '', '35', '0', '2023-03-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('183', 'PFAR000011', '0.00', 'FILM IMPRIME BANANE', '', '0.00', '-1793.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-01 00:00:00', '110', '', '35', '0', '2023-03-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('184', 'PFAR000012', '0.00', 'FILM IMPRIME VANILLE ', '', '0.00', '-1765.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-01 00:00:00', '110', '', '35', '0', '2023-03-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('185', 'PFAR000013', '0.00', 'FILM IMPRIME PECHE ', '', '0.00', '-2165.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-01 00:00:00', '110', '', '35', '0', '2023-03-01', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('186', 'PS1000029_plk', '0.20', 'SAC POUBELLE  L700*L1300', '', '0.00', '-470.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-02 00:00:00', '106', '', '35', '0', '2023-03-02', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('187', 'PFLT00012', '0.00', 'FILM IMPRIME LAIT TROIS COUCHES RAMADAN', '', '0.00', '-4143.10', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-06 00:00:00', '107', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('188', 'PFT00001', '0.20', 'FLM THERMO-RETRACTABLE D 40 50                     ', '', '0.00', '-1.00', '10.00', '0.00', '0', '27.60', '0', '0', '', '7', '2023-03-06 00:00:00', '122', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('189', 'PFT00002', '0.20', 'FLM THERMO-RETRACTABLE D 45 50                     ', '', '0.00', '-1.00', '10.00', '0.00', '0', '27.60', '0', '0', '', '7', '2023-03-06 00:00:00', '122', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('195', 'PFT00003', '0.20', 'FLM THERMO-RETRACTABLE D 45 50                     ', '', '0.00', '0.00', '10.00', '0.00', '0', '27.60', '0', '0', '', '7', '2023-03-06 00:00:00', '122', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('191', 'PFI0001', '0.20', 'FILM ETIRABLE MANUEL 23MIC LAI                        ', '', '0.00', '-1.00', '10.00', '0.00', '0', '54.00', '0', '0', '', '7', '2023-03-06 00:00:00', '123', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('192', 'ST2000073-vmn', '0.20', 'SACHET TRANSP 30 X 51 X 35 MIC', '', '0.00', '-1.00', '10.00', '0.00', '0', '29.40', '0', '0', '', '7', '2023-03-06 00:00:00', '112', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('193', 'ST2000074-vmn', '0.20', 'SACHET TRANSPARENT  L22 X L41 X 35 MIC                           ', '', '0.00', '-1.00', '10.00', '0.00', '0', '29.40', '0', '0', '', '7', '2023-03-06 00:00:00', '112', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('194', 'PS1000030_vmn', '0.20', 'SAC POUBELLE NOIR/CRISTAL P45G          ', '', '0.00', '-1.00', '10.00', '0.00', '0', '22.20', '0', '0', '', '7', '2023-03-06 00:00:00', '106', '', '35', '0', '2023-03-06', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('196', 'PG300021', '0.00', 'GAINE TRANSPARENT L150*EP30', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-08 00:00:00', '108', '', '35', '0', '2023-03-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('197', 'PG300022', '0.00', 'GAINE TRANSPARENT L2000*EP30', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-08 00:00:00', '108', '', '35', '0', '2023-03-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('198', 'PG300023', '0.20', 'GAINE TRANSPARENT L2000*EP140', '', '0.00', '-3055.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-08 00:00:00', '108', '', '35', '0', '2023-03-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('199', 'ST2000075-plk', '0.20', 'SAC TRANSPARENT L280*L450*EP25', '', '0.00', '-440.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-08 00:00:00', '112', '', '35', '0', '2023-03-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('200', 'ST2000076plk', '0.00', 'SAC TRANSPARENT L120/30*L350*EP25', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-08 00:00:00', '112', '', '35', '0', '2023-03-08', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('206', 'PS1000032', '0.20', 'SACHETS NEUTRE L26*L35*EP30', '', '0.00', '-700.00', '10.00', '0.00', '0', '28.80', '0', '0', '', '7', '2023-03-14 00:00:00', '106', '', '35', '0', '2023-03-14', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('202', 'PFP00001', '0.20', '158 ROULEAUX PAILLAGE NOIR 500*1.1', '', '0.00', '-3476.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-09 00:00:00', '124', '', '35', '0', '2023-03-09', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('203', 'PFP00002', '0.20', '9 ROULEAUX PAILLAGE NOIR 500*2.1', '', '0.00', '-378.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-09 00:00:00', '124', '', '35', '0', '2023-03-09', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('204', 'CL00002-ASL', '0.20', '4 clichés sac asphaltice frt  65*37*12 2 couleurs recto verso ', '', '0.00', '-1.00', '10.00', '0.00', '0', '3501.16', '0', '0', '', '7', '2023-03-09 00:00:00', '117', '', '35', '0', '2023-03-09', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('205', 'PS1000031_ARC', '0.20', 'SAC ENDUIT ROUTIER OPAC L480*L750', '', '0.00', '-469.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-09 00:00:00', '106', '', '35', '0', '2023-03-09', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('207', 'CL00002-srm', '0.00', 'Cliches Copag lait jaouda 47 cl ', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-16 00:00:00', '117', '', '35', '0', '2023-03-16', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('208', 'ST2000077cpl', '0.00', 'SAC L250*L400*EP90', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('209', 'ST2000078cpl', '0.00', 'SAC L310*L400*EP90', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('210', 'ST2000079cpl', '0.00', 'SAC TRS L250*L300*EP90', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('211', 'ST2000080PLK', '0.00', 'SAC TRS L600/100*EP65*L1400', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('212', 'ST2000081PLK', '0.00', 'SAC TRS L550*EP25*L800', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('213', 'ST2000082PLK', '0.00', 'SAC TRS L500-EP20*L500', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('214', 'ST2000083PLK', '0.00', 'SAC TRS L 570/60*EP50*L770', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-17 00:00:00', '112', '', '35', '0', '2023-03-17', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('215', 'ST2000084PLK', '0.00', 'SAC TRANSPARENT IMPRIME 2 COULEUR L320*EP30*L500', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-20 00:00:00', '112', '', '35', '0', '2023-03-20', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('216', 'ST2000085PLK', '0.00', 'SAC TRS 31*90*40', '', '0.00', '-408.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-20 00:00:00', '112', '', '35', '0', '2023-03-20', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('217', 'ST2000086PLK', '0.00', 'SAC TRS L280/50*EP100*L680', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-20 00:00:00', '112', '', '35', '0', '2023-03-20', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('218', 'PFLT0001', '0.00', '', '', '0.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '107', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('219', 'PFLT00014', '0.00', 'FILM IMPRIME LAIT ', '', '0.00', '-476.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '107', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('220', 'PG300024', '0.00', 'GAINE TRS L2000*L*700', '', '0.00', '-2819.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '108', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('221', 'ST2000087HLB', '0.20', 'SAC TRANSPARENT 55*73*30', '', '0.00', '-1.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '112', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('222', 'ST2000088HLB', '0.20', 'SAC TRANSPARENT 750*165*40', '', '0.00', '-1.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '112', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('223', 'ST2000088HLB', '0.20', 'SAC TRANSPATRNT 55*52*30', '', '0.00', '-1.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '112', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('224', 'ST2000089HLB', '0.20', 'SAC TRANSPARENT 70*115*40', '', '0.00', '-1.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-21 00:00:00', '112', '', '35', '0', '2023-03-21', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('225', 'ST2000090BDB', '0.20', 'SAC TRS L320x500 EPS30', '', '250.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-23 00:00:00', '112', '', '35', '0', '2023-03-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('226', 'ST2000091BDB', '0.20', 'SAC TRS L220Xl450 EPS 30', '', '250.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-23 00:00:00', '112', '', '35', '0', '2023-03-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('227', 'ST2000092BDB', '0.20', 'SAC  TRS L180Xl350 EPS 30', '', '250.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-23 00:00:00', '112', '', '35', '0', '2023-03-23', '0', 'U', '1', '', '1');
+INSERT INTO produit VALUES('228', 'ST2000093BDB', '0.20', 'SAC TRS L280x450EPS 30', '', '250.00', '0.00', '10.00', '0.00', '0', '0.00', '0', '0', '', '7', '2023-03-23 00:00:00', '112', '', '35', '0', '2023-03-23', '0', 'U', '1', '', '1');
+
+-- -----------------------------
+-- Contenu de la table produit_depot
+-- -----------------------------
+INSERT INTO produit_depot VALUES('1', '1', '6', '-826.1399999999999');
+INSERT INTO produit_depot VALUES('2', '2', '7', '0');
+INSERT INTO produit_depot VALUES('3', '3', '7', '-226');
+INSERT INTO produit_depot VALUES('4', '4', '7', '0');
+INSERT INTO produit_depot VALUES('5', '5', '7', '0');
+INSERT INTO produit_depot VALUES('6', '6', '7', '-2094');
+INSERT INTO produit_depot VALUES('7', '7', '6', '-4776.199999999999');
+INSERT INTO produit_depot VALUES('8', '8', '6', '-2999.4');
+INSERT INTO produit_depot VALUES('9', '9', '6', '-56000');
+INSERT INTO produit_depot VALUES('10', '10', '6', '98904');
+INSERT INTO produit_depot VALUES('11', '11', '6', '9317');
+INSERT INTO produit_depot VALUES('12', '12', '6', '39218');
+INSERT INTO produit_depot VALUES('13', '13', '7', '8000');
+INSERT INTO produit_depot VALUES('14', '14', '6', '54899');
+INSERT INTO produit_depot VALUES('15', '15', '6', '-1203');
+INSERT INTO produit_depot VALUES('16', '16', '7', '-520');
+INSERT INTO produit_depot VALUES('17', '17', '7', '1205');
+INSERT INTO produit_depot VALUES('18', '18', '7', '56000');
+INSERT INTO produit_depot VALUES('19', '19', '7', '500');
+INSERT INTO produit_depot VALUES('20', '20', '7', '-132');
+INSERT INTO produit_depot VALUES('21', '21', '6', '10000');
+INSERT INTO produit_depot VALUES('22', '22', '6', '100000');
+INSERT INTO produit_depot VALUES('23', '23', '6', '100000');
+INSERT INTO produit_depot VALUES('24', '24', '6', '100000');
+INSERT INTO produit_depot VALUES('25', '25', '6', '100000');
+INSERT INTO produit_depot VALUES('26', '26', '6', '0');
+INSERT INTO produit_depot VALUES('27', '27', '6', '100000');
+INSERT INTO produit_depot VALUES('28', '28', '6', '94318');
+INSERT INTO produit_depot VALUES('29', '29', '6', '100000');
+INSERT INTO produit_depot VALUES('30', '30', '6', '100000');
+INSERT INTO produit_depot VALUES('31', '31', '7', '0');
+INSERT INTO produit_depot VALUES('32', '32', '6', '100000');
+INSERT INTO produit_depot VALUES('33', '33', '6', '99156');
+INSERT INTO produit_depot VALUES('34', '34', '6', '0');
+INSERT INTO produit_depot VALUES('35', '35', '6', '99000');
+INSERT INTO produit_depot VALUES('36', '36', '7', '99800');
+INSERT INTO produit_depot VALUES('37', '37', '6', '500000');
+INSERT INTO produit_depot VALUES('38', '38', '6', '599000');
+INSERT INTO produit_depot VALUES('39', '39', '6', '100000');
+INSERT INTO produit_depot VALUES('40', '40', '6', '0');
+INSERT INTO produit_depot VALUES('41', '41', '6', '0');
+INSERT INTO produit_depot VALUES('42', '42', '6', '-110800');
+INSERT INTO produit_depot VALUES('43', '43', '6', '25400');
+INSERT INTO produit_depot VALUES('44', '44', '6', '0');
+INSERT INTO produit_depot VALUES('45', '45', '7', '0');
+INSERT INTO produit_depot VALUES('46', '46', '7', '0');
+INSERT INTO produit_depot VALUES('47', '47', '7', '0');
+INSERT INTO produit_depot VALUES('48', '48', '7', '0');
+INSERT INTO produit_depot VALUES('49', '49', '7', '0');
+INSERT INTO produit_depot VALUES('50', '50', '7', '0');
+INSERT INTO produit_depot VALUES('51', '51', '7', '0');
+INSERT INTO produit_depot VALUES('52', '53', '6', '-16950');
+INSERT INTO produit_depot VALUES('53', '54', '7', '-9000');
+INSERT INTO produit_depot VALUES('54', '55', '7', '-8200');
+INSERT INTO produit_depot VALUES('55', '56', '6', '315');
+INSERT INTO produit_depot VALUES('56', '57', '6', '-436.4');
+INSERT INTO produit_depot VALUES('57', '59', '7', '200');
+INSERT INTO produit_depot VALUES('58', '60', '7', '-734');
+INSERT INTO produit_depot VALUES('59', '61', '7', '1000');
+INSERT INTO produit_depot VALUES('60', '62', '7', '-5730');
+INSERT INTO produit_depot VALUES('61', '63', '7', '0');
+INSERT INTO produit_depot VALUES('62', '64', '7', '0');
+INSERT INTO produit_depot VALUES('63', '65', '6', '0');
+INSERT INTO produit_depot VALUES('64', '66', '7', '300');
+INSERT INTO produit_depot VALUES('65', '67', '6', '-20116.86');
+INSERT INTO produit_depot VALUES('66', '68', '6', '3000');
+INSERT INTO produit_depot VALUES('67', '69', '6', '200');
+INSERT INTO produit_depot VALUES('68', '70', '6', '106');
+INSERT INTO produit_depot VALUES('69', '71', '7', '10000');
+INSERT INTO produit_depot VALUES('70', '72', '6', '1000');
+INSERT INTO produit_depot VALUES('71', '73', '7', '1000');
+INSERT INTO produit_depot VALUES('72', '74', '6', '1000');
+INSERT INTO produit_depot VALUES('73', '75', '6', '1000');
+INSERT INTO produit_depot VALUES('74', '76', '6', '1000');
+INSERT INTO produit_depot VALUES('75', '77', '7', '500');
+INSERT INTO produit_depot VALUES('76', '78', '7', '500');
+INSERT INTO produit_depot VALUES('77', '79', '6', '80');
+INSERT INTO produit_depot VALUES('78', '80', '6', '31');
+INSERT INTO produit_depot VALUES('79', '81', '6', '-1880');
+INSERT INTO produit_depot VALUES('80', '82', '7', '0');
+INSERT INTO produit_depot VALUES('81', '83', '6', '0');
+INSERT INTO produit_depot VALUES('82', '84', '6', '0');
+INSERT INTO produit_depot VALUES('83', '85', '6', '-8000');
+INSERT INTO produit_depot VALUES('84', '86', '6', '-40.900000000000006');
+INSERT INTO produit_depot VALUES('85', '87', '7', '0');
+INSERT INTO produit_depot VALUES('86', '88', '7', '0');
+INSERT INTO produit_depot VALUES('87', '89', '6', '-10000');
+INSERT INTO produit_depot VALUES('88', '90', '7', '-1');
+INSERT INTO produit_depot VALUES('89', '91', '6', '-2000');
+INSERT INTO produit_depot VALUES('90', '92', '7', '-2600');
+INSERT INTO produit_depot VALUES('91', '93', '7', '0');
+INSERT INTO produit_depot VALUES('92', '94', '7', '260');
+INSERT INTO produit_depot VALUES('93', '95', '6', '-3790');
+INSERT INTO produit_depot VALUES('94', '96', '6', '300');
+INSERT INTO produit_depot VALUES('95', '97', '7', '-791.9');
+INSERT INTO produit_depot VALUES('96', '98', '7', '0');
+INSERT INTO produit_depot VALUES('97', '99', '6', '0');
+INSERT INTO produit_depot VALUES('98', '101', '6', '0');
+INSERT INTO produit_depot VALUES('99', '102', '7', '-3876');
+INSERT INTO produit_depot VALUES('100', '103', '7', '0');
+INSERT INTO produit_depot VALUES('101', '104', '7', '0');
+INSERT INTO produit_depot VALUES('102', '105', '7', '0');
+INSERT INTO produit_depot VALUES('103', '106', '7', '0');
+INSERT INTO produit_depot VALUES('104', '107', '7', '0');
+INSERT INTO produit_depot VALUES('105', '108', '7', '0');
+INSERT INTO produit_depot VALUES('106', '109', '7', '-400');
+INSERT INTO produit_depot VALUES('107', '110', '7', '-2124');
+INSERT INTO produit_depot VALUES('108', '111', '7', '0');
+INSERT INTO produit_depot VALUES('109', '112', '7', '0');
+INSERT INTO produit_depot VALUES('110', '113', '7', '-2000');
+INSERT INTO produit_depot VALUES('111', '114', '7', '-1500');
+INSERT INTO produit_depot VALUES('112', '115', '6', '-300');
+INSERT INTO produit_depot VALUES('113', '116', '6', '-300');
+INSERT INTO produit_depot VALUES('114', '117', '6', '-300');
+INSERT INTO produit_depot VALUES('115', '118', '6', '-300');
+INSERT INTO produit_depot VALUES('116', '119', '6', '-300');
+INSERT INTO produit_depot VALUES('117', '120', '7', '0');
+INSERT INTO produit_depot VALUES('118', '121', '6', '0');
+INSERT INTO produit_depot VALUES('119', '122', '7', '0');
+INSERT INTO produit_depot VALUES('120', '123', '7', '0');
+INSERT INTO produit_depot VALUES('121', '124', '7', '0');
+INSERT INTO produit_depot VALUES('122', '125', '7', '0');
+INSERT INTO produit_depot VALUES('123', '126', '7', '0');
+INSERT INTO produit_depot VALUES('124', '127', '7', '0');
+INSERT INTO produit_depot VALUES('125', '128', '7', '0');
+INSERT INTO produit_depot VALUES('126', '129', '7', '0');
+INSERT INTO produit_depot VALUES('127', '130', '7', '0');
+INSERT INTO produit_depot VALUES('128', '131', '7', '0');
+INSERT INTO produit_depot VALUES('129', '132', '7', '0');
+INSERT INTO produit_depot VALUES('130', '133', '7', '0');
+INSERT INTO produit_depot VALUES('131', '134', '7', '0');
+INSERT INTO produit_depot VALUES('132', '135', '7', '-291');
+INSERT INTO produit_depot VALUES('133', '136', '7', '0');
+INSERT INTO produit_depot VALUES('134', '137', '7', '0');
+INSERT INTO produit_depot VALUES('135', '138', '7', '0');
+INSERT INTO produit_depot VALUES('136', '139', '7', '0');
+INSERT INTO produit_depot VALUES('137', '140', '7', '0');
+INSERT INTO produit_depot VALUES('138', '141', '7', '0');
+INSERT INTO produit_depot VALUES('139', '142', '7', '0');
+INSERT INTO produit_depot VALUES('140', '143', '7', '0');
+INSERT INTO produit_depot VALUES('141', '144', '7', '0');
+INSERT INTO produit_depot VALUES('142', '145', '7', '0');
+INSERT INTO produit_depot VALUES('143', '146', '7', '0');
+INSERT INTO produit_depot VALUES('144', '147', '7', '-2238.2');
+INSERT INTO produit_depot VALUES('145', '148', '7', '-5000');
+INSERT INTO produit_depot VALUES('146', '149', '7', '0');
+INSERT INTO produit_depot VALUES('147', '150', '7', '-873');
+INSERT INTO produit_depot VALUES('148', '151', '7', '0');
+INSERT INTO produit_depot VALUES('149', '152', '7', '-844');
+INSERT INTO produit_depot VALUES('150', '153', '7', '-806');
+INSERT INTO produit_depot VALUES('151', '154', '7', '-180');
+INSERT INTO produit_depot VALUES('152', '155', '7', '-1134');
+INSERT INTO produit_depot VALUES('153', '156', '7', '0');
+INSERT INTO produit_depot VALUES('154', '157', '7', '-1');
+INSERT INTO produit_depot VALUES('155', '158', '7', '0');
+INSERT INTO produit_depot VALUES('156', '159', '7', '0');
+INSERT INTO produit_depot VALUES('157', '160', '7', '0');
+INSERT INTO produit_depot VALUES('158', '161', '7', '0');
+INSERT INTO produit_depot VALUES('159', '162', '6', '-567.8');
+INSERT INTO produit_depot VALUES('160', '163', '7', '-53');
+INSERT INTO produit_depot VALUES('161', '164', '7', '0');
+INSERT INTO produit_depot VALUES('162', '165', '7', '0');
+INSERT INTO produit_depot VALUES('163', '166', '7', '0');
+INSERT INTO produit_depot VALUES('164', '167', '7', '0');
+INSERT INTO produit_depot VALUES('165', '168', '7', '0');
+INSERT INTO produit_depot VALUES('166', '169', '7', '0');
+INSERT INTO produit_depot VALUES('167', '170', '7', '0');
+INSERT INTO produit_depot VALUES('168', '171', '7', '-1723.2');
+INSERT INTO produit_depot VALUES('169', '172', '7', '-2003');
+INSERT INTO produit_depot VALUES('170', '173', '7', '0');
+INSERT INTO produit_depot VALUES('171', '174', '7', '0');
+INSERT INTO produit_depot VALUES('172', '175', '7', '0');
+INSERT INTO produit_depot VALUES('173', '176', '7', '-10000');
+INSERT INTO produit_depot VALUES('174', '177', '7', '0');
+INSERT INTO produit_depot VALUES('175', '178', '7', '0');
+INSERT INTO produit_depot VALUES('176', '179', '7', '0');
+INSERT INTO produit_depot VALUES('177', '180', '7', '0');
+INSERT INTO produit_depot VALUES('178', '181', '7', '0');
+INSERT INTO produit_depot VALUES('179', '182', '7', '0');
+INSERT INTO produit_depot VALUES('180', '183', '7', '-1793');
+INSERT INTO produit_depot VALUES('181', '184', '7', '0');
+INSERT INTO produit_depot VALUES('182', '185', '7', '-1286');
+INSERT INTO produit_depot VALUES('183', '186', '7', '-70');
+INSERT INTO produit_depot VALUES('184', '187', '7', '-4143.1');
+INSERT INTO produit_depot VALUES('185', '188', '7', '-1');
+INSERT INTO produit_depot VALUES('186', '189', '7', '-1');
+INSERT INTO produit_depot VALUES('187', '190', '7', '0');
+INSERT INTO produit_depot VALUES('188', '191', '7', '-1');
+INSERT INTO produit_depot VALUES('189', '192', '7', '-1');
+INSERT INTO produit_depot VALUES('190', '193', '7', '-1');
+INSERT INTO produit_depot VALUES('191', '194', '7', '-1');
+INSERT INTO produit_depot VALUES('192', '195', '7', '0');
+INSERT INTO produit_depot VALUES('193', '196', '7', '0');
+INSERT INTO produit_depot VALUES('194', '197', '7', '0');
+INSERT INTO produit_depot VALUES('195', '198', '7', '0');
+INSERT INTO produit_depot VALUES('196', '199', '7', '-440');
+INSERT INTO produit_depot VALUES('197', '200', '7', '0');
+INSERT INTO produit_depot VALUES('198', '201', '7', '0');
+INSERT INTO produit_depot VALUES('199', '202', '7', '-3476');
+INSERT INTO produit_depot VALUES('200', '203', '7', '-378');
+INSERT INTO produit_depot VALUES('201', '204', '7', '-1');
+INSERT INTO produit_depot VALUES('202', '205', '7', '-469');
+INSERT INTO produit_depot VALUES('203', '206', '7', '-700');
+INSERT INTO produit_depot VALUES('204', '207', '7', '0');
+INSERT INTO produit_depot VALUES('205', '208', '7', '0');
+INSERT INTO produit_depot VALUES('206', '209', '7', '0');
+INSERT INTO produit_depot VALUES('207', '210', '7', '0');
+INSERT INTO produit_depot VALUES('208', '211', '7', '0');
+INSERT INTO produit_depot VALUES('209', '212', '7', '0');
+INSERT INTO produit_depot VALUES('210', '213', '7', '0');
+INSERT INTO produit_depot VALUES('211', '214', '7', '0');
+INSERT INTO produit_depot VALUES('212', '215', '7', '0');
+INSERT INTO produit_depot VALUES('213', '216', '7', '0');
+INSERT INTO produit_depot VALUES('214', '217', '7', '0');
+INSERT INTO produit_depot VALUES('215', '218', '7', '0');
+INSERT INTO produit_depot VALUES('216', '219', '7', '-476');
+INSERT INTO produit_depot VALUES('217', '220', '7', '0');
+INSERT INTO produit_depot VALUES('218', '221', '7', '-1');
+INSERT INTO produit_depot VALUES('219', '222', '7', '-1');
+INSERT INTO produit_depot VALUES('220', '223', '7', '-1');
+INSERT INTO produit_depot VALUES('221', '224', '7', '-1');
+INSERT INTO produit_depot VALUES('222', '225', '7', '0');
+INSERT INTO produit_depot VALUES('223', '226', '7', '0');
+INSERT INTO produit_depot VALUES('224', '227', '7', '0');
+INSERT INTO produit_depot VALUES('225', '228', '7', '0');
+
+-- -----------------------------
+-- Contenu de la table reg_achat
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_avoir
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_client
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_commande
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_fournisseur
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_vendeur
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table reg_vente
+-- -----------------------------
+INSERT INTO reg_vente VALUES('1', '29', '2022-12-28', '8870.40', 'Reglement global [ Montant : /Mode de Reglement : Espece/Date : 2022-12-28]', 'Espece', '35', '0', '0', '1900-01-01', '', '-1');
+
+-- -----------------------------
+-- Contenu de la table serial_code
+-- -----------------------------
+INSERT INTO serial_code VALUES('0', 'apJrZ5Fgl2Bpaw==', '2021-11-22');
+
+-- -----------------------------
+-- Contenu de la table societe
+-- -----------------------------
+INSERT INTO societe VALUES('1', 'douniaplast', '+212 (0) 522 35 22 07', '', 'contact@douniaplast.ma', '', '', '', '', 'Rue D�troit, Q.I Sidi bernoussi-Casablanca', '', '0', '', '0', '0', '', '');
+
+-- -----------------------------
+-- Contenu de la table usine
+-- -----------------------------
+
+-- -----------------------------
+-- Contenu de la table utilisateur
+-- -----------------------------
+INSERT INTO utilisateur VALUES('35', 'admin', 'admin', '', '', 'admin', 'Admin', '35', '1', '1', '1', '1', '1', '1', '1', 'Chef d\\\'usine', '2', '-1', '5', '1');
+INSERT INTO utilisateur VALUES('47', 'FATI', 'FATIMA EZAHRA', '', '', 'FATI@1995', 'User', '35', '1', '0', '1', '0', '0', '0', '0', 'Indefinie', '', '-1', '-1', '0');
+
+-- -----------------------------
+-- Contenu de la table vente
+-- -----------------------------
+INSERT INTO vente VALUES('1', '1', '2022-12-19', '', '35', '1', '2022-12-19', '', '', '0', '1 mois', '', '', '', '', '2022-12-19 15:44:33');
+INSERT INTO vente VALUES('4', '5', '2022-12-20', '', '35', '4', '2022-12-20', '', '', '0', '7 jours', '', '', '', '', '2022-12-20 11:45:48');
+INSERT INTO vente VALUES('3', '6', '2022-12-20', '', '35', '3', '2022-12-20', '', '', '0', '7 jours', '', '', '', '', '2022-12-20 10:16:49');
+INSERT INTO vente VALUES('5', '2', '2022-12-20', '', '35', '5', '2022-12-20', '', '', '0', '1 mois', '', '', '', '', '2022-12-20 12:02:16');
+INSERT INTO vente VALUES('6', '7', '2022-12-21', '', '35', '6', '2022-12-21', '', '', '0', '7 jours', '', '', '', '', '2022-12-21 09:16:01');
+INSERT INTO vente VALUES('7', '4', '2022-12-21', '', '35', '7', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 09:54:00');
+INSERT INTO vente VALUES('8', '8', '2022-12-21', '', '35', '8', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 10:24:51');
+INSERT INTO vente VALUES('9', '8', '2022-12-21', '', '35', '9', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 10:37:45');
+INSERT INTO vente VALUES('10', '8', '2022-12-21', '', '35', '10', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 10:46:53');
+INSERT INTO vente VALUES('11', '9', '2022-12-21', '', '35', '11', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 11:32:23');
+INSERT INTO vente VALUES('12', '9', '2022-12-14', '', '35', '12', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 11:40:32');
+INSERT INTO vente VALUES('13', '9', '2022-12-21', '', '35', '13', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 11:44:04');
+INSERT INTO vente VALUES('14', '1', '2022-12-19', '', '35', '14', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 11:57:32');
+INSERT INTO vente VALUES('15', '9', '2022-12-21', '', '35', '15', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 12:07:27');
+INSERT INTO vente VALUES('16', '9', '2022-12-08', '', '35', '16', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 12:08:45');
+INSERT INTO vente VALUES('17', '10', '2022-12-13', '', '35', '17', '2022-12-21', '', '', '0', '15 jours', '', '', '', '', '2022-12-21 12:30:59');
+INSERT INTO vente VALUES('18', '11', '2022-12-21', '', '35', '0', '', '', '', '0', '7 jours', '', '', '', '', '2022-12-21 13:35:53');
+INSERT INTO vente VALUES('19', '2', '2022-12-21', '', '35', '18', '2022-12-21', '', '', '0', '1 mois', '', '', '', '', '2022-12-21 17:04:14');
+INSERT INTO vente VALUES('20', '9', '2022-12-20', '', '35', '19', '2022-12-23', '', '', '0', '7 jours', '', '', '', '', '2022-12-23 10:25:09');
+INSERT INTO vente VALUES('21', '8', '2022-12-20', '', '35', '20', '2022-12-26', '', '', '0', '7 jours', '', '', '', '', '2022-12-26 09:32:54');
+INSERT INTO vente VALUES('22', '13', '2022-12-26', '', '35', '21', '2022-12-26', '', '', '0', '7 jours', '', '', '', '', '2022-12-26 10:53:35');
+INSERT INTO vente VALUES('25', '15', '2022-12-26', '', '35', '24', '2022-12-26', '', '', '0', '7 jours', '', '', '', '', '2022-12-26 15:41:16');
+INSERT INTO vente VALUES('24', '16', '2022-12-26', '', '35', '23', '2022-12-26', '', '', '0', '7 jours', '', '', '', '', '2022-12-26 15:19:33');
+INSERT INTO vente VALUES('26', '2', '2022-12-26', '', '35', '25', '2022-12-26', '', '', '0', '7 jours', '', '', '', '', '2022-12-26 16:06:32');
+INSERT INTO vente VALUES('29', '18', '2022-12-27', '', '35', '28', '2022-12-27', '', '', '0', '7 jours', '', '', '', '', '2022-12-27 14:45:11');
+INSERT INTO vente VALUES('28', '15', '2022-12-27', '', '35', '27', '2022-12-27', '', '', '0', '7 jours', '', '', '', '', '2022-12-27 11:10:12');
+INSERT INTO vente VALUES('30', '19', '2022-12-27', '', '35', '29', '2022-12-27', '', '', '0', '15 jours', '', '', '', '', '2022-12-27 15:31:50');
+INSERT INTO vente VALUES('33', '8', '2022-12-28', '', '35', '31', '2022-12-28', '', '', '0', '7 jours', '', '', '', '', '2022-12-28 15:01:27');
+INSERT INTO vente VALUES('32', '20', '2022-12-27', '', '35', '30', '2022-12-27', '', '', '0', '7 jours', '', '', '', '', '2022-12-27 16:12:37');
+INSERT INTO vente VALUES('34', '9', '2022-12-28', '', '35', '32', '2022-12-28', '', '', '0', '7 jours', '', '', '', '', '2022-12-28 15:16:43');
+INSERT INTO vente VALUES('35', '21', '2022-12-28', '', '35', '33', '2022-12-28', '', '', '0', '7 jours', '', '', '', '', '2022-12-28 15:36:28');
+INSERT INTO vente VALUES('36', '9', '2022-12-07', '', '35', '34', '2022-12-29', '', '', '0', '15 jours', '', '', '', '', '2022-12-29 08:56:11');
+INSERT INTO vente VALUES('37', '9', '2022-12-19', '', '35', '35', '2022-12-29', '', '', '0', '7 jours', '', '', '', '', '2022-12-29 09:11:54');
+INSERT INTO vente VALUES('38', '9', '2022-12-20', '', '35', '36', '2022-12-29', '', '', '0', '7 jours', '', '', '', '', '2022-12-29 09:20:32');
+INSERT INTO vente VALUES('39', '9', '2022-12-22', '', '35', '37', '2022-12-29', '', '', '0', '7 jours', '', '', '', '', '2022-12-29 09:23:27');
+INSERT INTO vente VALUES('40', '4', '2022-12-19', '', '35', '38', '2022-12-29', '', '', '0', '7 jours', '', '', '', '', '2022-12-29 09:28:36');
+INSERT INTO vente VALUES('41', '10', '2022-12-13', '', '35', '39', '2022-12-29', '', '', '0', '7 jours', '', '', '', '', '2022-12-29 10:08:41');
+INSERT INTO vente VALUES('71', '19', '2023-01-18', '', '35', '61', '2023-01-18', '', '', '0', '1 mois', '', '', '', '', '2023-01-18 16:04:10');
+INSERT INTO vente VALUES('70', '4', '2023-01-18', '', '35', '60', '2023-01-18', '', '', '0', '1 mois', '', '', '', '', '2023-01-18 12:42:34');
+INSERT INTO vente VALUES('44', '24', '2023-01-04', '', '35', '42', '2023-01-04', '', '', '0', '1 mois', '', '', '', '', '2023-01-04 15:59:50');
+INSERT INTO vente VALUES('73', '28', '2023-01-18', '', '35', '62', '2023-01-18', '', '', '0', '1 mois', '', '', '', '', '2023-01-18 16:27:34');
+INSERT INTO vente VALUES('46', '7', '2023-01-06', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-01-06 12:39:13');
+INSERT INTO vente VALUES('47', '25', '2023-01-06', '', '35', '57', '2023-01-18', '', '', '0', '15 jours', '', '', '', '', '2023-01-06 16:31:47');
+INSERT INTO vente VALUES('48', '26', '2023-01-07', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-01-07 10:11:50');
+INSERT INTO vente VALUES('49', '28', '2023-01-09', '', '35', '44', '2023-01-09', '', '', '0', '15 jours', '', '', '', '', '2023-01-09 09:10:58');
+INSERT INTO vente VALUES('50', '5', '2023-01-10', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-01-10 09:30:21');
+INSERT INTO vente VALUES('56', '9', '2023-01-17', '', '35', '45', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 11:58:17');
+INSERT INTO vente VALUES('52', '5', '2023-01-10', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-01-10 10:53:43');
+INSERT INTO vente VALUES('53', '14', '2023-01-10', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-01-10 12:05:28');
+INSERT INTO vente VALUES('54', '31', '2023-01-10', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-01-10 14:21:11');
+INSERT INTO vente VALUES('57', '9', '2023-01-17', '', '35', '46', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 11:59:32');
+INSERT INTO vente VALUES('58', '9', '2023-01-17', '', '35', '47', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:00:45');
+INSERT INTO vente VALUES('59', '9', '2023-01-17', '', '35', '48', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:01:59');
+INSERT INTO vente VALUES('60', '9', '2023-01-17', '', '35', '49', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:03:27');
+INSERT INTO vente VALUES('61', '8', '2023-01-17', '', '35', '50', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:04:40');
+INSERT INTO vente VALUES('62', '8', '2023-01-17', '', '35', '51', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:07:27');
+INSERT INTO vente VALUES('63', '5', '2023-01-17', '', '35', '52', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 12:09:12');
+INSERT INTO vente VALUES('64', '8', '2023-01-17', '', '35', '53', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 16:12:59');
+INSERT INTO vente VALUES('65', '9', '2023-01-17', '', '35', '54', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 16:20:26');
+INSERT INTO vente VALUES('66', '9', '2023-01-17', '', '35', '55', '2023-01-17', '', '', '0', '7 jours', '', '', '', '', '2023-01-17 16:23:34');
+INSERT INTO vente VALUES('67', '9', '2023-01-17', '', '35', '56', '2023-01-17', '', '', '0', '1 mois', '', '', '', '', '2023-01-17 16:39:31');
+INSERT INTO vente VALUES('68', '29', '2023-01-18', '', '35', '58', '2023-01-18', '', '', '0', '1 mois', '', '', '', '', '2023-01-18 10:07:32');
+INSERT INTO vente VALUES('69', '35', '2023-01-18', '', '35', '59', '2023-01-18', '', '', '0', '15 jours', '', '', '', '', '2023-01-18 11:00:41');
+INSERT INTO vente VALUES('74', '20', '2023-01-19', '', '35', '63', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 08:59:04');
+INSERT INTO vente VALUES('75', '12', '2023-01-19', '', '35', '64', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 09:15:02');
+INSERT INTO vente VALUES('76', '23', '2023-01-19', '', '35', '65', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 09:32:03');
+INSERT INTO vente VALUES('77', '15', '2023-01-19', '', '35', '66', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 10:45:30');
+INSERT INTO vente VALUES('78', '36', '2023-01-19', '', '35', '67', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 10:57:28');
+INSERT INTO vente VALUES('79', '37', '2023-01-19', '', '35', '68', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 11:03:12');
+INSERT INTO vente VALUES('80', '33', '2023-01-19', '', '35', '69', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 11:05:08');
+INSERT INTO vente VALUES('81', '7', '2023-01-19', '', '35', '70', '2023-01-19', '', '', '0', '1 mois', '', '', '', '', '2023-01-19 11:19:30');
+INSERT INTO vente VALUES('82', '9', '2023-01-20', '', '35', '71', '2023-01-20', '', '', '0', '1 mois', '', '', '', '', '2023-01-20 10:25:50');
+INSERT INTO vente VALUES('83', '39', '2023-01-20', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-01-20 12:34:33');
+INSERT INTO vente VALUES('86', '40', '2023-01-21', '', '35', '74', '2023-01-21', '', '', '0', '1 mois', '', '', '', '', '2023-01-21 11:13:29');
+INSERT INTO vente VALUES('85', '23', '2023-01-21', '', '35', '73', '2023-01-21', '', '', '0', '1 mois', '', '', '', '', '2023-01-21 10:08:14');
+INSERT INTO vente VALUES('87', '35', '2023-01-23', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-01-23 10:10:02');
+INSERT INTO vente VALUES('88', '23', '2023-01-23', '', '35', '75', '2023-01-23', '', '', '0', '1 mois', '', '', '', '', '2023-01-23 10:12:55');
+INSERT INTO vente VALUES('89', '9', '2023-01-25', '', '35', '76', '2023-01-25', '', '', '0', '1 mois', '', '', '', '', '2023-01-25 12:30:46');
+INSERT INTO vente VALUES('90', '8', '2023-01-25', '', '35', '77', '2023-01-25', '', '', '0', '1 mois', '', '', '', '', '2023-01-25 12:38:19');
+INSERT INTO vente VALUES('91', '7', '2023-01-25', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-01-25 16:14:42');
+INSERT INTO vente VALUES('92', '42', '2023-01-25', '', '35', '78', '2023-01-25', '', '', '0', '1 mois', '', '', '', '', '2023-01-25 16:55:53');
+INSERT INTO vente VALUES('93', '19', '2023-01-26', '', '35', '79', '2023-01-26', '', '', '0', '1 mois', '', '', '', '', '2023-01-26 16:41:05');
+INSERT INTO vente VALUES('94', '44', '2023-01-27', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-01-27 12:27:58');
+INSERT INTO vente VALUES('95', '2', '2023-01-30', '', '35', '80', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 10:28:23');
+INSERT INTO vente VALUES('97', '7', '2023-01-30', '', '35', '81', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 10:36:56');
+INSERT INTO vente VALUES('98', '45', '2023-01-30', '', '35', '82', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 10:39:40');
+INSERT INTO vente VALUES('99', '10', '2023-01-30', '', '35', '83', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 12:30:23');
+INSERT INTO vente VALUES('100', '3', '2023-01-30', '', '35', '84', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 14:08:01');
+INSERT INTO vente VALUES('101', '10', '2023-01-30', '', '35', '85', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 15:59:03');
+INSERT INTO vente VALUES('102', '19', '2023-01-30', '', '35', '86', '2023-01-30', '', '', '0', '1 mois', '', '', '', '', '2023-01-30 16:12:45');
+INSERT INTO vente VALUES('103', '9', '2023-01-31', '', '35', '87', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 09:53:47');
+INSERT INTO vente VALUES('106', '4', '2023-01-31', '', '35', '90', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 10:58:12');
+INSERT INTO vente VALUES('105', '22', '2023-01-31', '', '35', '89', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 09:58:08');
+INSERT INTO vente VALUES('107', '13', '2023-01-31', '', '35', '91', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 11:56:22');
+INSERT INTO vente VALUES('108', '15', '2023-01-31', '', '35', '92', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 12:47:25');
+INSERT INTO vente VALUES('109', '12', '2023-01-31', '', '35', '93', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 12:49:24');
+INSERT INTO vente VALUES('110', '3', '2023-01-31', '', '35', '94', '2023-01-31', '', '', '0', '1 mois', '', '', '', '', '2023-01-31 15:21:34');
+INSERT INTO vente VALUES('111', '46', '2023-02-01', '', '35', '95', '2023-02-01', '', '', '0', '1 mois', '', '', '', '', '2023-02-01 10:27:32');
+INSERT INTO vente VALUES('121', '9', '2023-02-03', '', '35', '105', '2023-02-03', '', '', '0', '1 mois', '', '', '', '', '2023-02-03 12:30:24');
+INSERT INTO vente VALUES('114', '9', '2023-02-01', '', '35', '98', '2023-02-01', '', '', '0', '1 mois', '', '', '', '', '2023-02-01 14:18:22');
+INSERT INTO vente VALUES('115', '8', '2023-02-01', '', '35', '99', '2023-02-01', '', '', '0', '1 mois', '', '', '', '', '2023-02-01 14:20:47');
+INSERT INTO vente VALUES('116', '26', '2023-02-02', '', '35', '100', '2023-02-02', '', '', '0', '1 mois', '', '', '', '', '2023-02-02 09:04:59');
+INSERT INTO vente VALUES('117', '9', '2023-02-02', '', '35', '101', '2023-02-02', '', '', '0', '1 mois', '', '', '', '', '2023-02-02 09:06:11');
+INSERT INTO vente VALUES('118', '3', '2023-02-02', '', '35', '102', '2023-02-02', '', '', '0', '1 mois', '', '', '', '', '2023-02-02 09:19:29');
+INSERT INTO vente VALUES('122', '8', '2023-02-03', '', '35', '106', '2023-02-03', '', '', '0', '1 mois', '', '', '', '', '2023-02-03 12:31:20');
+INSERT INTO vente VALUES('120', '40', '2023-02-03', '', '35', '104', '2023-02-02', '', '', '0', '1 mois', '', '', '', '', '2023-02-02 16:12:02');
+INSERT INTO vente VALUES('123', '7', '2023-02-06', '', '35', '107', '2023-02-06', '', '', '0', '1 mois', '', '', '', '', '2023-02-06 09:17:24');
+INSERT INTO vente VALUES('124', '9', '2023-02-06', '', '35', '108', '2023-02-06', '', '', '0', '1 mois', '', '', '', '', '2023-02-06 14:42:02');
+INSERT INTO vente VALUES('125', '7', '2023-02-07', '', '35', '109', '2023-02-07', '', '', '0', '1 mois', '', '', '', '', '2023-02-07 11:54:32');
+INSERT INTO vente VALUES('126', '5', '2023-02-07', '', '35', '110', '2023-02-07', '', '', '0', '1 mois', '', '', '', '', '2023-02-07 12:21:36');
+INSERT INTO vente VALUES('127', '50', '2023-02-07', '', '35', '0', '', '', '', '0', '7 jours', '', '', '', '', '2023-02-07 14:11:07');
+INSERT INTO vente VALUES('128', '23', '2023-02-08', '', '35', '111', '2023-02-08', '', '', '0', '1 mois', '', '', '', '', '2023-02-08 09:28:38');
+INSERT INTO vente VALUES('129', '3', '2023-02-09', '', '35', '112', '2023-02-09', '', '', '0', '1 mois', '', '', '', '', '2023-02-09 09:57:44');
+INSERT INTO vente VALUES('130', '9', '2023-02-09', '', '35', '113', '2023-02-09', '', '', '0', '1 mois', '', '', '', '', '2023-02-09 09:59:25');
+INSERT INTO vente VALUES('131', '8', '2023-02-09', '', '35', '114', '2023-02-09', '', '', '0', '1 mois', '', '', '', '', '2023-02-09 10:01:28');
+INSERT INTO vente VALUES('132', '8', '2023-02-09', 'AVOIR', '35', '115', '2023-02-09', '', '', '0', '1 mois', '', '', '', '', '2023-02-09 10:26:09');
+INSERT INTO vente VALUES('133', '8', '2023-02-09', 'AVOIR', '35', '116', '2023-02-09', '', '', '0', '1 mois', '', '', '', '', '2023-02-09 10:26:59');
+INSERT INTO vente VALUES('134', '51', '2023-02-10', '', '35', '117', '2023-02-10', '', '', '0', '1 mois', '', '', '', '', '2023-02-10 09:07:15');
+INSERT INTO vente VALUES('135', '52', '2023-02-10', '', '35', '118', '2023-02-10', '', '', '0', '1 mois', '', '', '', '', '2023-02-10 10:06:13');
+INSERT INTO vente VALUES('136', '5', '2023-02-10', '', '35', '119', '2023-02-10', '', '', '0', '1 mois', '', '', '', '', '2023-02-10 11:26:06');
+INSERT INTO vente VALUES('137', '22', '2023-02-10', '', '35', '120', '2023-02-10', '', '', '0', '1 mois', '', '', '', '', '2023-02-10 11:29:03');
+INSERT INTO vente VALUES('138', '48', '2023-02-10', '', '35', '121', '2023-02-10', '', '', '0', '1 mois', '', '', '', '', '2023-02-10 11:39:09');
+INSERT INTO vente VALUES('139', '3', '2023-02-13', '', '35', '122', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 11:19:35');
+INSERT INTO vente VALUES('140', '5', '2023-02-13', '', '35', '123', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 11:22:11');
+INSERT INTO vente VALUES('141', '53', '2023-02-13', '', '35', '124', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 11:25:24');
+INSERT INTO vente VALUES('142', '49', '2023-02-13', '', '35', '125', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 11:30:54');
+INSERT INTO vente VALUES('143', '4', '2023-02-13', '', '35', '126', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 14:42:39');
+INSERT INTO vente VALUES('144', '19', '2023-02-13', '', '35', '127', '2023-02-13', '', '', '0', '1 mois', '', '', '', '', '2023-02-13 16:16:12');
+INSERT INTO vente VALUES('145', '3', '2023-02-14', '', '35', '128', '2023-02-14', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 10:09:03');
+INSERT INTO vente VALUES('146', '5', '2023-02-14', '', '35', '129', '2023-02-14', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 10:09:45');
+INSERT INTO vente VALUES('147', '8', '2023-02-14', '', '35', '130', '2023-02-14', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 10:10:51');
+INSERT INTO vente VALUES('148', '46', '2023-02-14', '', '35', '131', '2023-02-14', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 10:11:56');
+INSERT INTO vente VALUES('149', '9', '2023-02-14', '', '35', '132', '2023-02-14', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 10:14:36');
+INSERT INTO vente VALUES('150', '54', '2023-02-14', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-02-14 11:43:59');
+INSERT INTO vente VALUES('151', '54', '2023-02-14', '', '35', '133', '2023-02-14', '', '', '0', '15 jours', '', '', '', '', '2023-02-14 11:48:25');
+INSERT INTO vente VALUES('152', '9', '2023-02-15', '', '35', '134', '2023-02-15', '', '', '0', '1 mois', '', '', '', '', '2023-02-15 10:36:38');
+INSERT INTO vente VALUES('153', '7', '2023-02-15', '', '35', '135', '2023-02-15', '', '', '0', '1 mois', '', '', '', '', '2023-02-15 10:40:21');
+INSERT INTO vente VALUES('154', '40', '2023-02-15', '', '35', '136', '2023-02-15', '', '', '0', '1 mois', '', '', '', '', '2023-02-15 10:43:18');
+INSERT INTO vente VALUES('155', '7', '2023-02-15', '', '35', '137', '2023-02-15', '', '', '0', '15 jours', '', '', '', '', '2023-02-15 16:10:48');
+INSERT INTO vente VALUES('156', '7', '2023-02-15', '', '35', '0', '', '', '', '0', '15 jours', '', '', '', '', '2023-02-15 16:26:56');
+INSERT INTO vente VALUES('157', '56', '2023-02-16', '', '35', '138', '2023-02-16', '', '', '0', '1 mois', '', '', '', '', '2023-02-16 09:56:03');
+INSERT INTO vente VALUES('158', '57', '2023-02-21', '', '35', '139', '2023-02-21', '', '', '0', '1 mois', '', '', '', '', '2023-02-21 09:28:27');
+INSERT INTO vente VALUES('159', '26', '2023-02-21', '', '35', '140', '2023-02-21', '', '', '0', '1 mois', '', '', '', '', '2023-02-21 14:47:38');
+INSERT INTO vente VALUES('160', '8', '2023-02-22', '', '35', '141', '2023-02-22', '', '', '0', '1 mois', '', '', '', '', '2023-02-22 09:47:54');
+INSERT INTO vente VALUES('161', '9', '2023-02-22', '', '35', '142', '2023-02-22', '', '', '0', '1 mois', '', '', '', '', '2023-02-22 10:06:08');
+INSERT INTO vente VALUES('162', '46', '2023-02-22', '', '35', '143', '2023-02-22', '', '', '0', '1 mois', '', '', '', '', '2023-02-22 11:14:33');
+INSERT INTO vente VALUES('163', '5', '2023-02-23', '', '35', '144', '2023-02-23', '', '', '0', '1 mois', '', '', '', '', '2023-02-23 12:21:40');
+INSERT INTO vente VALUES('164', '21', '2023-02-23', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-02-23 14:31:06');
+INSERT INTO vente VALUES('165', '53', '2023-02-23', '', '35', '145', '2023-02-23', '', '', '0', '1 mois', '', '', '', '', '2023-02-23 15:21:40');
+INSERT INTO vente VALUES('166', '8', '2023-02-24', '', '35', '146', '2023-02-24', '', '', '0', '1 mois', '', '', '', '', '2023-02-24 13:01:04');
+INSERT INTO vente VALUES('167', '9', '2023-02-24', '', '35', '147', '2023-02-24', '', '', '0', '1 mois', '', '', '', '', '2023-02-24 13:02:08');
+INSERT INTO vente VALUES('168', '49', '2023-02-28', '', '35', '148', '2023-02-28', '', '', '0', '1 mois', '', '', '', '', '2023-02-28 11:55:54');
+INSERT INTO vente VALUES('169', '41', '2023-02-28', '', '35', '149', '2023-02-28', '', '', '0', '1 mois', '', '', '', '', '2023-02-28 15:55:43');
+INSERT INTO vente VALUES('170', '4', '2023-03-01', '', '35', '150', '2023-02-28', '', '', '0', '1 mois', '', '', '', '', '2023-03-01 17:13:57');
+INSERT INTO vente VALUES('171', '4', '2023-03-01', '', '35', '151', '2023-03-01', '', '', '0', '1 mois', '', '', '', '', '2023-03-01 17:17:00');
+INSERT INTO vente VALUES('172', '45', '2023-03-02', '', '35', '152', '2023-03-02', '', '', '0', '1 mois', '', '', '', '', '2023-03-02 09:31:17');
+INSERT INTO vente VALUES('173', '3', '2023-03-03', '', '35', '153', '2023-03-03', '', '', '0', '1 mois', '', '', '', '', '2023-03-03 12:02:37');
+INSERT INTO vente VALUES('174', '2', '2023-03-06', '', '35', '154', '2023-03-06', '', '', '0', '1 mois', '', '', '', '', '2023-03-06 10:06:08');
+INSERT INTO vente VALUES('175', '37', '2023-03-06', '', '35', '155', '2023-03-06', '', '', '0', '1 mois', '', '', '', '', '2023-03-06 11:54:13');
+INSERT INTO vente VALUES('176', '60', '2023-03-06', '', '35', '0', '', '', '', '0', '1 mois', '', '', '', '', '2023-03-06 12:32:19');
+INSERT INTO vente VALUES('177', '60', '2023-03-06', '', '35', '156', '2023-03-06', '', '', '0', '1 mois', '', '', '', '', '2023-03-06 12:55:04');
+INSERT INTO vente VALUES('178', '8', '2023-03-07', '', '35', '157', '2023-03-07', '', '', '0', '1 mois', '', '', '', '', '2023-03-07 10:34:07');
+INSERT INTO vente VALUES('179', '9', '2023-03-07', '', '35', '158', '2023-03-07', '', '', '0', '1 mois', '', '', '', '', '2023-03-07 10:35:08');
+INSERT INTO vente VALUES('180', '26', '2023-03-08', '', '35', '159', '2023-03-08', '', '', '0', '1 mois', '', '', '', '', '2023-03-08 14:58:10');
+INSERT INTO vente VALUES('181', '21', '2023-03-09', '', '35', '160', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 09:32:11');
+INSERT INTO vente VALUES('182', '62', '2023-03-09', '', '35', '161', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:07:57');
+INSERT INTO vente VALUES('183', '15', '2023-03-09', '', '35', '162', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:39:53');
+INSERT INTO vente VALUES('184', '3', '2023-03-09', '', '35', '163', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:43:50');
+INSERT INTO vente VALUES('185', '5', '2023-03-09', '', '35', '164', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:48:13');
+INSERT INTO vente VALUES('187', '5', '2023-03-09', '', '35', '165', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:52:37');
+INSERT INTO vente VALUES('188', '22', '2023-03-09', '', '35', '166', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 11:53:53');
+INSERT INTO vente VALUES('189', '35', '2023-03-09', '', '35', '167', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 14:34:28');
+INSERT INTO vente VALUES('190', '3', '2023-03-09', '', '35', '168', '2023-03-09', '', '', '0', '1 mois', '', '', '', '', '2023-03-09 17:51:03');
+INSERT INTO vente VALUES('191', '8', '2023-03-10', '', '35', '169', '2023-03-10', '', '', '0', '1 mois', '', '', '', '', '2023-03-10 09:53:15');
+INSERT INTO vente VALUES('192', '9', '2023-03-10', '', '35', '170', '2023-03-10', '', '', '0', '1 mois', '', '', '', '', '2023-03-10 09:54:11');
+INSERT INTO vente VALUES('193', '7', '2023-03-10', '', '35', '171', '2023-03-10', '', '', '0', '1 mois', '', '', '', '', '2023-03-10 10:11:51');
+INSERT INTO vente VALUES('194', '7', '2023-03-14', '', '35', '172', '2023-03-14', '', '', '0', '1 mois', '', '', '', '', '2023-03-14 10:49:36');
+INSERT INTO vente VALUES('195', '63', '2023-03-14', '', '35', '173', '2023-03-14', '', '', '0', '1 mois', '', '', '', '', '2023-03-14 12:25:33');
+INSERT INTO vente VALUES('196', '64', '2023-03-14', '', '35', '174', '2023-03-14', '', '', '0', '1 mois', '', '', '', '', '2023-03-14 14:55:53');
+INSERT INTO vente VALUES('197', '65', '2023-03-15', '', '35', '175', '2023-03-15', '', '', '0', '1 mois', '', '', '', '', '2023-03-15 16:44:45');
+INSERT INTO vente VALUES('198', '43', '2023-03-16', '', '35', '176', '2023-03-16', '', '', '0', '1 mois', '', '', '', '', '2023-03-16 11:25:04');
+INSERT INTO vente VALUES('199', '22', '2023-03-20', '', '35', '177', '2023-03-20', '', '', '0', '1 mois', '', '', '', '', '2023-03-20 09:35:40');
+INSERT INTO vente VALUES('200', '3', '2023-03-20', '', '35', '178', '2023-03-20', '', '', '0', '1 mois', '', '', '', '', '2023-03-20 09:40:52');
+INSERT INTO vente VALUES('201', '5', '2023-03-20', '', '35', '179', '2023-03-20', '', '', '0', '1 mois', '', '', '', '', '2023-03-20 09:43:45');
+INSERT INTO vente VALUES('202', '68', '2023-03-21', '', '35', '180', '2023-03-21', '', '', '0', '1 mois', '', '', '', '', '2023-03-21 09:23:26');
+INSERT INTO vente VALUES('203', '46', '2023-03-21', '', '35', '181', '2023-03-21', '', '', '0', '1 mois', '', '', '', '', '2023-03-21 12:07:42');
+INSERT INTO vente VALUES('204', '4', '2023-03-21', '', '35', '182', '2023-03-21', '', '', '0', '1 mois', '', '', '', '', '2023-03-21 14:58:21');
+INSERT INTO vente VALUES('205', '70', '2023-03-21', '', '35', '183', '2023-03-21', '', '', '0', '1 mois', '', '', '', '', '2023-03-21 16:26:36');
+
