@@ -27,8 +27,11 @@ public function All()
 public function selectbyId($id)
 {
 	$result=connexion::getConnexion()->query("select * from charge WHERE id_achat = $id and date_delete is NULL order by id desc");
-	return $result->fetchAll(PDO::FETCH_OBJ);
+
+	if ($result)  return $result->fetchAll(PDO::FETCH_OBJ);
+	
 }
+
 
 public function selectEtat($dd,$df)
 {
@@ -41,8 +44,10 @@ public function selectEtat($dd,$df)
 
 
  
-public function selectAll3($date, $search_type = 0)
+public function selectAll3($date, $search_type = 0 )
 {
+
+   
    	   if($search_type == 0)
 	   {
 		   $dateCondition = ' TRUE';
@@ -55,6 +60,7 @@ public function selectAll3($date, $search_type = 0)
 
 		   if($month != 0)
 		   {
+		
 			  $dateCondition = "DATE_FORMAT(date_charge,'%Y-%m') = '$year-$month' ";  
 		   }
 		   else

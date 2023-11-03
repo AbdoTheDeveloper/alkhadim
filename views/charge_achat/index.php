@@ -2,15 +2,22 @@
 
 
 
-if (isset($_POST['ajax'])) {include('../../evr.php');}
+if (isset($_POST['ajax'])) {
+  include('../../evr.php');
+}
 
-$id = explode('?id=',$_SERVER["REQUEST_URI"])[1];
+$id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
+ 
 
-$charge = new charge();
-if($_GET['id']){
-  $data=$charge->selectbyId($id);
-}else{
-  $data=$charge->selectAll3(date('Y') . '-' . date('m'), 1);
+$charge = new charge_achat();
+if ($id) { 
+
+  $data = [] ; 
+  $data = $charge->selectbyId($id); 
+   
+
+} else {
+  $data = $charge->selectAll3(date('Y') . '-' . date('m'), 1);
 }
 
 ?>
@@ -31,7 +38,7 @@ if($_GET['id']){
 
 
 
-        <h1>Liste des charges</h1>
+        <h1>Liste des charges d'achat</h1>
 
 
 
@@ -39,13 +46,21 @@ if($_GET['id']){
 
 
 
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="charge/add.php?id=<?php echo $id ?>" >AJOUTER</button>
+          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+            data-url="charge_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
 
 
 
-			<a target="_blank" class="btn btn-primary btn-lg  mr-1  " href="<?php echo BASE_URL.'views/etat/etat_charge.php'?>">  <i class="glyph-icon  iconsmind-Billing"></i> État charges </a>
+          <a target="_blank" class="btn btn-primary btn-lg  mr-1  "
+            href="<?php echo BASE_URL . 'views/etat/etat_charge.php' ?>"> <i class="glyph-icon  iconsmind-Billing"></i>
+            État charges </a>
 
-		  
+          <div class="float-sm-right text-zero">
+            <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i
+                class="glyph-icon simple-icon-arrow-left"></i></button>
+          </div>
+
+
 
         </div>
 
@@ -71,15 +86,15 @@ if($_GET['id']){
 
 
 
-    
 
 
 
-    
 
 
 
-    
+
+
+
 
 
 
@@ -93,13 +108,14 @@ if($_GET['id']){
 
         <div class="card-body">
 
-
+<!--  
 
           <form method="get" name="frm" id="formfilter">
 
 
 
             <input type="hidden" name="act" value="filter">
+            <input type="hidden" name="id_achat" value="<?php echo $id ?>">
 
 
 
@@ -111,7 +127,7 @@ if($_GET['id']){
 
 
 
-                <h4 class="mt-5 ">Mois de  recherche : </h4>
+                <h4 class="mt-5 ">Mois de recherche : </h4>
 
 
 
@@ -119,7 +135,7 @@ if($_GET['id']){
 
 
 
-              
+
 
 
 
@@ -127,7 +143,7 @@ if($_GET['id']){
 
 
 
-                <label > Année : </label>
+                <label> Année : </label>
 
 
 
@@ -137,11 +153,11 @@ if($_GET['id']){
 
                   <option value="0">Tous</option>
 
-                  <?php for($d=Date("Y");$d>= 2009;$d--)
+                  <?php for ($d = Date("Y"); $d >= 2009; $d--)
 
 
 
-                  echo "<option> $d</option>";?>
+                    echo "<option> $d</option>"; ?>
 
 
 
@@ -163,18 +179,18 @@ if($_GET['id']){
                 <select name='mois' class="form-control">
 
 
-				  <option value="0">Tous</option>
-                  <?php for($m= 1;$m<=9;$m++)
+                  <option value="0">Tous</option>
+                  <?php for ($m = 1; $m <= 9; $m++)
 
-                  echo "<option>0$m</option>";?>
-
-
-
-                  <?php for($m= 10;$m<=12;$m++)
+                    echo "<option>0$m</option>"; ?>
 
 
 
-                  echo "<option>$m</option>";?>
+                  <?php for ($m = 10; $m <= 12; $m++)
+
+
+
+                    echo "<option>$m</option>"; ?>
 
 
 
@@ -186,7 +202,7 @@ if($_GET['id']){
 
 
 
-              
+
 
 
 
@@ -194,7 +210,8 @@ if($_GET['id']){
 
 
 
-                <button  type="submit" class="btn btn-success default btn-lg btn-block  mr-1 " style="margin-top: 31px;">Afficher</button>
+                <button type="submit" class="btn btn-success default btn-lg btn-block  mr-1 "
+                  style="margin-top: 31px;">Afficher</button>
 
 
 
@@ -206,7 +223,7 @@ if($_GET['id']){
 
 
 
-          </form>
+          </form> -->
 
 
 
@@ -214,7 +231,7 @@ if($_GET['id']){
 
 
 
-            <table  class="table  responsive table-striped table-bordered table-hover" id="datatables" >
+            <table class="table  responsive table-striped table-bordered table-hover" id="datatables">
 
 
 
@@ -226,7 +243,7 @@ if($_GET['id']){
 
 
 
-                  
+
 
 
 
@@ -274,203 +291,206 @@ if($_GET['id']){
 
 
 
-                
 
 
 
-                
+
+
 
 
 
                 <?php
 
 
-
+                
                 foreach ($data as $charge) {
 
 
 
-                
 
 
 
-                
 
 
 
-                ?>
 
 
+                  ?>
 
-                <tr>
 
 
+                  <tr>
 
-                  <td>
 
 
+                    <td>
 
-                    <?php echo $charge->id ?>
 
 
+                      <?php echo $charge->id ?>
 
-                  </td>
 
 
+                    </td>
 
-                   <td>
 
 
+                    <td>
 
-                    <?php echo $charge->mode_reg ?>
 
 
+                      <?php echo $charge->mode_reg ?>
 
-                  </td>
 
 
+                    </td>
 
-                   <td>
 
 
+                    <td>
 
-                    <?php echo $charge->num_cheque ?>
 
 
+                      <?php echo $charge->num_cheque ?>
 
-                  </td>
 
 
+                    </td>
 
-                  <td>
 
 
+                    <td>
 
-                    <?php echo $charge->designation ?>
 
 
+                      <?php echo $charge->designation ?>
 
-                  </td>
 
 
+                    </td>
 
-                  
 
 
 
-                  <td>
 
 
 
-                    <?php echo $charge->date_charge ?>
+                    <td>
 
 
 
-                  </td>
+                      <?php echo $charge->date_charge ?>
 
 
 
-                  <td>
+                    </td>
 
 
 
-                    <?php echo $charge->montant ?>
+                    <td>
 
 
 
-                  </td>
+                      <?php echo $charge->montant ?>
 
 
 
-                   <td>
+                    </td>
 
 
 
-                    <?php echo $charge->remarque ?>
+                    <td>
 
 
 
-                  </td>
+                      <?php echo $charge->remarque ?>
 
 
 
-                  <td>
+                    </td>
 
 
 
-                    <?php if(auth::user()['privilege'] == 'Admin') { ?>
+                    <td>
 
 
 
-                    <a class="badge badge-danger mb-2 delete" data-id="<?php echo $charge->id; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)' >
+                      <?php if (auth::user()['privilege'] == 'Admin') { ?>
 
 
 
-                      <i class="simple-icon-trash" style="font-size: 15px;"></i>
+                        <a class="badge badge-danger mb-2 delete" data-id="<?php echo $charge->id; ?>"
+                          style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
 
 
 
-                    </a>
+                          <i class="simple-icon-trash" style="font-size: 15px;"></i>
 
 
 
-                   
+                        </a>
 
 
 
-                    <?php } ?>
 
 
 
-                    
 
+                      <?php } ?>
 
 
-                  <a class="badge badge-warning mb-2  url notlink" data-url="charge/update.php?id=<?php echo $charge->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
 
 
 
-                    href="javascript:void(0)">
 
 
+                      <a class="badge badge-warning mb-2  url notlink"
+                        data-url="charge/update.php?id=<?php echo $charge->id; ?>" style="color: white;cursor: pointer;"
+                        title="Modifier" href="javascript:void(0)">
 
-                    <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
 
 
+                        <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
 
-                  </a>
 
 
+                      </a>
 
-                    
 
 
 
-                                        <?php if($charge->image !='' || $charge->deux_image !='' ) { $img =  $charge->image != ''? $charge->image : $charge->deux_image ; ?>
 
 
 
-                                                <a class="badge badge-success " data-fancybox data-caption="<?php echo $charge->designation; ?> <br> Prix : <?php echo $charge->montant?> DH" style="color: white;cursor: pointer;" title="<?php echo $charge->designation; ?>" href="<?php echo BASE_URL.'upload/charge/'.$img; ?>">
+                      <?php if ($charge->image != '' || $charge->deux_image != '') {
+                        $img = $charge->image != '' ? $charge->image : $charge->deux_image; ?>
 
 
 
-                                                    <i class="simple-icon-picture" style="font-size: 15px;"> </i>
+                        <a class="badge badge-success " data-fancybox
+                          data-caption="<?php echo $charge->designation; ?> <br> Prix : <?php echo $charge->montant ?> DH"
+                          style="color: white;cursor: pointer;" title="<?php echo $charge->designation; ?>"
+                          href="<?php echo BASE_URL . 'upload/charge/' . $img; ?>">
 
 
 
-                                                </a>
+                          <i class="simple-icon-picture" style="font-size: 15px;"> </i>
 
 
 
-                                                <?php } ?>
+                        </a>
 
 
 
-                  </td>
+                      <?php } ?>
 
 
 
-                </tr>
+                    </td>
+
+
+
+                  </tr>
 
 
 
@@ -510,23 +530,23 @@ if($_GET['id']){
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
 
 
-$(document).ready(function() {
+      $(document).ready(function () {
 
 
 
-    $("input.datepicker").datepicker({
+        $("input.datepicker").datepicker({
 
 
 
-        format: 'yyyy-mm-dd',
+          format: 'yyyy-mm-dd',
 
 
 
-        templates: {
+          templates: {
 
 
 
@@ -538,19 +558,19 @@ $(document).ready(function() {
 
 
 
-        }
+          }
 
 
 
-    })
+        })
 
 
 
-    $('#datatables').dataTable({
+        $('#datatables').dataTable({
 
 
 
-        order: [
+          order: [
 
 
 
@@ -558,91 +578,31 @@ $(document).ready(function() {
 
 
 
-        ],
+          ],
 
 
 
-        dom: 'Bfrtip',
+          dom: 'Bfrtip',
 
 
 
-        buttons: [{
+          buttons: [{
 
 
 
-                extend: 'excelHtml5',
+            extend: 'excelHtml5',
 
 
 
-                title: "liste des charge",
+            title: "liste des charge",
 
 
 
-                exportOptions: {
+            exportOptions: {
 
 
 
-                    columns: [0, 1, 2, 3, 4, 5]
-
-
-
-                }
-
-
-
-            },
-
-
-
-            {
-
-
-
-                extend: 'pdfHtml5',
-
-
-
-                title: "liste des charge",
-
-
-
-                exportOptions: {
-
-
-
-                    columns: [0, 1, 2, 3, 4, 5]
-
-
-
-                }
-
-
-
-            },
-
-
-
-            {
-
-
-
-                extend: 'csvHtml5',
-
-
-
-                title: "liste des charge",
-
-
-
-                exportOptions: {
-
-
-
-                    columns: [0, 1, 2, 3, 4, 5]
-
-
-
-                }
+              columns: [0, 1, 2, 3, 4, 5]
 
 
 
@@ -650,15 +610,75 @@ $(document).ready(function() {
 
 
 
-        ],
+          },
 
 
 
-        pageLength: 10,
+          {
 
 
 
-        language: {
+            extend: 'pdfHtml5',
+
+
+
+            title: "liste des charge",
+
+
+
+            exportOptions: {
+
+
+
+              columns: [0, 1, 2, 3, 4, 5]
+
+
+
+            }
+
+
+
+          },
+
+
+
+          {
+
+
+
+            extend: 'csvHtml5',
+
+
+
+            title: "liste des charge",
+
+
+
+            exportOptions: {
+
+
+
+              columns: [0, 1, 2, 3, 4, 5]
+
+
+
+            }
+
+
+
+          }
+
+
+
+          ],
+
+
+
+          pageLength: 10,
+
+
+
+          language: {
 
 
 
@@ -666,11 +686,11 @@ $(document).ready(function() {
 
 
 
-                previous: "<i class='simple-icon-arrow-left'></i>",
+              previous: "<i class='simple-icon-arrow-left'></i>",
 
 
 
-                next: "<i class='simple-icon-arrow-right'></i>"
+              next: "<i class='simple-icon-arrow-right'></i>"
 
 
 
@@ -678,11 +698,11 @@ $(document).ready(function() {
 
 
 
-        },
+          },
 
 
 
-        drawCallback: function() {
+          drawCallback: function () {
 
 
 
@@ -690,19 +710,19 @@ $(document).ready(function() {
 
 
 
-                $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
+              $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
 
 
 
-                $(".dataTables_wrapper .pagination").addClass("pagination-sm")
+              $(".dataTables_wrapper .pagination").addClass("pagination-sm")
 
 
 
-        }
+          }
 
 
 
-    });
+        });
 
 
 
@@ -710,19 +730,19 @@ $(document).ready(function() {
 
 
 
-    $('body').on("click", ".delete", function(event) {
+        $('body').on("click", ".delete", function (event) {
 
 
 
-        event.preventDefault();
+          event.preventDefault();
 
 
 
-        var btn = $(this);
+          var btn = $(this);
 
 
 
-        swal({
+          swal({
 
 
 
@@ -754,7 +774,7 @@ $(document).ready(function() {
 
 
 
-        }).then((result) => {
+          }).then((result) => {
 
 
 
@@ -762,67 +782,35 @@ $(document).ready(function() {
 
 
 
-                $.ajax({
+              $.ajax({
 
 
 
-                    type: "POST",
+                type: "POST",
 
 
 
-                    url: "<?php echo BASE_URL.'views/charge/' ;?>controle.php",
+                url: "<?php echo BASE_URL . 'views/charge/'; ?>controle.php",
 
 
 
-                    data: {
+                data: {
 
 
 
-                        act: "delete",
+                  act: "delete",
 
 
 
-                        id: btn.data('id')
+                  id: btn.data('id')
 
 
 
-                    },
+                },
 
 
 
-                    success: function(data) {
-
-
-
-
-
-
-
-                        swal(
-
-
-
-                            'Supprimer',
-
-
-
-                            'charge a ete bien Supprimer',
-
-
-
-                            'success'
-
-
-
-                        ).then((result) => {
-
-
-
-                            btn.parents("td").parents("tr").remove();
-
-
-
-                        });
+                success: function (data) {
 
 
 
@@ -830,11 +818,43 @@ $(document).ready(function() {
 
 
 
-                    }
+                  swal(
 
 
 
-                });
+                    'Supprimer',
+
+
+
+                    'charge a ete bien Supprimer',
+
+
+
+                    'success'
+
+
+
+                  ).then((result) => {
+
+
+
+                    btn.parents("td").parents("tr").remove();
+
+
+
+                  });
+
+
+
+
+
+
+
+                }
+
+
+
+              });
 
 
 
@@ -846,31 +866,31 @@ $(document).ready(function() {
 
 
 
+          });
+
+
+
+
+
+
+
         });
 
 
 
+        $('body').on("click", ".archive", function (event) {
 
 
 
-
-    });
-
-
-
-    $('body').on("click", ".archive", function(event) {
+          event.preventDefault();
 
 
 
-        event.preventDefault();
+          var btn = $(this);
 
 
 
-        var btn = $(this);
-
-
-
-        swal({
+          swal({
 
 
 
@@ -902,7 +922,7 @@ $(document).ready(function() {
 
 
 
-        }).then((result) => {
+          }).then((result) => {
 
 
 
@@ -910,71 +930,39 @@ $(document).ready(function() {
 
 
 
-                $.ajax({
+              $.ajax({
 
 
 
-                    type: "POST",
+                type: "POST",
 
 
 
-                    url: "<?php echo BASE_URL.'views/charge/' ;?>controle.php",
+                url: "<?php echo BASE_URL . 'views/charge/'; ?>controle.php",
 
 
 
-                    data: {
+                data: {
 
 
 
-                        act: "archive",
+                  act: "archive",
 
 
 
-                        id: btn.data('id'),
+                  id: btn.data('id'),
 
 
 
-                        val: btn.data('arc')
+                  val: btn.data('arc')
 
 
 
-                    },
+                },
 
 
 
-                    success: function(data) {
-
-
-
-
-
-
-
-                        swal(
-
-
-
-                            "Archived",
-
-
-
-                            'Your Product has been archived.',
-
-
-
-                            'success'
-
-
-
-                        ).then((result) => {
-
-
-
-                            btn.parents("td").parents("tr").remove();
-
-
-
-                        });
+                success: function (data) {
 
 
 
@@ -982,11 +970,43 @@ $(document).ready(function() {
 
 
 
-                    }
+                  swal(
 
 
 
-                });
+                    "Archived",
+
+
+
+                    'Your Product has been archived.',
+
+
+
+                    'success'
+
+
+
+                  ).then((result) => {
+
+
+
+                    btn.parents("td").parents("tr").remove();
+
+
+
+                  });
+
+
+
+
+
+
+
+                }
+
+
+
+              });
 
 
 
@@ -998,6 +1018,14 @@ $(document).ready(function() {
 
 
 
+          });
+
+
+
+
+
+
+
         });
 
 
@@ -1006,31 +1034,23 @@ $(document).ready(function() {
 
 
 
-    });
+        $("#formfilter").on("submit", function (event) {
 
 
 
+          event.preventDefault();
 
 
 
-
-    $("#formfilter").on("submit", function(event) {
-
-
-
-        event.preventDefault();
+          $("#results").html('<div class="col-md-12"><br><br><br><br><div class="loading"></div></div>');
 
 
 
-        $("#results").html('<div class="col-md-12"><br><br><br><br><div class="loading"></div></div>');
+          var form = $(this);
 
 
 
-        var form = $(this);
-
-
-
-        $.ajax({
+          $.ajax({
 
 
 
@@ -1038,7 +1058,7 @@ $(document).ready(function() {
 
 
 
-            url: "<?php echo BASE_URL.'views/charge/' ;?>controle.php",
+            url: "<?php echo BASE_URL . 'views/charge_achat/'; ?>controle.php",
 
 
 
@@ -1062,7 +1082,7 @@ $(document).ready(function() {
 
 
 
-            success: function(data) {
+            success: function (data) {
 
 
 
@@ -1070,183 +1090,183 @@ $(document).ready(function() {
 
 
 
-            
 
 
 
-                    $("#results").html(data);
 
+              $("#results").html(data);
 
 
 
 
 
 
-                      $('#datatables').dataTable({
 
+              $('#datatables').dataTable({
 
 
-                            order: [
 
+                order: [
 
 
-                                [0, "desc"]
 
+                  [0, "desc"]
 
 
-                            ],
 
+                ],
 
 
-                            dom: 'Bfrtip',
 
+                dom: 'Bfrtip',
 
 
-                            buttons: [{
 
+                buttons: [{
 
 
-                                    extend: 'excelHtml5',
 
+                  extend: 'excelHtml5',
 
 
-                                    title: "liste des charge ",
 
+                  title: "liste des charge ",
 
 
-                                    exportOptions: {
 
+                  exportOptions: {
 
 
-                                        columns: [0, 1, 2, 3, 4, 5]
 
+                    columns: [0, 1, 2, 3, 4, 5]
 
 
-                                    }
 
+                  }
 
 
-                                },
 
+                },
 
 
-                                {
 
+                {
 
 
-                                    extend: 'pdfHtml5',
 
+                  extend: 'pdfHtml5',
 
 
-                                    title: "liste des charge ",
 
+                  title: "liste des charge ",
 
 
-                                    exportOptions: {
 
+                  exportOptions: {
 
 
-                                        columns: [0, 1, 2, 3, 4, 5]
 
+                    columns: [0, 1, 2, 3, 4, 5]
 
 
-                                    }
 
+                  }
 
 
-                                },
 
+                },
 
 
-                                {
 
+                {
 
 
-                                    extend: 'csvHtml5',
 
+                  extend: 'csvHtml5',
 
 
-                                    title: "liste des charge ",
 
+                  title: "liste des charge ",
 
 
-                                    exportOptions: {
 
+                  exportOptions: {
 
 
-                                        columns: [0, 1, 2, 3, 4, 5]
 
+                    columns: [0, 1, 2, 3, 4, 5]
 
 
-                                    }
 
+                  }
 
 
-                                }
 
+                }
 
 
-                            ],
 
+                ],
 
 
-                            pageLength: 10,
 
+                pageLength: 10,
 
 
-                            language: {
 
+                language: {
 
 
-                                paginate: {
 
+                  paginate: {
 
 
-                                    previous: "<i class='simple-icon-arrow-left'></i>",
 
+                    previous: "<i class='simple-icon-arrow-left'></i>",
 
 
-                                    next: "<i class='simple-icon-arrow-right'></i>"
 
+                    next: "<i class='simple-icon-arrow-right'></i>"
 
 
-                                }
 
+                  }
 
 
-                            },
 
+                },
 
 
-                            drawCallback: function() {
 
+                drawCallback: function () {
 
 
-                                $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
 
+                  $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
 
 
-                                    $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
 
+                    $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
 
 
-                                    $(".dataTables_wrapper .pagination").addClass("pagination-sm")
 
+                    $(".dataTables_wrapper .pagination").addClass("pagination-sm")
 
 
-                            }
 
+                }
 
 
-                        });
 
+              });
 
 
 
 
 
 
-              
+
+
 
 
 
@@ -1254,20 +1274,20 @@ $(document).ready(function() {
 
 
 
+          });
+
+
+
         });
 
 
 
-    });
 
 
 
 
+      });
 
 
 
-});
-
-
-
-</script>
+    </script>

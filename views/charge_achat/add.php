@@ -3,7 +3,8 @@ if (isset($_POST['ajax'])) {
 include('../../evr.php');
 }
 $id = explode('?id=',$_SERVER["REQUEST_URI"])[1];
-$charge=new charge(); 
+
+$charge=new charge_achat(); 
 $data = $charge->selectDesignation();
 ?>
 
@@ -11,10 +12,10 @@ $data = $charge->selectDesignation();
     <div class="row">
         <div class="col-12">
             <div class="mb-2">
-                <h1>charge </h1>
+                <h1>charge d'achat </h1>
                 
         <div class="float-sm-right text-zero">
-                    <button type="button" class="btn btn-success  url notlink" data-url="charge/index.php" > <i class="glyph-icon simple-icon-arrow-left"></i></button>
+                    <button type="button" class="btn btn-success  url notlink" data-url="charge_achat/index.php?id= <?php echo $id ?>" > <i class="glyph-icon simple-icon-arrow-left"></i></button>
                 </div>
             </div>
             

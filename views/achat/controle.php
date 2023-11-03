@@ -123,7 +123,7 @@ if ($_POST['act'] == 'filter') {
 
 
 						</a>
-                         <a class="badge badge-warning mb-2 url notlink" data-url="charge_achat/index.php" style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
+                         <a class="badge badge-warning mb-2 url notlink" href="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"   style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
 
                         <i class="glyph-icon  iconsmind-Billing" style="font-size: 15px;"></i>
 

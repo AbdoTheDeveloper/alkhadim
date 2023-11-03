@@ -34,7 +34,7 @@ group by  a.id_achat  order by id_achat desc");
 
 
 
-public function selectAll3($date){
+public function selectAll3($date ){
 
 	   $date_parts = explode('-', $date);
 	   $year = $date_parts[0];

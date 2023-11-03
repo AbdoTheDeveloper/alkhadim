@@ -4,12 +4,14 @@ include('../../evr.php');
 
 if ($_POST['act']=='filter') 
 {
+  
 	$charge = new charge();
 	
-    if($_POST['anne'] != 0)
+    if($_POST['anne'] != 0){
       $data = $charge->selectAll3($_POST['anne'] . "-" . $_POST['mois'], 1);
-    else
+    }else
 	{
+   
 		$data = $charge->selectAll3($_POST['mois'], 0);
 	}
 	

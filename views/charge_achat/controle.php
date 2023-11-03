@@ -4,13 +4,15 @@ include('../../evr.php');
 
 if ($_POST['act']=='filter') 
 {
-	$charge = new charge();
+	$charge = new charge_achat();
+ 
 	
     if($_POST['anne'] != 0)
-      $data = $charge->selectAll3($_POST['anne'] . "-" . $_POST['mois'], 1);
+      $data = $charge->selectAll3($_POST['anne'] . "-" . $_POST['mois'], 1  , $_POST['id_achat']);
     else
 	{
-		$data = $charge->selectAll3($_POST['mois'], 0);
+  
+		$data = $charge->selectAll3($_POST['mois'], 0 , $_POST['id_achat'] );
 	}
 	
 ?>
@@ -101,7 +103,7 @@ elseif ($_POST['act']=='insert') {
         }
         
   $_POST["id_user"] = auth::user()["id"] ;
-        $charge=new charge(); 
+        $charge=new charge_achat(); 
         $charge->insert();
 
 			die("success");
@@ -120,7 +122,7 @@ elseif ($_POST['act']=='update') {
               $_POST["image"]=$fichier.$extension;
             }
         }
-		$charge=new charge();
+		$charge=new charge_achat();
  		$charge->update($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {
@@ -131,7 +133,7 @@ elseif ($_POST['act']=='update') {
 elseif ($_POST['act']=='delete') {
 	try {
 		
-		$charge=new charge();
+		$charge=new charge_achat();
 		$charge->delete($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {
