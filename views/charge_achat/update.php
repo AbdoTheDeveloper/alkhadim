@@ -4,19 +4,24 @@ include('../../evr.php');
 }
 
 
-$charge=new charge();
+$charge=new charge_achat();
 $id = explode('?id=',$_SERVER["REQUEST_URI"]);
-
 $oldvalue=$charge->selectById($id[1]);
+ 
 
-$charge=new charge(); 
+
+
+$charge=new charge_achat(); 
 $data = $charge->selectDesignation();
 ?>
 <div class="container-fluid disable-text-selection">
     <div class="row">
         <div class="col-12">
             <div class="mb-2">
-                <h1>charges </h1>
+                <h1>charges d'achat </h1>
+                <div class="float-sm-right text-zero">
+                      <button type="button" class="btn btn-success  url notlink" data-url="charge_achat/index.php?id= <?php echo $id ?>"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+                  </div>
                 
                 
             </div>

@@ -13,11 +13,11 @@ $charge = new charge_achat();
 if ($id) { 
 
   $data = [] ; 
-  $data = $charge->selectbyId($id); 
+  $data = $charge->selectByIdAchat($id); 
    
 
 } else {
-  $data = $charge->selectAll3(date('Y') . '-' . date('m'), 1);
+  // $data = $charge->selectAll3(date('Y') . '-' . date('m'), 1);
 }
 
 ?>
@@ -445,7 +445,7 @@ if ($id) {
 
 
                       <a class="badge badge-warning mb-2  url notlink"
-                        data-url="charge/update.php?id=<?php echo $charge->id; ?>" style="color: white;cursor: pointer;"
+                        data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>" style="color: white;cursor: pointer;"
                         title="Modifier" href="javascript:void(0)">
 
 

@@ -28,12 +28,17 @@ public function selectbyId($id)
 
 {
     
-	$result=connexion::getConnexion()->query("select * from charge WHERE id_achat = $id and date_delete is NULL order by id desc");
+	$result=connexion::getConnexion()->query("select * from charge WHERE id = $id and date_delete is NULL order by id desc");
 
 	if ($result)  return $result->fetchAll(PDO::FETCH_OBJ);
 	
 }
+public function selectByIdAchat($id){
+	$result=connexion::getConnexion()->query("select * from charge WHERE id_achat = $id and date_delete is NULL order by id desc");
 
+	if ($result)  return $result->fetchAll(PDO::FETCH_OBJ);
+
+}
 
 public function selectEtat($dd,$df)
 {
