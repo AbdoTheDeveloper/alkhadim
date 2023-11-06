@@ -123,7 +123,9 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
 
                   <th> Date </th>
 
-                  <th scope="col"> Montant </th>
+                  <th style="text-align:center"scope="col"> Montant En devise</th>
+
+                  <th style="text-align:center" scope="col"> Montant En Dh </th>
 
                   <th scope="col"> Reste </th>
 
@@ -140,6 +142,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                 <?php
 
                 foreach ($data as $ligne) {
+                  $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a , detail_achat d where d.id_achat = a .id_achat and a.id_achat = $ligne->id_achat limit 1 ")->fetchAll(PDO::FETCH_OBJ) ; 
+                  
 
                 ?>
 
@@ -151,9 +155,13 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
 
                     <td class="nowrap"> <?php echo $ligne->date_achat; ?> </td>
 
-                    <td class="nowrap" style="text-align: right;"> <?php echo number_format($ligne->montant, 2, '.', ' ');   ?> &nbsp;&nbsp;</td>
 
-                    <td class="nowrap" style="text-align: right;"> <?php
+                    <td  style="text-align: center;" class="nowrap"> <?php echo number_format($ligne->montant, 2, '.', ' ');    ?> </td>
+
+                    <td class="nowrap" style="text-align: center;"> <?php 
+                    echo  number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '); ?> &nbsp;&nbsp;</td>
+
+                    <td class="nowrap" style="text-align: center;"> <?php
 
                                                                     $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_achat where id_achat=" . $ligne->id_achat);
 
@@ -212,28 +220,24 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                         <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
 
                       </a>
-                         <a class="badge badge-secondary mb-2 url notlink" data-url="charge_achat/index.php" style="color: white;cursor: pointer;" title="voir charges" href="javascript:void(0)">
+                      <a class="badge badge-warning mb-2 url notlink"
+                       data-url = "charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
+                       style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
 
-                        <i class="glyph-icon  iconsmind-Billing" style="font-size: 15px;"></i>
+                        <i class="glyph-icon iconsmind-Billing" style="font-size: 15px;"></i>
 
                       </a>
-
-                      <!--
-                      <a  class="badge badge-secondary mb-2 url notlink" data-url="charge/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir les charges" href="javascript:void(0)">
-
-                        
+<!-- 
+                      <a  class="badge badge-secondary mb-2 url notlink" data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir les charges" href="javascript:void(0)">
 
                         <i class="simple-icon-pie-chart" style="font-size: 15px;"></i>
 
-                      </a>
--->
+                      </a> -->
 
-                      <!--
-                      <a class="badge badge-warning mb-2  url notlink" data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Modifier"
-                      href="javascript:void(0)">
-                        <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
-                      </a>
--->
+
+
+
+
                       <?php if ($ligne->valide == 0) : ?>
                         <a class="badge badge-success mb-2 valide_achat" style="color: white;cursor: pointer;" title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
                           <i class="simple-icon-check" style="font-size: 15px;"></i>

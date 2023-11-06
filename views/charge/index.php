@@ -309,8 +309,7 @@ if($_GET['id']){
 
                 
 
-
-
+             
                 
 
 
@@ -391,7 +390,7 @@ if($_GET['id']){
 
 
 
-                    <?php echo $charge->montant ?>
+                    <?php echo $charge->montant  ?>
 
 
 

@@ -55,13 +55,18 @@
 
 
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
                   <label for="id_fournisseur">Devise : </label>
                   <select class="form-control select2-single" name="devise_produit" id="devise_produit">
                     <option value="1">MAD</option>
                     <option value="9.8">USD</option>
                     <option value="9">EUR</option>
                   </select>
+                </div>
+
+                <div class="col-md-2">
+                  <label for="cout_device">Cout devise : </label>
+                  <input name="cout_device" type="text" value=1 class="form-control" id="cout_device" />
                 </div>
 
 
@@ -165,10 +170,10 @@
                 </div>
 
 
-                <div class="hide form-group col-md-1">
+                <!-- <div class="hide form-group col-md-1">
                   <label for="cout_device">Cout D</label>
                   <input type="text" name="cout_device" id="cout_device" class="form-control" value="1">
-                </div>
+                </div> -->
                 <div class=" hide form-group col-md-1">
                   <label for="f_approch">F.approch</label>
                   <input type="text" name="f_approch" id="f_approch" class="form-control" value="1">
@@ -698,7 +703,9 @@
         });
       });
 
-
+      $('#devise_produit').change(()=>{
+        $('#cout_device').val($('#devise_produit').val()) ; 
+      })
 
 
     });

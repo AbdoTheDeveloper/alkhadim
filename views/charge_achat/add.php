@@ -3,7 +3,10 @@
         include('../../evr.php');
     }
     $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
-    $charge = new charge_achat();
+    // var_dump($id) ; 
+    // die() ; 
+
+    $charge = new charge();
     $data = $charge->selectDesignation();
     ?>
 
@@ -14,7 +17,7 @@
                   <h1>charge d'achat </h1>
 
                   <div class="float-sm-right text-zero">
-                      <button type="button" class="btn btn-success  url notlink" data-url="charge_achat/index.php?id= <?php echo $id ?>"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+                      <button type="button" class="btn btn-success  url" data-url="charge_achat/index.php?id=<?php echo $id; ?>"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
                   </div>
               </div>
 
@@ -40,6 +43,7 @@
                                   <label for="mode_reg">Mode de r&eacute;glement : </label>
                                   <select name="mode_reg" class="form-control" id="mode_reg" onchange="if(this.value=='Espece'){
                                                     document.getElementById('num_cheque').disabled='false';
+
                                                     document.getElementById('num_cheque').value='';
                                                     }else{
                                                     document.getElementById('num_cheque').disabled='';
@@ -92,17 +96,18 @@
                               <div class='col-md-4'>
                                   <label for="id_fournisseur">Devis : </label>
                                   <select class="form-control select2-single " name="devise" id="devise">
-                                      <option value="USD">MAD</option>
-                                      <option value="USD">USD</option>
-                                      <option value="EUR">EUR</option>
+                                      <option value="1">MAD</option>
+                                      <option value="9.8">USD</option>
+                                      <option value="9">EUR</option>
                                   </select>
                               </div>
 
 
                               <div class="col-md-4">
-                                  <label for="cout_devise">Cout devise : </label>
-                                  <input name="cout_devise" type="text" class="form-control" id="cout_devise" />
+                                  <label for="cout_devise"> Cout devise : </label>
+                                  <input name="cout_devise" type="text" class="form-control" value = 1 id="cout_devise" />
                               </div>
+
                           </div>
 
                           <div class="form-group">
@@ -208,7 +213,7 @@
               var btn = $(this);
               swal({
                   title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Supprimer ce Client !",
+                  text: "Voulez vous vraiment Supprimer cet charge  !",
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#d33',
@@ -228,7 +233,7 @@
 
                               swal(
                                   'Supprimer',
-                                  'Client a ete bien Supprimer',
+                                  'charge a ete bien Supprimer',
                                   'success'
                               ).then((result) => {
 
@@ -247,7 +252,7 @@
           $("#addform").on("submit", function(event) {
               event.preventDefault();
 
-              var form = $(this); 
+              var form = $(this);
               $.ajax({
                   type: "POST",
                   url: "<?php echo BASE_URL . 'views/charge_achat/'; ?>controle.php",
@@ -258,11 +263,12 @@
                   processData: false,
                   success: function(data) {
 
+
                       if (data.indexOf("success") >= 0) {
 
                           swal(
                               'Ajouter',
-                              'charge a ete bien Ajouter',
+                              'charge a été bien Ajouté',
                               'success'
                           ).then((result) => {
                               $.ajax({
@@ -281,7 +287,7 @@
                           });
                       } else {
 
-                          form.append(` <div id="alert-danger" class="alert  alert-danger alert-dismissible fade show rounded mb-0" role="alert">
+                          form.append(` <div id="alert-danger" class="alert alert-danger alert-dismissible fade show rounded mb-0" role="alert">
                                 <strong>${data}</strong> 
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">×</span>
@@ -292,7 +298,9 @@
               });
           });
 
-
+          $('#devise').change(() => {
+              $('#cout_devise').val($('#devise').val());
+          })
 
 
       });

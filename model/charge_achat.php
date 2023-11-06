@@ -16,6 +16,7 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
+protected $cout_devise; 
 
 public function All()
 {
@@ -77,7 +78,7 @@ public function selectAll3($date, $search_type = 0 , $id)
 	
 	$result=connexion::getConnexion()->query("select *  from charge  where 
 
-	 $dateCondition and 
+	 $dateCondition 
 	order by id desc" );
 	
 	return $result->fetchAll(PDO::FETCH_OBJ);

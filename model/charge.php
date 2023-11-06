@@ -16,6 +16,7 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
+protected $cout_devise ; 
 
 public function All()
 {
@@ -32,6 +33,13 @@ public function selectbyId($id)
 	
 }
 
+
+public function selectByIdAchat($id){
+	$result=connexion::getConnexion()->query("select * from charge WHERE id_achat = $id and date_delete is NULL order by id desc");
+
+	if ($result)  return $result->fetchAll(PDO::FETCH_OBJ);
+
+}
 
 
 
@@ -73,7 +81,7 @@ public function selectAll3($date, $search_type = 0 )
 	
 	$result=connexion::getConnexion()->query("select *  from charge  where 
 
-	 $dateCondition and id_achat = NULL
+	 $dateCondition and id_achat = ''
 	order by id desc" );
 	
 	return $result->fetchAll(PDO::FETCH_OBJ);

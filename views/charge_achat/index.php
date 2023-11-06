@@ -7,9 +7,9 @@ if (isset($_POST['ajax'])) {
 }
 
 $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
- 
 
-$charge = new charge_achat();
+
+$charge = new charge();
 if ($id) { 
 
   $data = [] ; 
@@ -306,6 +306,7 @@ if ($id) {
                 foreach ($data as $charge) {
 
 
+                  $sub_data = connexion::getConnexion()->query("select c.devise from charge c where c.id = $charge->id limit 1 ")->fetchAll(PDO::FETCH_OBJ) ; 
 
 
 
@@ -391,7 +392,7 @@ if ($id) {
 
 
 
-                      <?php echo $charge->montant ?>
+                      <?php echo $charge->montant * $charge->devise ?>
 
 
 
@@ -445,7 +446,7 @@ if ($id) {
 
 
                       <a class="badge badge-warning mb-2  url notlink"
-                        data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>" style="color: white;cursor: pointer;"
+                        data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>&id_achat=<?php echo $id; ?>" style="color: white;cursor: pointer;"
                         title="Modifier" href="javascript:void(0)">
 
 

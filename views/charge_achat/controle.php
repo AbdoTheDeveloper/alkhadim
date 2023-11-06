@@ -4,7 +4,7 @@ include('../../evr.php');
 
 if ($_POST['act']=='filter') 
 {
-	$charge = new charge_achat();
+	$charge = new charge();
  
 	
     if($_POST['anne'] != 0)
@@ -89,7 +89,7 @@ if ($_POST['act']=='filter')
 
 elseif ($_POST['act']=='insert') {
 
-
+  
         $dossier = '../../upload/charge/';
 
         if($_FILES['image']['name']!="")
@@ -103,13 +103,15 @@ elseif ($_POST['act']=='insert') {
         }
         
   $_POST["id_user"] = auth::user()["id"] ;
-        $charge=new charge_achat(); 
+        $charge=new charge(); 
         $charge->insert();
 
 			die("success");
 }
 elseif ($_POST['act']=='update') {
 	try {
+
+
 		
 		 $dossier = '../../upload/charge/';
 
@@ -122,7 +124,7 @@ elseif ($_POST['act']=='update') {
               $_POST["image"]=$fichier.$extension;
             }
         }
-		$charge=new charge_achat();
+		$charge=new charge();
  		$charge->update($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {
@@ -133,7 +135,7 @@ elseif ($_POST['act']=='update') {
 elseif ($_POST['act']=='delete') {
 	try {
 		
-		$charge=new charge_achat();
+		$charge=new charge();
 		$charge->delete($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {

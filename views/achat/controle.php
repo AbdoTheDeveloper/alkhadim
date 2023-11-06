@@ -97,6 +97,10 @@ if ($_POST['act'] == 'filter') {
 
 							</a>
 
+							<a class="badge badge-warning mb-2  url notlink" data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+								<i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+							</a>
+
 
 
 							<a class="badge badge-success mb-2  url notlink" data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
@@ -123,11 +127,11 @@ if ($_POST['act'] == 'filter') {
 
 
 						</a>
-                         <a class="badge badge-warning mb-2 url notlink" href="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"   style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
+						<a class="badge badge-warning mb-2 url notlink" data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
 
-                        <i class="glyph-icon  iconsmind-Billing" style="font-size: 15px;"></i>
+							<i class="glyph-icon  iconsmind-Billing" style="font-size: 15px;"></i>
 
-                      </a>
+						</a>
 
 						<?php if ($ligne->valide == 0) : ?>
 							<a class="badge badge-success mb-2 valide_achat" style="color: white;cursor: pointer;" title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
@@ -426,7 +430,8 @@ if ($_POST['act'] == 'rech') {
 
 } elseif ($_POST['act'] == 'insert') {
 
-	// $_POST["date_achat"]=date("Y-m-d");
+
+	
 
 	$_POST["id_user"] = auth::user()["id"];
 
@@ -435,8 +440,10 @@ if ($_POST['act'] == 'rech') {
 	if (isset($_POST["id_fournisseur"])) {
 
 
-		$achat->insert();
+		$statut  = $achat->insert();
 
+		 
+  
 		connexion::getConnexion()->exec("UPDATE  detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
 
 		unset($_SESSION['rand_a_er']);
@@ -554,13 +561,20 @@ if ($_POST['act'] == 'rech') {
 
 	die('success');
 } elseif ($_POST['act'] == 'update') {
+
+	
+
 	try {
 
 		$_POST["idu"] = auth::user()["id"];
 
 		$achat = new achat();
-
 		$achat->update($_POST["id"]);
+
+
+		connexion::getConnexion()->query("UPDATE detail_achat SET cout_device = " . $_POST['cout_device'] . " where id_achat =" .$_POST['id']) ;  
+	
+		
 
 		die('success');
 	} catch (Exception $e) {
@@ -579,7 +593,7 @@ if ($_POST['act'] == 'rech') {
 
 		$data = achat::getdevis($_POST["id"]);
 		foreach ($data as $value) {
-			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel - " . $value["qte_achete"] . " WHERE  id_produit =" . $value["id_produit"]);
+			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel -" . $value["qte_achete"] . " WHERE  id_produit =" . $value["id_produit"]);
 		}
 
 

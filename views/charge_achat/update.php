@@ -1,18 +1,29 @@
   <?php
+
+use function PHPSTORM_META\type;
+
 if (isset($_POST['ajax'])) {
 include('../../evr.php');
 }
 
 
-$charge=new charge_achat();
-$id = explode('?id=',$_SERVER["REQUEST_URI"]);
-$oldvalue=$charge->selectById($id[1]);
+$charge=new charge();
+$exploded = explode('?id=',$_SERVER["REQUEST_URI"]);
+$exploded_ids  = explode('&id_achat=',$exploded[1]);
+
+$oldvalue = (array) $charge->selectById($exploded_ids[0])[0];
+
+
+
+
  
 
 
 
-$charge=new charge_achat(); 
+$charge=new charge(); 
 $data = $charge->selectDesignation();
+// var_dump($data) ;  
+//  die() ; 
 ?>
 <div class="container-fluid disable-text-selection">
     <div class="row">
@@ -20,7 +31,7 @@ $data = $charge->selectDesignation();
             <div class="mb-2">
                 <h1>charges d'achat </h1>
                 <div class="float-sm-right text-zero">
-                      <button type="button" class="btn btn-success  url notlink" data-url="charge_achat/index.php?id= <?php echo $id ?>"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+                      <button type="button" class="btn btn-success  url notlink" data-url="charge_achat/index.php?id=<?php echo $exploded_ids[1]; ?>"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
                   </div>
                 
                 
@@ -36,25 +47,27 @@ $data = $charge->selectDesignation();
                     <h5 class="mb-4">Modification charge</h5>
                     <form id="addform" method="post" name="form_charge" enctype="multipart/form-data">
                         <input type="hidden" name="act" value="update">
-                        <input type="hidden" name="id" value="<?php echo $id[1] ;?>">
+                        <input type="hidden" name="id" value="<?php echo $exploded_ids[0] ;?>">
+                        <input type="hidden" name="id_achat" value="<?php echo $exploded_ids[1]; ?>">
                         <div class="form-row">
                             <div class="form-group col-md-4" >
                                 <label for="designation">Désignation</label>
-                                <select title="D&eacute;signation" class="form-control" name="designation" id="designation">
+                                <input type="text" class="form-control"  id="designation" placeholder="Designation"   value="<?php echo $oldvalue['designation'] ?>" name="designation">
+                                <!-- <select title="D&eacute;signation" class="form-control" name="designation" id="designation">
                                     <option></option>
                                     <?php
-                                    foreach($data as $ligne){
-                                        if ($oldvalue['designation'] == $ligne->libele ) {
+                                //     foreach($data as $ligne){
+                                //         if ($oldvalue['designation'] == $ligne->libele ) {
                                            
                                         
-                                    echo "<option value='$ligne->libele' selected>".$ligne->libele."</option>";
-                                }
-                                else {
-                                     echo "<option value='$ligne->libele'>".$ligne->libele."</option>";
-                                }
-                                    }
+                                //     echo "<option value='$ligne->libele' selected>".$ligne->libele."</option>";
+                                // }
+                                // else {
+                                //      echo "<option value='$ligne->libele'>".$ligne->libele."</option>";
+                                // }
+                                //     }
                                     ?>
-                                </select>
+                                </select> -->
                             </div>
                             
                             <div class="form-group col-md-4">
@@ -82,7 +95,7 @@ $data = $charge->selectDesignation();
                             <div class="form-group col-md-4">
                                 <label for="num_cheque">Num&eacute;ro : </label>
                                 
-                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" value="<?php echo $oldvalue['num_cheque'] ?>"/>
+                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" <?php echo $oldvalue['num_cheque'] == '' ? 'disabled' : '' ?>    value="<?php echo $oldvalue['num_cheque'] ?>"/>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="montant" class="col-form-label">Montant</label>
@@ -90,7 +103,7 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="date_charge">Date Charge</label>
-                                <input name="date_charge" type="text"  class="form-control  datepicker" placeholder="2019-01-03" value="<?php echo $oldvalue['date_charge'] ?>"/>
+                                <input name="date_charge" type="text"  class="form-control datepicker" placeholder="2019-01-03" value="<?php echo $oldvalue['date_charge'] ?>"/>
                             </div>
                             
                             <div class="form-group mb-10 col-md-4">
@@ -152,7 +165,7 @@ $data = $charge->selectDesignation();
             var id_categorie = $(this).val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo BASE_URL.'views/charge/' ;?>controle.php",
+                url: "<?php echo BASE_URL.'views/charge_achat/' ;?>controle.php",
                 data: {act:"getcat",id_categorie: id_categorie},
                 success: function (data) {
                    
@@ -169,7 +182,7 @@ $data = $charge->selectDesignation();
              var form = $( this );
              $.ajax({
                 type: "POST",
-                url: "<?php echo BASE_URL.'views/charge/' ;?>controle.php",
+                url: "<?php echo BASE_URL.'views/charge_achat/' ;?>controle.php",
                 data: new FormData(this),
                 dataType: 'text',  // what to expect back from the PHP script, if anything
                 cache: false,
@@ -188,10 +201,10 @@ $data = $charge->selectDesignation();
 
                               method:'POST',
                               data: {ajax:true},
-                              url: `<?php echo BASE_URL."views/charge/index.php";?>`,
+                              url: `<?php echo BASE_URL."views/charge_achat/index.php?id=$exploded_ids[1]";?>`,
                               context: document.body,
                               success: function(data) { 
-                                      history.pushState({},"",`<?php echo BASE_URL."charge/index.php";?>` );
+                                      history.pushState({},"",`<?php echo BASE_URL."index.php?id=$exploded_ids[1];" ?>` );
                                       $("#main").html( data );
                                 }
                             });

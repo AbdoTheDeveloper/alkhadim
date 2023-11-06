@@ -19,7 +19,11 @@ class table
 	}
 
 	public function insert()
+
+
 	{
+
+		
 		try {
 			$fields = "";
 			$values = "'";
@@ -33,10 +37,14 @@ class table
 			$fields = substr($fields, 0, strlen($fields) - 1);
 			$values = substr($values, 0, strlen($values) - 2);
 			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")";
+			// var_dump($query) ;
+			// die() ;  
 
 
 
 			$statut = connexion::getConnexion()->exec($query);
+
+
 		} catch (PDOException $e) {
 			die(handle_sql_errors($statut, $e->getMessage()));
 		}
@@ -60,6 +68,7 @@ class table
 
 
 			$statut = connexion::getConnexion()->exec($sqlupdate);
+
 		} catch (PDOException $e) {
 			die(handle_sql_errors($statut, $e->getMessage()));
 		}
