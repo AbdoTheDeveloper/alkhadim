@@ -65,7 +65,8 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                   <th>Mode</th>
                   <th>Designation</th>
                   <th>Date Transfert Caisse </th>
-                  <th>Montant</th>
+                  <th>Montant En Devise</th>
+                  <th>Montant En Dh</th>
                   <th>Remarque</th>
                   <th style="width: 85px;">Action</th>
                 </tr>
@@ -74,50 +75,53 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                 
                 
                 <?php
-                foreach ($data as $caisse) {
+                foreach ($data as $transfert_caisse) {
                 
                 
                 ?>
                 <tr>
                   <td>
-                    <?php echo $caisse->id ?>
+                    <?php echo $transfert_caisse->id ?>
                   </td>
                    <td>
-                    <?php echo $caisse->type_reg ?>
+                    <?php echo $transfert_caisse->type_reg ?>
                   </td>
                   <td>
-                    <?php echo $caisse->designation ?>
+                    <?php echo $transfert_caisse->designation ?>
                   </td>
                   
                   <td>
-                    <?php echo $caisse->date_transfert_caisse ?>
+                    <?php echo $transfert_caisse->date_transfert_caisse ?>
                   </td>
                   <td>
-                    <?php echo $caisse->montant ?>
+                    <?php echo $transfert_caisse->montant_espece ?>
+                  </td>
+                  <td>
+                    <?php echo $transfert_caisse->montant_espece * $transfert_caisse->devise  ?>
                   </td>
                    <td>
-                    <?php echo $caisse->remarque ?>
+                    <?php echo $transfert_caisse->remarque ?>
                   </td>
                   <td>
-                   <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL."views/transfert_caisse/etat.php?id=".$caisse->id; ?>"  target="_black" >
+                   <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL."views/transfert_caisse/etat.php?id=".$transfert_caisse->id; ?>"  target="_black" >
 
                         <i class=" simple-icon-printer" style="font-size: 15px;"></i>
 
                       </a>
                     <?php if(auth::user()['privilege'] == 'Admin') { ?>
-                    <a class="badge badge-danger mb-2 delete" data-id="<?php echo $caisse->id; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)' >
+                    <a class="badge badge-danger mb-2 delete" data-id="<?php echo $transfert_caisse->id; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)' >
                       <i class="simple-icon-trash" style="font-size: 15px;"></i>
                     </a>
                    
                     <?php } ?>
                     
-                  <a class="badge badge-warning mb-2  url notlink" data-url="transfert_caisse/update.php?id=<?php echo $caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
+                  <a class="badge badge-warning mb-2  url notlink" data-url="transfert_caisse/update.php?id=<?php echo $transfert_caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
                     href="javascript:void(0)">
                     <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                   </a>
                     
-                                        <?php if($caisse->image !='' || $caisse->deux_image !='' ) { $img =  $caisse->image != ''? $caisse->image : $caisse->deux_image ; ?>
-                                                <a class="badge badge-success " data-fancybox data-caption="<?php echo $caisse->designation; ?> <br> Prix : <?php echo $caisse->montant?> DH" style="color: white;cursor: pointer;" title="<?php echo $caisse->designation; ?>" href="<?php echo BASE_URL.'upload/caisse/'.$img; ?>">
+                                        <?php if($transfert_caisse->image !='' || $transfert_caisse->deux_image !='' ) { $img =  $transfert_caisse->image != ''? $transfert_caisse->image : $transfert_caisse->deux_image ; ?>
+                                                <a class="badge badge-success " data-fancybox data-caption="<?php echo $transfert_caisse->designation; ?> <br> Prix : <?php echo $transfert_caisse->montant?> DH" style="color: white;cursor: pointer;" title="<?php echo $transfert_caisse->designation; ?>" href="<?php echo BASE_URL.'upload/caisse/'.$img; ?>">
                                                     <i class="simple-icon-picture" style="font-size: 15px;"> </i>
                                                 </a>
                                                 <?php } ?>

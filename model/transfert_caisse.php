@@ -4,7 +4,7 @@ class transfert_caisse extends table{
 protected $id; 
 protected $designation;
 protected $date_transfert_caisse;
-protected $mantant_espece;
+protected $montant_espece;
 protected $type_reg;
 protected $image;
 protected $id_user;
@@ -12,6 +12,7 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
+protected $devise ;
 
 
 

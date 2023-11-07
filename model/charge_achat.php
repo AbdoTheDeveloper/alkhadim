@@ -3,6 +3,7 @@ class charge_achat extends table{
 
 protected $id; 
 protected $id_achat; 
+ protected $fournisseur ; 
 protected $designation;
 protected $date_charge;
 protected $montant;

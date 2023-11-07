@@ -109,10 +109,8 @@ elseif ($_POST['act']=='insert') {
 			die("success");
 }
 elseif ($_POST['act']=='update') {
+
 	try {
-
-
-		
 		 $dossier = '../../upload/charge/';
 
         if($_FILES['image']['name']!="")

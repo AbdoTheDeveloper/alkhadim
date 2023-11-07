@@ -10,11 +10,11 @@ $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
 
 
 $charge = new charge();
-if ($id) { 
+if ($id) {
 
-  $data = [] ; 
-  $data = $charge->selectByIdAchat($id); 
-   
+  $data = [];
+  $data = $charge->selectByIdAchat($id);
+
 
 } else {
   // $data = $charge->selectAll3(date('Y') . '-' . date('m'), 1);
@@ -108,7 +108,7 @@ if ($id) {
 
         <div class="card-body">
 
-<!--  
+          <!--  
 
           <form method="get" name="frm" id="formfilter">
 
@@ -267,7 +267,8 @@ if ($id) {
 
 
 
-                  <th>Montant</th>
+                  <th>Montant En Devise</th>
+                  <th>Montant En Dh</th>
 
 
 
@@ -302,11 +303,11 @@ if ($id) {
                 <?php
 
 
-                
+
                 foreach ($data as $charge) {
 
 
-                  $sub_data = connexion::getConnexion()->query("select c.devise from charge c where c.id = $charge->id limit 1 ")->fetchAll(PDO::FETCH_OBJ) ; 
+                  $sub_data = connexion::getConnexion()->query("select c.devise from charge c where c.id = $charge->id limit 1 ")->fetchAll(PDO::FETCH_OBJ);
 
 
 
@@ -386,7 +387,15 @@ if ($id) {
 
                     </td>
 
+                    <td>
 
+
+
+                      <?php echo $charge->montant ?>
+
+
+
+                    </td>
 
                     <td>
 
@@ -446,8 +455,8 @@ if ($id) {
 
 
                       <a class="badge badge-warning mb-2  url notlink"
-                        data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>&id_achat=<?php echo $id; ?>" style="color: white;cursor: pointer;"
-                        title="Modifier" href="javascript:void(0)">
+                        data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>&id_achat=<?php echo $id; ?>"
+                        style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
 
 
 
