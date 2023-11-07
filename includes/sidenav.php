@@ -192,7 +192,7 @@ if (isset($_GET['p'])) {
                 </li>
 
                 <li>
-                    <a href="javascript:void(0)" data-url="Transfert_caisse/index.php" class="url sub">
+                    <a href="javascript:void(0)" data-url="transfert_caisse/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Transfert Caisse</a>
                 </li>
 

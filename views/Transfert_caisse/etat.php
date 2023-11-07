@@ -7,14 +7,14 @@ if(!isset($_GET["id"]))
 }
 
 $id = $_GET['id'];
-$caisse = connexion::getConnexion()->query("SELECT * FROM caisse WHERE id = " . $id)->fetch(PDO::FETCH_OBJ);
+$transfert_caisse = connexion::getConnexion()->query("SELECT * FROM transfert_caisse WHERE id = " . $id)->fetch(PDO::FETCH_OBJ);
 
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
 		 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-         <title>Caisse etat</title>
+         <title>transfert_caisse etat</title>
   
     <style type="text/css">
 
@@ -49,18 +49,18 @@ $caisse = connexion::getConnexion()->query("SELECT * FROM caisse WHERE id = " . 
 	<br><br>
 		<table class="datatables"  border=1  style="border-style:none;">
 			  <tr class="row">
-					<th scope="col" colspan="2">DATE: <?php echo $caisse->date_caisse ?></th>
+					<th scope="col" colspan="2">DATE: <?php echo $transfert_caisse->date_transfert_caisse ?></th>
 			   </tr>
 			   <tr class="row">
-			   	   <th scope="col"  colspan="2"><?php echo $caisse->designation ?> </th>
+			   	   <th scope="col"  colspan="2"><?php echo $transfert_caisse->designation ?> </th>
 			   </tr>
 			   <tr class="row">
 			   	   <th scope="col" width="50%">Mode Reglement</th>
 			   	   <th scope="col">Montant</th>
 			   </tr>
 			   <tr>
-			   	  <td align="center"><?php echo $caisse->type_reg ?> </td>
-			   	  <td align="center"><?php echo number_format($caisse->montant, 2, '.', '') ?></td>
+			   	  <td align="center"><?php echo $transfert_caisse->type_reg ?> </td>
+			   	  <td align="center"><?php echo number_format($transfert_caisse->montant, 2, '.', '') ?></td>
 			   </tr>
 		</table>
 		<br><br>

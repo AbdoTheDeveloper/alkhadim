@@ -18,12 +18,7 @@ class table
 		$this->primary_key = $name;
 	}
 
-	public function insert()
-
-
-	{
-
-		
+	public function insert(){
 		try {
 			$fields = "";
 			$values = "'";
@@ -37,8 +32,7 @@ class table
 			$fields = substr($fields, 0, strlen($fields) - 1);
 			$values = substr($values, 0, strlen($values) - 2);
 			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")";
-			// var_dump($query) ;
-			// die() ;  
+  
 
 
 

@@ -3,7 +3,8 @@ include('../../evr.php');
 
 
 if ($_POST['act']=='filter') {
-	$Transfert_caisse = new Transfert_caisse();
+	$Transfert_caisse = new transfert_caisse();
+
     if($_POST['anne'] != 0)
       $data = $Transfert_caisse->selectAll3($_POST['anne'] . "-" . $_POST['mois'], 1);
     else
@@ -46,10 +47,10 @@ if ($_POST['act']=='filter') {
                   </td>
                   
                   <td>
-                    <?php echo $Transfert_caisse->date_caisse ?>
+                    <?php echo $Transfert_caisse->date_transfert_caisse	 ?>
                   </td>
                   <td>
-                    <?php echo $Transfert_caisse->montant ?>
+                    <?php echo $Transfert_caisse->montant_espece ?>
                   </td>
                    <td>
                     <?php echo $Transfert_caisse->remarque ?>
@@ -67,7 +68,7 @@ if ($_POST['act']=='filter') {
                    
                     <?php } ?>
                     
-                  <a class="badge badge-warning mb-2  url notlink" data-url="caisse/update.php?id=<?php echo $Transfert_caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
+                  <a class="badge badge-warning mb-2  url notlink" data-url="tranfert_caisse/update.php?id=<?php echo $Transfert_caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
                     href="javascript:void(0)">
                     <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                   </a>
@@ -102,7 +103,7 @@ elseif ($_POST['act']=='insert') {
         
   $_POST["id_user"] = auth::user()["id"] ;
 
-        $Transfert_caisse=new Transfert_caisse(); 
+        $Transfert_caisse=new transfert_caisse(); 
         $Transfert_caisse->insert();
 
 			die("success");
@@ -121,7 +122,7 @@ elseif ($_POST['act']=='update') {
               $_POST["image"]=$fichier.$extension;
             }
         }
-		$Transfert_caisse=new Transfert_caisse();
+		$Transfert_caisse=new transfert_caisse();
  		$Transfert_caisse->update($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {
@@ -132,7 +133,7 @@ elseif ($_POST['act']=='update') {
 elseif ($_POST['act']=='delete') {
 	try {
 		
-		$Transfert_caisse=new Transfert_caisse();
+		$Transfert_caisse=new transfert_caisse();
 		$Transfert_caisse->delete($_POST["id"]);
 		die('success');
 		} catch (Exception $e) {

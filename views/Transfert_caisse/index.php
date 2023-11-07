@@ -2,8 +2,9 @@
 if (isset($_POST['ajax'])) {
 include('../../evr.php');
 }
-$caisse = new caisse();
-$data = $caisse->selectAll3(date('Y') . '-' . date('m'), 1);
+$transfert_caisse = new transfert_caisse();
+
+$data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
 ?>
 <div class="container-fluid disable-text-selection">
   <div class="row">
@@ -63,7 +64,7 @@ $data = $caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                   <th>NR°</th>
                   <th>Mode</th>
                   <th>Designation</th>
-                  <th>Date caisse</th>
+                  <th>Date Transfert Caisse </th>
                   <th>Montant</th>
                   <th>Remarque</th>
                   <th style="width: 85px;">Action</th>
@@ -89,7 +90,7 @@ $data = $caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                   </td>
                   
                   <td>
-                    <?php echo $caisse->date_caisse ?>
+                    <?php echo $caisse->date_transfert_caisse ?>
                   </td>
                   <td>
                     <?php echo $caisse->montant ?>
@@ -98,7 +99,7 @@ $data = $caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                     <?php echo $caisse->remarque ?>
                   </td>
                   <td>
-                   <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL."views/caisse/etat.php?id=".$caisse->id; ?>"  target="_black" >
+                   <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL."views/transfert_caisse/etat.php?id=".$caisse->id; ?>"  target="_black" >
 
                         <i class=" simple-icon-printer" style="font-size: 15px;"></i>
 
@@ -110,7 +111,7 @@ $data = $caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                    
                     <?php } ?>
                     
-                  <a class="badge badge-warning mb-2  url notlink" data-url="caisse/update.php?id=<?php echo $caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
+                  <a class="badge badge-warning mb-2  url notlink" data-url="transfert_caisse/update.php?id=<?php echo $caisse->id; ?>" style="color: white;cursor: pointer;" title="Modifier"
                     href="javascript:void(0)">
                     <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                   </a>
@@ -196,7 +197,7 @@ $(document).ready(function() {
             if (result.value) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo BASE_URL.'views/caisse/' ;?>controle.php",
+                    url: "<?php echo BASE_URL.'views/transfert_caisse/' ;?>controle.php",
                     data: {
                         act: "delete",
                         id: btn.data('id')
@@ -233,7 +234,7 @@ $(document).ready(function() {
             if (result.value) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo BASE_URL.'views/caisse/' ;?>controle.php",
+                    url: "<?php echo BASE_URL.'views/transfert_caisse/' ;?>controle.php",
                     data: {
                         act: "archive",
                         id: btn.data('id'),
@@ -263,7 +264,7 @@ $(document).ready(function() {
         var form = $(this);
         $.ajax({
             type: "POST",
-            url: "<?php echo BASE_URL.'views/caisse/' ;?>controle.php",
+            url: "<?php echo BASE_URL.'views/transfert_caisse/' ;?>controle.php",
             data: new FormData(this),
             dataType: 'text',
             cache: false,
