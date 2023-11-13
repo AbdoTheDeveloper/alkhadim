@@ -5,6 +5,14 @@ if (isset($_POST['ajax'])) {
 $transfert_caisse = new transfert_caisse();
 $id = explode('?id=', $_SERVER["REQUEST_URI"]);
 $oldvalue = $transfert_caisse->selectById($id[1]);
+$effet_transfert_caisse = new effet_transfert_caisse();
+$cheque_transfert_caisse = new cheque_transfert_caisse();
+$effet_transfert_caisse = $effet_transfert_caisse->selectByIdTransfertCaisse($id[1]);
+$cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($id[1]);
+
+
+
+
 ?>
 
 <style>
@@ -46,40 +54,11 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                                     placeholder="Désignation transfert_caisse"
                                     value="<?php echo $oldvalue['designation'] ?>">
                             </div>
-                            <!-- <div class="form-group col-md-4">
-                                                <label for="mode_reg">Mode de r&eacute;glement : </label>
-                                                <select name="mode_reg" class="form-control" id="mode_reg">
-                                                    <option value=""> Choix</option>
-                                                    <option value="débit" <?php echo $oldvalue['type_reg'] == 'effet' ? 'selected' : '' ?> > Effet</option>
-                                                    <option value="crédit" <?php echo $oldvalue['type_reg'] == 'cheque' ? 'selected' : '' ?> > Chèque</option>                                               
-                                                    <option value="crédit" <?php echo $oldvalue['type_reg'] == 'espece' ? 'selected' : '' ?> > Espèce</option>
-                                                    </select> 
-                                            </div> -->
-                            <!-- <div class="form-group col-md-4">
-                                                <label for="montant" class="col-form-label">Montant</label>
-                                                <input type="text" class="form-control" id="montant" placeholder="Montant" name="montant" value="<?php echo $oldvalue['montant'] ?>">
-                                            </div> -->
+
                             <div class="form-group col-md-4">
                                 <label for="date_transfert_caisse">Date transfert_caisse</label>
                                 <input name="date_transfert_caisse" type="text" class="form-control  datepicker"
                                     placeholder="2019-01-03" value="<?php echo $oldvalue['date_transfert_caisse'] ?>" />
-                            </div>
-                            <div class="form-group col-md-4 espece">
-                                <label for="espece">Espèce</label>
-                                <input name="montant_espece" type="text" class="form-control" id="montant_espece"
-                                    placeholder="Montant En Espèce"  value="<?php echo $oldvalue['montant_espece'] ?>">
-                            </div>
-                            <div class='col-md-4'>
-                                <label for="id_fournisseur">Devis : </label>
-                                <select class="form-control select2-single " name="devise" id="devise">
-                                    <option value="1" <?php echo $oldvalue['devise'] == '1' ? "selected" : "" ?> >MAD</option>
-                                    <option value="9.8" <?php echo $oldvalue['devise'] == '9.8' ? "selected" : "" ?> >USD</option>
-                                    <option value="9" <?php echo $oldvalue['devise'] == '9' ? "selected" : "" ?>  >EUR</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="cout_devise"> Cout devise : </label>
-                                <input name="" type="text" class="form-control" value=1 id="cout_devise" />
                             </div>
                             <div class="form-group mb-10 col-md-4">
                                 <label>Piéce jointe</label>
@@ -91,27 +70,75 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-4 espece">
+                                <label for="espece">Espèce</label>
+                                <input name="montant_espece" type="text" class="form-control" id="montant_espece"
+                                    placeholder="Montant En Espèce" value="<?php echo $oldvalue['montant_espece'] ?>">
+                            </div>
+                            <div class='col-md-4'>
+                                <label for="id_fournisseur">Devis : </label>
+                                <select class="form-control select2-single " name="devise" id="devise">
+                                    <option value="1" <?php echo $oldvalue['devise'] == '1' ? "selected" : "" ?>>MAD
+                                    </option>
+                                    <option value="9.8" <?php echo $oldvalue['devise'] == '9.8' ? "selected" : "" ?>>USD
+                                    </option>
+                                    <option value="9" <?php echo $oldvalue['devise'] == '9' ? "selected" : "" ?>>EUR
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="cout_devise"> Cout devise : </label>
+                                <input name="" type="text" class="form-control" id="cout_devise" />
+                            </div>
+
+
+
                             <div class="col-md-4 effet shadow-lg ">
+
+
                                 <div class="card ">
                                     <div class="card-body">
+                                        <?php
+
+                                        foreach ($effet_transfert_caisse as $key => $value) { ?>
+                                            <div class="input-group mb-3">
+
+                                                <div class="col-md-5">
+                                                    <label for="montant_effet[]">Effet :</label>
+                                                    <input type="text" placeholder="Effet"
+                                                        value="<?php echo $value->montant_effet ?> " class="form-control"
+                                                        name="montant_effet[]">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label for="num_effet">Num&eacute;ro : </label>
+                                                    <input type="number" name="num_effet[]"
+                                                        value="<?php echo $value->num_effet ?>" class="form-control"
+                                                        id="num_effet[]" placeholder="Numéro" />
+                                                </div>
+                                                <div class="ml-2">
+                                                <label for="">&nbsp; </label>
+                                                <div>
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-trash delete-icon"></i></span>
+                                                </div>
+                                            </div>
+
+                                            </div>
+                                        <?php } ?>
                                         <div class="input-group mb-3">
-                                            <input type="hidden" name="effet_input_nbr[] value = 1 ">
+
                                             <div class="col-md-5">
-                                                <label for="inputEffet1">Effet :</label>
+                                                <label for="montant_effet[]">Effet :</label>
                                                 <input type="text" placeholder="Effet" class="form-control"
-                                                    name="inputEffet1">
+                                                    name="montant_effet[]">
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="num_effet">Num&eacute;ro : </label>
-                                                <input type="text" name="num_effet" class="form-control" id="num_effet1"
-                                                    placeholder="Numéro" />
+                                                <input type="number" name="num_effet[]" class="form-control"
+                                                    id="num_effet[]" placeholder="Numéro" />
                                             </div>
-                                            <!-- <div class="ml-2">
-                                                      <label for="">&nbsp; </label>
-                                                      <div>
-                                                          <span class="input-group-text"><i class="fas fa-trash delete-icon"></i></span>
-                                                      </div>
-                                                  </div> -->
+                                            
                                         </div>
                                         <button class="btn btn-primary fas fa-plus float-right"
                                             id="addButton1"></button>
@@ -121,39 +148,65 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                             <div class="col-md-4 cheque shadow-lg ">
                                 <div class="card">
                                     <div class="card-body">
+                                        <?php
+
+                                        foreach ($cheque_transfert_caisse as $key => $value) { ?>
+                                            <div class="input-group mb-3">
+                                                <div class="col-md-5">
+                                                    <label for="montant_cheque[]">Effet :</label>
+                                                    <input type="text" placeholder="Effet"
+                                                        value="<?php echo $value->montant_cheque ?> " class="form-control"
+                                                        name="montant_cheque[]">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label for="num_effet[]">Num&eacute;ro : </label>
+                                                    <input type="number" name="num_effet[]"
+                                                        value="<?php echo $value->num_cheque ?>" class="form-control"
+                                                        id="num_cheque[]" placeholder="Numéro" />
+                                                </div>
+                                                <div class="ml-2">
+                                                <label for="">&nbsp; </label>
+                                                <div>
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-trash delete-icon"></i></span>
+                                                </div>
+                                            </div>
+
+                                            </div>
+                                        <?php } ?>
                                         <div class="input-group mb-3">
-                                            <input type="hidden" name="cheque_input_nbr[] value = 1 ">
                                             <div class="col-md-5">
-                                                <label for="inputCheque1">Chèque :</label>
+                                                <label for="montant_cheque[]">Chèque :</label>
                                                 <input type="text" placeholder="Chèque" class="form-control"
-                                                    name="inputCheque1">
+                                                    name="montant_cheque[]">
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="num_cheque">Num&eacute;ro : </label>
-                                                <input type="text" name="num_cheque" class="form-control"
-                                                    id="num_cheque1" placeholder="Numéro" />
+                                                <label for="num_cheque[]">Num&eacute;ro : </label>
+                                                <input type="number" name="num_cheque[]" class="form-control"
+                                                    id="num_cheque[]" placeholder="Numéro" />
                                             </div>
                                             <!-- <div class="ml-2">
-                                                      <label for="">&nbsp; </label>
-                                                      <div>
-                                                          <div></div>
-                                                          <span class="input-group-text"><i class="fas fa-trash delete-icon"></i></span>
-                                                      </div>
-                                                  </div> -->
+                                                <label for="">&nbsp; </label>
+                                                <div>
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-trash delete-icon"></i></span>
+                                                </div>
+                                            </div> -->
                                         </div>
                                         <button class="btn btn-primary fas fa-plus float-right"
                                             id="addButton2"></button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label for="remarque"> Remarque : </label>
+                                <textarea rows="7" class="form-control" name="remarque"
+                                    id="remarque"><?php echo $oldvalue['remarque']; ?></textarea>
+                            </div>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="remarque"> Remarque : </label>
-                            <textarea class="form-control" name="remarque"
-                                id="remarque"><?php echo $oldvalue['remarque']; ?></textarea>
-                        </div>
-                        <div class="float-sm-right text-zero">
-                            <button type="submit" class="btn btn-primary btn-lg  mr-1 ">Enregistrer</button>
+
+                        <div class=" text-center">
+                            <button type="submit" class="btn btn-primary btn-lg  mt-5 ">Enregistrer</button>
                         </div>
                     </form>
                 </div>
@@ -173,14 +226,14 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  <input type="hidden" name="effet_input_nbr[] value = 1 ">
+                                              
                                                   <div class="col-md-5">
-                                                      <label for="inputEffet1">Effet :</label>
-                                                      <input type="text" placeholder="Effet" class="form-control" name="inputEffet1">
+                                                      <label for="montant_effet[]">Effet :</label>
+                                                      <input type="text" placeholder="Effet" class="form-control" name="montant_effet[]">
                                                   </div>
                                                   <div  class="col-md-5">
                                                       <label for="num_effet">Num&eacute;ro : </label>
-                                                      <input type="text" name="num_effet" class="form-control" id="num_effet1" placeholder="Numéro" />
+                                                      <input type="text" name="num_effet[]" class="form-control" id="num_effet[]" placeholder="Numéro" />
                                                   </div>
                                                   <div class="ml-2">
                                                       <label for="">&nbsp; </label>
@@ -198,14 +251,14 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  <input type="hidden" name="cheque_input_nbr[] value = 1 ">
+                                        
                                                   <div class="col-md-5">
-                                                      <label for="inputCheque1">Chèque :</label>
-                                                      <input type="text" placeholder="Chèque" class="form-control" name="inputCheque1">
+                                                      <label for="montant_cheque[]">Chèque :</label>
+                                                      <input type="text" placeholder="Chèque" class="form-control" name="montant_cheque[]">
                                                   </div>
                                                   <div   class="col-md-5">
                                                       <label for="num_cheque">Num&eacute;ro : </label>
-                                                      <input type="text" name="num_cheque" class="form-control" id="num_cheque1" placeholder="Numéro" />
+                                                      <input type="text" name="num_cheque[]" class="form-control" id="num_cheque[]" placeholder="Numéro" />
                                                   </div>
                                                   <div  class="ml-2">
                                                       <label for="">&nbsp; </label>
@@ -225,7 +278,7 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
         $(document).ready(function () {
             add_new_input();
         })
-          $('#cout_devise').val($('#devise').val());
+        $('#cout_devise').val($('#devise').val());
         $('#devise').change(() => {
             $('#cout_devise').val($('#devise').val());
         })
@@ -287,5 +340,6 @@ $oldvalue = $transfert_caisse->selectById($id[1]);
                 }
             });
         });
+
     });
 </script>

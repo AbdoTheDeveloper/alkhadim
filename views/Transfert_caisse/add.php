@@ -96,15 +96,15 @@ if (isset($_POST['ajax'])) {
                                 <div class="card ">
                                     <div class="card-body">
                                         <div class="input-group mb-3">
-                                            <input type="hidden" name="effet_input_nbr[] value = 1 ">
+                                            <!-- <input type="hidden" name="effet_input_nbr[]" value = 1> -->
                                             <div class="col-md-5">
-                                                <label for="inputEffet1">Effet :</label>
+                                                <label for="montant_effet[]">Effet :</label>
                                                 <input type="text" placeholder="Effet" class="form-control"
-                                                    name="inputEffet1">
+                                                    name="montant_effet[]">
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="num_effet">Num&eacute;ro : </label>
-                                                <input type="text" name="num_effet" class="form-control" id="num_effet1"
+                                                <label for="num_effet[]">Num&eacute;ro : </label>
+                                                <input type="text" name="num_effet[]" class="form-control" id="num_effet[]"
                                                     placeholder="Numéro" />
                                             </div>
                                             <!-- <div class="ml-2">
@@ -123,16 +123,16 @@ if (isset($_POST['ajax'])) {
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="input-group mb-3">
-                                            <input type="hidden" name="cheque_input_nbr[] value = 1 ">
+                                            <!-- <input type="hidden" name="cheque_input_nbr[]" value = 1> -->
                                             <div class="col-md-5">
-                                                <label for="inputCheque1">Chèque :</label>
+                                                <label for="montant_cheque[]">Chèque :</label>
                                                 <input type="text" placeholder="Chèque" class="form-control"
-                                                    name="inputCheque1">
+                                                    name="montant_cheque[]">
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="num_cheque">Num&eacute;ro : </label>
-                                                <input type="text" name="num_cheque" class="form-control"
-                                                    id="num_cheque1" placeholder="Numéro" />
+                                                <label for="num_cheque[]">Num&eacute;ro : </label>
+                                                <input type="text" name="num_cheque[]" class="form-control"
+                                                    id="num_cheque[]" placeholder="Numéro" />
                                             </div>
                                             <!-- <div class="ml-2">
                                                       <label for="">&nbsp; </label>
@@ -153,8 +153,8 @@ if (isset($_POST['ajax'])) {
                                 <textarea id="remarque"name="remarque" class="form-control" rows="6"></textarea>
                             </div>
 
-                            <div class="float-sm-right text-zero w-100 text-center">
-                                <button type="submit" style="margin-top : 20px" class="btn btn-primary btn-lg  ">Enregistrer</button>
+                            <div class=" d-flex " style ="margin:auto">
+                                <button type="submit" style="margin-top : 20px" class="btn btn-primary btn-lg mt-5 ">Enregistrer</button>
                             </div>
                     </form>
                 </div>
@@ -300,23 +300,22 @@ if (isset($_POST['ajax'])) {
             });
         });
         function add_new_input() {
-            console.log("message ")
-            let counter1 = 1;
-            let counter2 = 1;
+        let counter1 = 1;
+        let counter2 = 1;
             // Add button click event for Card 1
             $('#addButton1').on('click', function (e) {
                 counter1++;
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  <input type="hidden" name="effet_input_nbr[] value = 1 ">
+                                                  
                                                   <div class="col-md-5">
-                                                      <label for="inputEffet1">Effet :</label>
-                                                      <input type="text" placeholder="Effet" class="form-control" name="inputEffet1">
+                                                      <label for="montant_effet[]">Effet :</label>
+                                                      <input type="text" placeholder="Effet" class="form-control" name="montant_effet[]">
                                                   </div>
                                                   <div  class="col-md-5">
                                                       <label for="num_effet">Num&eacute;ro : </label>
-                                                      <input type="text" name="num_effet" class="form-control" id="num_effet1" placeholder="Numéro" />
+                                                      <input type="text" name="num_effet[]" class="form-control" id="num_effet[]" placeholder="Numéro" />
                                                   </div>
                                                   <div class="ml-2">
                                                       <label for="">&nbsp; </label>
@@ -334,14 +333,14 @@ if (isset($_POST['ajax'])) {
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  <input type="hidden" name="cheque_input_nbr[] value = 1 ">
+                                                  
                                                   <div class="col-md-5">
                                                       <label for="inputCheque1">Chèque :</label>
-                                                      <input type="text" placeholder="Chèque" class="form-control" name="inputCheque1">
+                                                      <input type="text" placeholder="Chèque" class="form-control" name="montant_cheque[]">
                                                   </div>
                                                   <div   class="col-md-5">
                                                       <label for="num_cheque">Num&eacute;ro : </label>
-                                                      <input type="text" name="num_cheque" class="form-control" id="num_cheque1" placeholder="Numéro" />
+                                                      <input type="text" name="num_cheque[]" class="form-control" id="num_cheque[]" placeholder="Numéro" />
                                                   </div>
                                                   <div  class="ml-2">
                                                       <label for="">&nbsp; </label>

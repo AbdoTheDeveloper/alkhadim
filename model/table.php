@@ -32,6 +32,7 @@ class table
 			$fields = substr($fields, 0, strlen($fields) - 1);
 			$values = substr($values, 0, strlen($values) - 2);
 			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")";
+ 
 			$statut = connexion::getConnexion()->exec($query);
 
 
@@ -101,11 +102,10 @@ class table
 
 	public function selectById($id)
 	{
-
-
 		$result = connexion::getConnexion()->query("select * from " . $this->className . " where " . $this->primary_key . "=" . $id);
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
+
 
 
 	public function selectQuery($q)

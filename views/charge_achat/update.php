@@ -63,8 +63,9 @@ $data = $charge->selectDesignation();
                             <div class="form-group col-md-4">
                                 <label for="mode_reg">Mode de r&eacute;glement : </label>
                                 <select name="mode_reg" class="form-control" id="mode_reg" onchange="if(this.value=='Espece'){
-                                    document.getElementById('num_cheque').disabled='false';
                                     document.getElementById('num_cheque').value='';
+                                    // document.getElementById('num_cheque').disabled='false';
+                                    
                                     }else{
                                     document.getElementById('num_cheque').disabled='';
                                     }
@@ -201,5 +202,13 @@ $data = $charge->selectDesignation();
                 }
             });
         });
+
+        $('#cout_devise').val($('#devise').val());
+        $('#devise').change(() => {
+            $('#cout_devise').val($('#devise').val());
+        })
+
+
+
     });
 </script>

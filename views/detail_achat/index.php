@@ -4,7 +4,6 @@ if (isset($_POST['ajax'])) {
 }
 $detail_achat = new detail_achat();
 $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
-
 $data = $detail_achat->selectAllValide($id);
 ?>
 
@@ -12,13 +11,25 @@ $data = $detail_achat->selectAllValide($id);
   <div class="row">
     <div class="col-12">
       <div class="mb-2">
-        <h1>Detail achat N° : <?php echo $id ?></h1>
+        <h1>Detail achat N° :
+          <?php echo $id ?>
+        </h1>
         <input type="hidden" id="id_achat" value="<?php echo $id ?>" />
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+          <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i
+              class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
+          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+            data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
+        </div>
+        <div class="float-sm-right text-zero">
+          <a class=" mb-2 valide_achat" style="color: white;cursor: pointer;"
+            title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>"
+            data-id="<?php echo $ligne->id_achat; ?>">
+            <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink ">Valider Tout</button>
+          </a>
+
         </div>
 
       </div>
@@ -50,17 +61,25 @@ $data = $detail_achat->selectAllValide($id);
               $total = 0;
               foreach ($data as $ligne) {
 
-              ?>
+                ?>
                 <tr id="<?php echo $ligne->id_detail; ?>">
-                  <td><?php echo $ligne->id_detail; ?></td>
-                  <td id="<?php echo $ligne->id_produit; ?>"><?php echo $ligne->designation; ?></td>
+                  <td>
+                    <?php echo $ligne->id_detail; ?>
+                  </td>
+                  <td id="<?php echo $ligne->id_produit; ?>">
+                    <?php echo $ligne->designation; ?>
+                  </td>
                   <td>
                     <?php echo $ligne->depot ?>
                   </td>
                   <td style="text-align:right;">
-                    <label><?php echo number_format($ligne->prix_produit, 2, '.', 3); ?></label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
+                    <label>
+                      <?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>
+                    </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
-                  <td><label><?php echo $ligne->qte_achete; ?></label><input style='width:80px;' type='text' value="<?php echo $ligne->qte_achete; ?>" />
+                  <td><label>
+                      <?php echo $ligne->qte_achete; ?>
+                    </label><input style='width:80px;' type='text' value="<?php echo $ligne->qte_achete; ?>" />
                   </td>
 
                   <td style="text-align:right;" width="90">
@@ -72,14 +91,26 @@ $data = $detail_achat->selectAllValide($id);
 
                   <td>
                     <?php if (auth::user()['privilege'] == 'Admin') { ?>
-                      <a id="<?php echo $ligne->id_produit ?>" class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                      <a id="<?php echo $ligne->id_produit ?>" class="badge badge-danger mb-2 delete"
+                        data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer"
+                        href='javascript:void(0)'>
                         <i class="simple-icon-trash" style="font-size: 15px;"></i>
                       </a>
-                      <a class="badge badge-warning mb-2 updatee " data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                      <a class="badge badge-warning mb-2 updatee " data-id="<?php echo $ligne->id_detail; ?>"
+                        style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                       </a>
 
                     <?php } ?>
+
+                    <?php if ($ligne->valide == 0): ?>
+                      <a class="badge badge-success mb-2 valide_detail_achat url notlink"
+                        style="color: white;cursor: pointer;" title="Valide la commande" type="button"
+                        data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
+                        id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
+                        <i class="simple-icon-check" style="font-size: 15px;"></i>
+                      </a>
+                    <?php endif; ?>
 
                   </td>
                 </tr>
@@ -87,7 +118,9 @@ $data = $detail_achat->selectAllValide($id);
             </tbody>
           </table>
           <br>
-          <h1 id="total">Total : <?php echo  number_format($total, 2, '.', '') ?> DH </h1>
+          <h1 id="total">Total :
+            <?php echo number_format($total, 2, '.', '') ?> DH
+          </h1>
 
         </div>
       </div>
@@ -96,8 +129,62 @@ $data = $detail_achat->selectAllValide($id);
   </div>
 </div>
 
+
+<script>
+  $('body').on("click", ".valide_achat", function () {
+    let id = $(this).attr('data-id');
+    console.log(id);
+    return;
+    document.getElementById('btn_valide_' + id).style.display = 'none';
+
+    $.ajax({
+      type: "POST",
+      url: "<?php echo BASE_URL . 'views/achat/controle.php' ?>",
+      data: {
+        act: 'valide_achat',
+        id: id
+      },
+      dataType: 'json',
+      success: function (data) {
+        swal(
+          'Validation achat',
+          'l\'achat N°' + id + ' a ete bien validé',
+          'success'
+        ).then((result) => {
+          //location.reload();
+        });
+      }
+    });
+
+  });
+  $('body').on("click", ".valide_detail_achat", function () {
+    let id = $(this).attr('data-id');
+    document.getElementById('btn_valide_' + id).style.display = 'none';
+    $.ajax({
+      type: "POST",
+      url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
+      data: {
+        act: 'valide_detail_achat',
+        id: id
+      },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+
+        swal(
+          'Validation achat',
+          'l\'achat N°' + id + ' a ete bien validé',
+          'success'
+        ).then((result) => {
+          //location.reload();
+        });
+      }
+    });
+
+  });
+</script>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
 
     $("input.datepicker").datepicker({
       format: 'yyyy-mm-dd',
@@ -113,26 +200,26 @@ $data = $detail_achat->selectAllValide($id);
       ],
       dom: 'Bfrtip',
       buttons: [{
-          extend: 'excelHtml5',
-          title: "liste des achats N° <?php echo $id ?>",
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4]
-          }
-        },
-        {
-          extend: 'pdfHtml5',
-          title: "liste des achats N° <?php echo $id ?>",
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4, ]
-          }
-        },
-        {
-          extend: 'csvHtml5',
-          title: "liste des achats N° <?php echo $id ?>",
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4, ]
-          }
+        extend: 'excelHtml5',
+        title: "liste des achats N° <?php echo $id ?>",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4]
         }
+      },
+      {
+        extend: 'pdfHtml5',
+        title: "liste des achats N° <?php echo $id ?>",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4,]
+        }
+      },
+      {
+        extend: 'csvHtml5',
+        title: "liste des achats N° <?php echo $id ?>",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4,]
+        }
+      }
       ],
       pageLength: 10,
       language: {
@@ -141,14 +228,14 @@ $data = $detail_achat->selectAllValide($id);
           next: "<i class='simple-icon-arrow-right'></i>"
         }
       },
-      drawCallback: function() {
+      drawCallback: function () {
         $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
           $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
           $(".dataTables_wrapper .pagination").addClass("pagination-sm")
       }
     });
 
-    $('body').on("click", ".delete", function(event) {
+    $('body').on("click", ".delete", function (event) {
       event.preventDefault();
 
 
@@ -174,7 +261,7 @@ $data = $detail_achat->selectAllValide($id);
               id: btn.data('id'),
               id_produit: btn.attr('id')
             },
-            success: function(data) {
+            success: function (data) {
 
               swal(
                 'Supprimer',
@@ -194,7 +281,7 @@ $data = $detail_achat->selectAllValide($id);
     });
 
 
-    $('body').on("click", ".archive", function(event) {
+    $('body').on("click", ".archive", function (event) {
       event.preventDefault();
 
 
@@ -218,7 +305,7 @@ $data = $detail_achat->selectAllValide($id);
               id: btn.data('id'),
               val: btn.data('arc')
             },
-            success: function(data) {
+            success: function (data) {
 
               swal(
                 "Archived",
@@ -237,7 +324,7 @@ $data = $detail_achat->selectAllValide($id);
     });
 
 
-    $('body').on("click", ".static", function(event) {
+    $('body').on("click", ".static", function (event) {
       event.preventDefault();
 
       var btn = $(this);
@@ -248,7 +335,7 @@ $data = $detail_achat->selectAllValide($id);
           act: "getName",
           id: btn.data('id')
         },
-        success: function(datas) {
+        success: function (datas) {
           var data = datas.split(';;;');
           $('#exampleModalRight .modal-title').html("Etat achat " + data[1]);
           $('#idstatic').val(data[0]);
@@ -260,7 +347,7 @@ $data = $detail_achat->selectAllValide($id);
     });
 
 
-    $("#Staticform").on("submit", function(event) {
+    $("#Staticform").on("submit", function (event) {
       event.preventDefault();
 
       var form = $(this);
@@ -272,7 +359,7 @@ $data = $detail_achat->selectAllValide($id);
         cache: false,
         contentType: false,
         processData: false,
-        success: function(data) {
+        success: function (data) {
 
 
           $('#etatstatic').html(data);
@@ -284,7 +371,7 @@ $data = $detail_achat->selectAllValide($id);
     });
 
 
-    $('#datatables tbody').on('click', '.updatee', function() {
+    $('#datatables tbody').on('click', '.updatee', function () {
 
 
       var value = $(this).data('id');
@@ -296,7 +383,7 @@ $data = $detail_achat->selectAllValide($id);
     });
 
 
-    $('#datatables tbody').on('click', '.Applique', function() {
+    $('#datatables tbody').on('click', '.Applique', function () {
 
       var value = $(this).data('id');
       var qte = $('#' + value).find("input[type='text']:eq(1)").val();
@@ -308,7 +395,7 @@ $data = $detail_achat->selectAllValide($id);
         type: "POST",
         url: "<?php echo BASE_URL . 'views/detail_achat/'; ?>controle.php",
         data: "act=update_detail&id_detail=" + value + "&id_achat=" + $('#id_achat').val() + "&prix_produit=" + prix + "&qte_achete=" + qte + "&id_produit=" + $('#' + value).children("td:eq(1)").attr('id') + "&qte_acheteh=" + $('#' + value).find("label:eq(1)").html(),
-        success: function(data) {
+        success: function (data) {
           $('#' + value).find("label:eq(0)").html($('#' + value).find("input[type='text']:eq(0)").val());
           $('#' + value).find("label:eq(1)").html($('#' + value).find("input[type='text']:eq(1)").val());
           $('#' + value).find("label:eq(1)").html($('#' + value).find("input[type='text']:eq(1)").val());
