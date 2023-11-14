@@ -6,6 +6,7 @@ $active = "";
 
 if(isset($_GET['login']) && isset($_GET['pwd']))
 {
+
     $_POST['login'] = $_GET['login'];
     $_POST['pwd'] = $_GET['pwd'];
 }
@@ -19,7 +20,8 @@ $query = $result = connexion::getConnexion()->query($sql);
 
 $result = $query->fetch(PDO::FETCH_OBJ);
 
-if($result->nbr == 1) 
+
+if($result->nbr ==1) 
 {
   auth::login($result);
 

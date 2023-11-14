@@ -92,10 +92,10 @@ if (isset($_POST['ajax'])) {
                                 </div>
                                 
                             
-                            <div class="col-md-4 effet shadow-lg ">
+                            <div class="col-md-4  shadow-lg ">
                                 <div class="card ">
                                     <div class="card-body">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-3 effet">
                                             <!-- <input type="hidden" name="effet_input_nbr[]" value = 1> -->
                                             <div class="col-md-5">
                                                 <label for="montant_effet[]">Effet :</label>
@@ -119,10 +119,10 @@ if (isset($_POST['ajax'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 cheque shadow-lg ">
+                            <div class="col-md-4  shadow-lg ">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group cheque mb-3">
                                             <!-- <input type="hidden" name="cheque_input_nbr[]" value = 1> -->
                                             <div class="col-md-5">
                                                 <label for="montant_cheque[]">Chèque :</label>
@@ -325,7 +325,7 @@ if (isset($_POST['ajax'])) {
                                                   </div>
                                               </div>
                 `;
-                $(newInputField).insertBefore('#addButton1');
+                $(newInputField).insertAfter('.effet');
             });
             // Add button click event for Card 2
             $('#addButton2').on('click', function (e) {
@@ -351,7 +351,7 @@ if (isset($_POST['ajax'])) {
                                                   </div>
                                               </div>
                 `;
-                $(newInputField).insertBefore('#addButton2');
+                $(newInputField).insertAfter('.cheque');
             });
         }
         $(document).on('click', '.input-group-text', function () {

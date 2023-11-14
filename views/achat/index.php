@@ -11,8 +11,10 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
       <div class="mb-2">
         <h1>Liste Des Achats</h1>
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="achat/add.php">AJOUTER</button>
-          <a target="_blank" href="<?php echo BASE_URL . 'views/achat/import.php' ?>" class="btn btn-primary btn-lg  mr-1">IMPORTER</a>
+          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+            data-url="achat/add.php">AJOUTER</button>
+          <a target="_blank" href="<?php echo BASE_URL . 'views/achat/import.php' ?>"
+            class="btn btn-primary btn-lg  mr-1">IMPORTER</a>
         </div>
       </div>
       <div class="separator mb-5"></div>
@@ -47,7 +49,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                 </select>
               </div>
               <div class="form-group col-md-2">
-                <button type="submit" class="btn btn-success default btn-lg btn-block  mr-1 " style="margin-top: 30px;">Afficher</button>
+                <button type="submit" class="btn btn-success default btn-lg btn-block  mr-1 "
+                  style="margin-top: 30px;">Afficher</button>
               </div>
             </div>
           </form>
@@ -58,7 +61,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                   <th scope="col" width="1px">Id</th>
                   <th scope="col">Fournisseur</th>
                   <th> Date </th>
-                  <th style="text-align:center"scope="col"> Montant En devise</th>
+                  <th style="text-align:center" scope="col"> Montant En devise</th>
                   <th style="text-align:center" scope="col"> Montant En Dh </th>
                   <th scope="col"> Reste </th>
                   <th scope="col"> remarque </th>
@@ -68,60 +71,91 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
               <tbody>
                 <?php
                 foreach ($data as $ligne) {
-                  $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a , detail_achat d where d.id_achat = a .id_achat and a.id_achat = $ligne->id_achat limit 1 ")->fetchAll(PDO::FETCH_OBJ) ; 
-                ?>
+                  $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a , detail_achat d where d.id_achat = a .id_achat and a.id_achat = $ligne->id_achat limit 1 ")->fetchAll(PDO::FETCH_OBJ);
+                  ?>
                   <tr>
-                    <td class="nowrap"> <?php echo $ligne->id_achat; ?></td>
-                    <td class="nowrap"> <?php echo $ligne->fournisseur; ?> </td>
-                    <td class="nowrap"> <?php echo $ligne->date_achat; ?> </td>
-                    <td  style="text-align: center;" class="nowrap"> <?php echo number_format($ligne->montant, 2, '.', ' ');    ?> </td>
-                    <td class="nowrap" style="text-align: center;"> <?php 
-                    echo  number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '); ?> &nbsp;&nbsp;</td>
-                    <td class="nowrap" style="text-align: center;"> <?php
-                                                                    $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_achat where id_achat=" . $ligne->id_achat);
-                                                                    $result = $query->fetch(PDO::FETCH_OBJ);
-                                                                    $paye = $result->paye;
-                                                                    echo    number_format($ligne->montant - $paye, 2, '.', ' ');
-                                                                    ?> &nbsp;&nbsp;</td>
-                    <td> <?php echo strlen($ligne->remarque) > 50 ? substr($ligne->remarque, 0, 50) . "..." : $ligne->remarque; ?> </td>
                     <td class="nowrap">
-                      <?php if ((int)auth::user()['achat'] == 1 || auth::user()['privilege'] == 'Admin') { ?>
+                      <?php echo $ligne->id_achat; ?>
+                    </td>
+                    <td class="nowrap">
+                      <?php echo $ligne->fournisseur; ?>
+                    </td>
+                    <td class="nowrap">
+                      <?php echo $ligne->date_achat; ?>
+                    </td>
+                    <td style="text-align: center;" class="nowrap">
+                      <?php echo number_format($ligne->montant, 2, '.', ' '); ?>
+                    </td>
+                    <td class="nowrap" style="text-align: center;">
+                      <?php
+                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '); ?> &nbsp;&nbsp;
+                    </td>
+                    <td class="nowrap" style="text-align: center;">
+                      <?php
+                      $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_achat where id_achat=" . $ligne->id_achat);
+                      $result = $query->fetch(PDO::FETCH_OBJ);
+                      $paye = $result->paye;
+                      echo number_format($ligne->montant - $paye, 2, '.', ' ');
+                      ?> &nbsp;&nbsp;
+                    </td>
+                    <td>
+                      <?php echo strlen($ligne->remarque) > 50 ? substr($ligne->remarque, 0, 50) . "..." : $ligne->remarque; ?>
+                    </td>
+                    <td class="nowrap">
+                      <?php if ((int) auth::user()['achat'] == 1 || auth::user()['privilege'] == 'Admin') { ?>
                         <?php
                         if (auth::user()['privilege'] == 'Admin') {
-                        ?>
-                          <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                          ?>
+                          <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_achat; ?>"
+                            style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                             <i class="simple-icon-trash" style="font-size: 15px;"></i>
                           </a>
-                        <?php
+                          <?php
                         }
                         ?>
-                        <a class="badge badge-warning mb-2  url notlink" data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                        <a class="badge badge-warning mb-2  url notlink"
+                          data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>"
+                          style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                           <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                         </a>
-                        <a class="badge badge-success mb-2  url notlink" data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+                        <a class="badge badge-success mb-2  url notlink"
+                          data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
+                          style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
                           <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
                         </a>
-                        <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/achat/facture.php?id=" . $ligne->id_achat; ?>&h=15" target="_black">
+                        <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer"
+                          href="<?php echo BASE_URL . "views/achat/facture.php?id=" . $ligne->id_achat; ?>&h=15"
+                          target="_black">
                           <i class=" simple-icon-printer" style="font-size: 15px;"></i>
                         </a>
                       <?php } ?>
-                      <a class="badge badge-secondary mb-2 url notlink" data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
+                      <a class="badge badge-secondary mb-2 url notlink"
+                        data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
+                        style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
                         <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
                       </a>
                       <a class="badge badge-warning mb-2 url notlink"
-                       data-url = "charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-                       style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
+                        data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
+                        style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
                         <i class="glyph-icon iconsmind-Billing" style="font-size: 15px;"></i>
                       </a>
-<!-- 
+                      <!-- 
                       <a  class="badge badge-secondary mb-2 url notlink" data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir les charges" href="javascript:void(0)">
                         <i class="simple-icon-pie-chart" style="font-size: 15px;"></i>
                       </a> -->
-                      <?php if ($ligne->valide == 0) : ?>
+                      <!-- <?php // if ($ligne->valide == 0) : ?>
                         <a class="badge badge-success mb-2 valide_achat" style="color: white;cursor: pointer;" title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
                           <i class="simple-icon-check" style="font-size: 15px;"></i>
                         </a>
-                      <?php endif; ?>
+                      <?php //endif; ?> -->
+                      <!-- <?php // if ($ligne->valide == 0): ?> -->
+                        <a class="badge badge-success mb-2 url notlink" style="color: white;cursor: pointer;"
+                        data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>&valide=true"
+                        title="Valider la commande" 
+                        >
+                          <i class="simple-icon-check" style="font-size: 15px;"></i>
+                        </a>
+                      <?php // endif; ?>
                     </td>
                   </tr>
                 <?php } ?>
@@ -131,7 +165,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         </div>
       </div>
     </div>
-    <div class="modal fade modal-right" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalRight" aria-hidden="true">
+    <div class="modal fade modal-right" id="exampleModalRight" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalRight" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -155,7 +190,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
               <h5 class="mb-4">Type</h5>
               <div class="mb-4">
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="customRadio1" value="vente" checked="" name="etatProduit" class="custom-control-input">
+                  <input type="radio" id="customRadio1" value="vente" checked="" name="etatProduit"
+                    class="custom-control-input">
                   <label class="custom-control-label" for="customRadio1">Vente </label>
                 </div>
                 <div class="custom-control custom-radio">
@@ -166,7 +202,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-              <input type="submit" name="submit" value="Afficher" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+              <input type="submit" name="submit" value="Afficher" class="btn btn-primary" data-toggle="modal"
+                data-target=".bd-example-modal-lg">
             </div>
           </form>
         </div>
@@ -188,8 +225,8 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
     </div>
   </div>
 </div>
-<script>
-  $('body').on("click", ".valide_achat", function() {
+<!-- <script>
+  $('body').on("click", ".valide_achat", function () {
     let id = $(this).attr('data-id');
     document.getElementById('btn_valide_' + id).style.display = 'none';
     $.ajax({
@@ -200,7 +237,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         id: id
       },
       dataType: 'json',
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         return;
         swal(
@@ -212,10 +249,10 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         });
       }
     });
-  });
+  }); -->
 </script>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
     $("input.datepicker").datepicker({
       format: 'yyyy-mm-dd',
       templates: {
@@ -223,7 +260,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         rightArrow: '<i class="simple-icon-arrow-right"></i>'
       }
     })
-    $("#formfilter").on("submit", function(event) {
+    $("#formfilter").on("submit", function (event) {
       event.preventDefault();
       $("#results").html('<div class="col-md-12"><br><br><br><br><div class="loading"></div></div>');
       var form = $(this);
@@ -235,7 +272,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         cache: false,
         contentType: false,
         processData: false,
-        success: function(data) {
+        success: function (data) {
           $("#results").html(data);
           $('#datatables').dataTable({
             order: [
@@ -243,26 +280,26 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
             ],
             dom: 'Bfrtip',
             buttons: [{
-                extend: 'excelHtml5',
-                title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
-                exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, ]
-                }
-              },
-              {
-                extend: 'pdfHtml5',
-                title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
-                exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, ]
-                }
-              },
-              {
-                extend: 'csvHtml5',
-                title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
-                exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, ]
-                }
+              extend: 'excelHtml5',
+              title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5,]
               }
+            },
+            {
+              extend: 'pdfHtml5',
+              title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5,]
+              }
+            },
+            {
+              extend: 'csvHtml5',
+              title: "liste des ventes " + $("#mois").val() + "-" + $("#anne").val(),
+              exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5,]
+              }
+            }
             ],
             pageLength: 10,
             language: {
@@ -271,7 +308,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                 next: "<i class='simple-icon-arrow-right'></i>"
               }
             },
-            drawCallback: function() {
+            drawCallback: function () {
               $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
                 $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
                 $(".dataTables_wrapper .pagination").addClass("pagination-sm")
@@ -315,13 +352,13 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
           next: "<i class='simple-icon-arrow-right'></i>"
         }
       },
-      drawCallback: function() {
+      drawCallback: function () {
         $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
           $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
           $(".dataTables_wrapper .pagination").addClass("pagination-sm")
       }
     });
-    $('body').on("click", ".delete", function(event) {
+    $('body').on("click", ".delete", function (event) {
       event.preventDefault();
       var btn = $(this);
       swal({
@@ -341,7 +378,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
               act: "delete",
               id: btn.data('id')
             },
-            success: function(data) {
+            success: function (data) {
               swal(
                 'Supprimer',
                 'achat a ete bien Supprimer',
@@ -354,7 +391,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         }
       });
     });
-    $('body').on("click", ".archive", function(event) {
+    $('body').on("click", ".archive", function (event) {
       event.preventDefault();
       var btn = $(this);
       swal({
@@ -375,7 +412,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
               id: btn.data('id'),
               val: btn.data('arc')
             },
-            success: function(data) {
+            success: function (data) {
               swal(
                 "Archived",
                 'Your Product has been archived.',
@@ -388,7 +425,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         }
       });
     });
-    $('body').on("click", ".static", function(event) {
+    $('body').on("click", ".static", function (event) {
       event.preventDefault();
       var btn = $(this);
       $.ajax({
@@ -398,14 +435,14 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
           act: "getName",
           id: btn.data('id')
         },
-        success: function(datas) {
+        success: function (datas) {
           var data = datas.split(';;;');
           $('#exampleModalRight .modal-title').html("Etat achat " + data[1]);
           $('#idstatic').val(data[0]);
         }
       });
     });
-    $("#Staticform").on("submit", function(event) {
+    $("#Staticform").on("submit", function (event) {
       event.preventDefault();
       var form = $(this);
       $.ajax({
@@ -416,7 +453,7 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         cache: false,
         contentType: false,
         processData: false,
-        success: function(data) {
+        success: function (data) {
           $('#etatstatic').html(data);
         }
       });

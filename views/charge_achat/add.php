@@ -35,21 +35,35 @@ $data = $charge->selectDesignation();
                         <input type="hidden" name="act" value="insert">
                         <input type="hidden" name="id_achat" value="<?php echo $id; ?>">
                         <div class="form-row">
+                            <!-- <div class="form-group col-md-4">
+                                <label for="id_fournisseur">Fournisseur : </label>
+                                <input type="text" name="fournisseur" id="fournisseur" class="form-control"
+                                    placeholder="Fournisseur">
+
+                            </div> -->
                             <div class="form-group col-md-4">
                                 <label for="id_fournisseur">Fournisseur : </label>
-                                    <input type="text" name="fournisseur" id="fournisseur" class="form-control" placeholder="Fournisseur">
+                                <select class="form-control select2-single" name="id_fournisseur" id="id_fournisseur">
 
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="designation">Désignation</label>
+                                    <?php
+                                    $fournisseur = new fournisseur();
+                                    $fournisseurs = $fournisseur->selectChamps("*", '', '', 'raison_sociale', 'asc');
+                                    foreach ($fournisseurs as $row) {
+                                        echo '<option value="' . $row->id_fournisseur . '">' . $row->raison_sociale . '</option>';
+                                    } ?>
 
-                                    <input type="text" class="form-control" id="designation" placeholder="Designation"
-                                        name="designation">
-                                </div>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="designation">Désignation</label>
 
-                                <div class="form-group col-md-4">
-                                    <label for="mode_reg">Mode de r&eacute;glement : </label>
-                                    <select name="mode_reg" class="form-control" id="mode_reg" onchange="if(this.value=='Espece'){
+                                <input type="text" class="form-control" id="designation" placeholder="Designation"
+                                    name="designation">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="mode_reg">Mode de r&eacute;glement : </label>
+                                <select name="mode_reg" class="form-control" id="mode_reg" onchange="if(this.value=='Espece'){
                                                     document.getElementById('num_cheque').disabled='false';
 
                                                     document.getElementById('num_cheque').value='';
@@ -62,78 +76,78 @@ $data = $charge->selectDesignation();
                                                     document.getElementById('date_validation_tr').style.display = 'none';
                                                    
                                                     }">
-                                        <option value=""> Choix</option>
-                                        <option value="Espece"> Espece</option>
-                                        <option value="Cheque"> Cheque</option>
-                                        <option value="Virement"> Virement</option>
-                                        <option value="Effet"> Effet</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="num_cheque">Num&eacute;ro : </label>
+                                    <option value=""> Choix</option>
+                                    <option value="Espece"> Espece</option>
+                                    <option value="Cheque"> Cheque</option>
+                                    <option value="Virement"> Virement</option>
+                                    <option value="Effet"> Effet</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="num_cheque">Num&eacute;ro : </label>
 
-                                    <input type="text" name="num_cheque" class="form-control" id="num_cheque" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="montant" class="col-form-label">Montant</label>
-                                    <input type="text" class="form-control" id="montant" placeholder="Montant"
-                                        name="montant">
-                                </div>
+                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="montant" class="col-form-label">Montant</label>
+                                <input type="text" class="form-control" id="montant" placeholder="Montant"
+                                    name="montant">
+                            </div>
 
-                                <div class="form-group col-md-4">
-                                    <label for="date_charge">Date Charge</label>
-                                    <input name="date_charge" type="text" class="form-control  datepicker"
-                                        placeholder="2019-01-03" value="<?php echo date('Y-m-d') ?>" />
-                                </div>
-
-
+                            <div class="form-group col-md-4">
+                                <label for="date_charge">Date Charge</label>
+                                <input name="date_charge" type="text" class="form-control  datepicker"
+                                    placeholder="2019-01-03" value="<?php echo date('Y-m-d') ?>" />
+                            </div>
 
 
-                                <div class="form-group mb-10 col-md-4">
-                                    <label>Piéce jointe</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="image" name="image">
-                                            <label class="custom-file-label" for="inputGroupFile04">Choisir piéce jointe
-                                                charge</label>
-                                        </div>
+
+
+                            <div class="form-group mb-10 col-md-4">
+                                <label>Piéce jointe</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="image" name="image">
+                                        <label class="custom-file-label" for="inputGroupFile04">Choisir piéce jointe
+                                            charge</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4" id="date_validation_tr">
-                                    <label for="date_validation">Date d'&eacute;ch&eacute;cance: </label>
-
-                                    <input type="text" autocomplete="off" name="date_validation"
-                                        class="form-control datepicker" id="date_validation"
-                                        value="<?php echo date('Y-m-d') ?>" />
-                                </div>
-                                <div class='col-md-4'>
-                                    <label for="id_fournisseur">Devis : </label>
-                                    <select class="form-control select2-single " name="devise" id="devise">
-                                        <option value="1">MAD</option>
-                                        <option value="9.8">USD</option>
-                                        <option value="9">EUR</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-4">
-                                    <label for="cout_devise"> Cout devise : </label>
-                                    <input name="" type="text" class="form-control" value=1 id="cout_devise" />
-                                </div>
-
                             </div>
+                            <div class="form-group col-md-4" id="date_validation_tr">
+                                <label for="date_validation">Date d'&eacute;ch&eacute;cance: </label>
 
-                            <div class="form-group">
-                                <label for="category">Remarque</label>
-                                <textarea name="remarque" class="form-control" rows="6"></textarea>
+                                <input type="text" autocomplete="off" name="date_validation"
+                                    class="form-control datepicker" id="date_validation"
+                                    value="<?php echo date('Y-m-d') ?>" />
+                            </div>
+                            <div class='col-md-4'>
+                                <label for="id_fournisseur">Devis : </label>
+                                <select class="form-control select2-single " name="devise" id="devise">
+                                    <option value="1">MAD</option>
+                                    <option value="9.8">USD</option>
+                                    <option value="9">EUR</option>
+                                </select>
                             </div>
 
 
-
-
-                            <div class="float-sm-right text-zero">
-                                <button type="submit" class="btn btn-primary btn-lg mr-1 ">Enregistrer</button>
+                            <div class="col-md-4">
+                                <label for="cout_devise"> Cout devise : </label>
+                                <input name="" type="text" class="form-control" value=1 id="cout_devise" />
                             </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Remarque</label>
+                            <textarea name="remarque" class="form-control" rows="6"></textarea>
+                        </div>
+
+
+
+
+                        <div class="float-sm-right text-zero">
+                            <button type="submit" class="btn btn-primary btn-lg mr-1 ">Enregistrer</button>
+                        </div>
 
                     </form>
                 </div>

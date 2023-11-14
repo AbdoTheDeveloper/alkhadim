@@ -143,19 +143,20 @@ if ($_POST['act'] == 'filter') {
         $_POST["image"] = $fichier . $extension;
       }
     }
-    $Transfert_caisse = new transfert_caisse();
+
+    // instantiation d'un objet du classe transfert_caisse 
+    $Transfert_caisse = new transfert_caisse(); 
     $Transfert_caisse->update($_POST["id"]);
     $id = (int) $_POST["id"];
 
-
+     // instantiation d'un objet du classe effet_transfert_caisse 
     $effet_transfert_caisse = new effet_transfert_caisse();
+    // instantiation d'un objet du classe cheque_transfert_caisse 
     $cheque_transfert_caisse = new cheque_transfert_caisse;
  
     
     $effet_transfert_caisse->deletebyIdTransfertCaisse($id);
     $cheque_transfert_caisse->deletebyIdTransfertCaisse($id);
-    die() ; 
-    
 
 
 

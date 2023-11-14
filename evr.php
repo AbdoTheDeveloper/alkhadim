@@ -3,6 +3,17 @@
 
  include('eve.php');
 
+ function debug($param) { 
+  if(is_array($param)){
+    print_r($param);
+    die()    ; 
+  }else {
+    var_dump($param) ;
+    die() ;  
+  } ;
+
+
+ }
 
 if (auth::user() == null){
 
