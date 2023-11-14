@@ -36,12 +36,24 @@ $data = $charge->selectDesignation();
                         <input type="hidden" name="id" value="<?php echo $exploded_ids[0]; ?>">
                         <input type="hidden" name="id_achat" value="<?php echo $exploded_ids[1]; ?>">
                         <div class="form-row">
+
+
                             <div class="form-group col-md-4">
                                 <label for="id_fournisseur">Fournisseur : </label>
-                                <input type="text" name="fournisseur" id="fournisseur"
-                                    value="<?php echo $oldvalue['fournisseur']; ?>" class="form-control"
-                                    placeholder="Fournisseur">
+                                <select class="form-control select2-single" name="id_fournisseur" id="id_fournisseur">
+                                    <?php
+                                    $fournisseur = new fournisseur();
+                                    $fournisseurs = $fournisseur->selectChamps("*", '', '', 'raison_sociale', 'asc');
+                                    foreach ($fournisseurs as $row) {
+                                        if ($row->id_fournisseur == $oldvalue['id_fournisseur']) {
+                                            echo '<option value="' . $row->id_fournisseur . '" selected="selected">' . $row->raison_sociale . '</option>';
+                                        } else {
+                                            echo '<option value="' . $row->id_fournisseur . '">' . $row->raison_sociale . '</option>';
+                                        }
+                                    } ?>
+                                </select>
                             </div>
+
                             <div class="form-group col-md-4">
                                 <label for="designation">Désignation</label>
                                 <input type="text" class="form-control" id="designation" placeholder="Designation"
