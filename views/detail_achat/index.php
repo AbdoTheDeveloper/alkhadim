@@ -19,8 +19,15 @@ $achat = $achat->selectById($id);
   <div class="row">
     <div class="col-12">
       <div class="mb-2">
-        <h1>Detail achat N° :
-          <?php echo $id ?>
+        <h1>
+          
+        <?php   if($valide){?> 
+          Valider Achat  N° : <?php echo $id ?>
+          <?php   } else{?> 
+            Detail achat N° : <?php echo $id ?>
+            <?php   } ?> 
+       
+          
         </h1>
         <input type="hidden" id="id_achat" value="<?php echo $id ?>" />
         <div class="float-sm-right text-zero">
@@ -31,14 +38,19 @@ $achat = $achat->selectById($id);
           <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
             data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
         </div>
+
+
         <?php if ($valide && $achat->valide == 0) { ?>
           <a class="mb-2 valide_achat float-sm-right text-zero" style="color: white;cursor: pointer;"
-            title="Valide la commande" type="button" id="btn_valide_<?php echo $id; ?>"
-            data-id="<?php echo $id ;?>">
-            <button type="button" class="btn btn-primary btn-lg mr-1 " <?php $achat->valide == 1 ? "disabled" : "" ?> >Valider Tout </button>
+            title="Valide la commande" type="button" id="btn_valide_<?php echo $id; ?>" data-id="<?php echo $id; ?>">
+
+            <button type="button" class="btn btn-primary btn-lg mr-1 " <?php echo  $achat['valide'] == 1 ? "disabled" : "" ?>>Valider Tout </button>
             <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
           </a>
         <?php } ?>
+
+
+
       </div>
       <div class="separator mb-5"></div>
     </div>
@@ -92,8 +104,10 @@ $achat = $achat->selectById($id);
                     ?> &nbsp;&nbsp;
                   </td>
                   <?php if ($valide) { ?>
-                    <td>
+                    <td class="date_validation">
                       <?php
+
+                      // debug($ligne) ; 
                       if ($ligne->valide) {
                         echo $ligne->date_validation;
                       }
@@ -112,11 +126,13 @@ $achat = $achat->selectById($id);
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                       </a>
                     <?php } ?>
-                    <?php if ($valide && $ligne->valide == 0 && $achat->valide == 0): ?>
-                      <a class="badge badge-success mb-2 valide_detail_achat url notlink"
-                        style="color: white;cursor: pointer;" title="Valide la commande" type="button"
-                        data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-                        id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
+                    <?php if ($valide): ?>
+                      <a class="badge  mb-2 <?php echo $ligne->valide  ? "badge-secondary" : "badge-success valide_detail_achat" ?>"
+
+                        style="color: white;cursor: pointer;"
+                        title="<?php echo $ligne->valide == 1 ? "commande validé" : "valider la commande" ?>"
+                        type="button" 
+                        id="btn_valide_<?php echo $ligne->id_detail; ?>" data-id="<?php echo $ligne->id_detail; ?>">
                         <i class="simple-icon-check" style="font-size: 15px;"></i>
                       </a>
                     <?php endif; ?>
@@ -135,9 +151,32 @@ $achat = $achat->selectById($id);
   </div>
 </div>
 <script>
+
+// 
+// -------------------------------------------------------------------------------------------------------- Valider achat ---------------------------------------------------------------------------------------------------------
   $('body').on("click", ".valide_achat", function () {
+
     let id = $(this).attr('data-id');
-    document.getElementById('btn_valide_' + id).style.display = 'none';
+
+    // document.getElementById('btn_valide_' + id).style.display = 'none';
+    $('.valide_achat button ').attr('disabled', 'true')
+    // $('.valide_detail_achat').removeClass("badge-success url notlink").addClass("badge-secondary");
+
+
+    // Initialize Datepicker
+    $("#datepicker").datepicker();
+
+    // Get the current date using jQuery UI Datepicker's formatDate
+    var currentDate = new Date();
+
+    // Format the date as a string (e.g., "YYYY-MM-DD")
+    var formattedDate = currentDate.getFullYear() + '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+      console.log(formattedDate) ;
+
+
+
     $.ajax({
       type: "POST",
       url: "<?php echo BASE_URL . 'views/achat/controle.php' ?>",
@@ -145,41 +184,44 @@ $achat = $achat->selectById($id);
         act: 'valide_achat',
         id: id
       },
-      dataType: 'json',
+      dataType: 'text',
       success: function (data) {
+        console.log(data);
         swal(
           'Validation achat',
           'l\'achat N°' + id + ' a ete bien validé',
           'success'
         ).then((result) => {
-          //location.reload();
+          location.reload();
         });
       }
     });
   });
-  // $('body').on("click", ".valide_detail_achat", function () {
-  //   let id = $(this).attr('data-id');
-  //   document.getElementById('btn_valide_' + id).style.display = 'none';
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
-  //     data: {
-  //       act: 'valide_detail_achat',
-  //       id: id
-  //     },
-  //     dataType: 'json',
-  //     success: function (data) {
-  //       console.log(data);
-  //       swal(
-  //         'Validation achat',
-  //         'l\'achat N°' + id + ' a ete bien validé',
-  //         'success'
-  //       ).then((result) => {
-  //         //location.reload();
-  //       });
-  //     }
-  //   });
-  // });
+
+//
+// ----------------------------------------------------------------------------- valider détail achat ------------------------------------------------------------------------------------- 
+  $('body').on("click", ".valide_detail_achat", function () {
+    let id = $(this).attr('data-id');
+    // document.getElementById('btn_valide_' + id).style.display = 'none';
+    $.ajax({
+      type: "POST",
+      url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
+      data: {
+        act: 'valide_detail_achat',
+        id: id
+      },
+      dataType: 'text',
+      success: function (data) {
+        swal(
+          'Validation detail achat',
+          'Detail achat N°' + id + ' a ete bien validé',
+          'success'
+        ).then((result) => {
+          location.reload();
+        });
+      }
+    });
+  });
 </script>
 <script type="text/javascript">
   $(document).ready(function () {

@@ -149,9 +149,9 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                         </a>
                       <?php //endif; ?> -->
                       <!-- <?php // if ($ligne->valide == 0): ?> -->
-                        <a class="badge badge-success mb-2 url notlink" style="color: white;cursor: pointer;"
+                        <a class="badge  mb-2 url notlink <?php echo $ligne->valide  ? "badge-secondary" : "badge-success" ?>" style="color: white;cursor: pointer;"
                         data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>&valide=true"
-                        title="Valider la commande" 
+                        title="<?php echo $ligne->valide == 1 ? "commande validé" : "valider la commande" ?>" 
                         >
                           <i class="simple-icon-check" style="font-size: 15px;"></i>
                         </a>
