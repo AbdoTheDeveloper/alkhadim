@@ -36,6 +36,9 @@ $allfourn = $fournis->selectAll();
         <div class="card-body">
           <h5 class="mb-4">Ajouter Nouveau Produit</h5>
 
+
+          
+
           <form id="addform" method="post" name="form_produit" enctype="multipart/form-data">
             <input type="hidden" name="act" value="insert">
             <div class="form-row">
@@ -178,11 +181,17 @@ $allfourn = $fournis->selectAll();
                 <input type="text" class="form-control" name="tva" id="tva" value="0" placeholder="TVA">
               </div>
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-1">
                 <label for="minqte"> Min QTE :</label>
                 <input type="text" class="form-control" name="minqte" id="minqte" value="0" placeholder="minqte">
               </div>
+
+              <div class="form-group col-md-2">
+                <label for="tva"> Qte Stock  :</label>
+                <input type="text" class="form-control" name="qte_actuel" id="minqte" value="" placeholder="Quantité actuelle en stock ">
+              </div>
             </div>
+          
             <div class="form-group">
               <label for="remarque">Remarque :</label>
               <textarea class="form-control" name="remarque" value="0" id="remarque"></textarea>
@@ -215,10 +224,29 @@ $allfourn = $fournis->selectAll();
                 <input type="text" name="qte_vendu" id="qte" class="form-control" value="0">
 
               </div>
+              <div class="form-group col-md-2">
+                                <label for="bloque1">bloqué :</label>
+                                <div class="mb-4">
+                                    <div style="display: inline-block;" class="custom-control custom-radio">
+                                        <input type="radio" id="bloque1" value="1" checked="" name="bloque"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="bloque1">Oui</label>
+                                    </div>
+                                    <div style="display: inline-block;margin-left: 20px"
+                                        class="custom-control custom-radio">
+                                        <input type="radio" id="bloque2" value="0" name="bloque"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="bloque2">Non</label>
+
+                                    </div>
+                                </div>
+                            </div>
 
               <div class="form-group col-md-2">
                 <button id="addIngredient" type="button" class="btn btn-success default btn-lg btn-block  mr-1 " style="margin-top: 25px;">Ajouter</button>
               </div>
+
+            
             </div>
             <div class="table-responsive">
               <table class="table" cellpadding="0" cellspacing="0" id="box-table-a" summary="Employee Pay Sheet">
@@ -271,7 +299,7 @@ $allfourn = $fournis->selectAll();
             <div class="float-sm-right text-zero">
               <button type="submit" class="btn btn-primary btn-lg  mr-1 ">Enregistrer</button>
             </div>
-
+           
           </form>
 
 

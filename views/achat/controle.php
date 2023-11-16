@@ -7,7 +7,7 @@ if ($_POST['act'] == 'filter') {
 	} else {
 		$data = $achat->selectAll2();
 	}
-	?>
+?>
 	<table class="table  responsive table-striped table-bordered table-hover" id="datatables">
 		<thead>
 			<tr>
@@ -23,7 +23,7 @@ if ($_POST['act'] == 'filter') {
 		<tbody>
 			<?php
 			foreach ($data as $ligne) {
-				?>
+			?>
 				<tr>
 					<td class="nowrap">
 						<?php echo $ligne->id_achat; ?>
@@ -50,41 +50,28 @@ if ($_POST['act'] == 'filter') {
 					</td>
 					<td class="nowrap">
 						<?php if (auth::user()['privilege'] == 'Admin') { ?>
-							<a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_achat; ?>"
-								style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+							<a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
 								<i class="simple-icon-trash" style="font-size: 15px;"></i>
 							</a>
-							<a class="badge badge-warning mb-2  url notlink"
-								data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;"
-								title="Modifier" href="javascript:void(0)">
+							<a class="badge badge-warning mb-2  url notlink" data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
 								<i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
 							</a>
-							<a class="badge badge-success mb-2  url notlink"
-								data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-								style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+							<a class="badge badge-success mb-2  url notlink" data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
 								<i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
 							</a>
-							<a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer"
-								href="<?php echo BASE_URL . "views/achat/facture.php?id=" . $ligne->id_achat; ?>&h=15"
-								target="_black">
+							<a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/achat/facture.php?id=" . $ligne->id_achat; ?>&h=15" target="_black">
 								<i class=" simple-icon-printer" style="font-size: 15px;"></i>
 							</a>
 						<?php } ?>
-						<a class="badge badge-secondary mb-2 url notlink"
-							data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-							style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
+						<a class="badge badge-secondary mb-2 url notlink" data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
 							<i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
 						</a>
 						</a>
-						<a class="badge badge-warning mb-2 url notlink"
-							data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-							style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
+						<a class="badge badge-warning mb-2 url notlink" data-url="charge_achat/index.php?id=<?php echo $ligne->id_achat; ?>" style="color: white;cursor: pointer;" title="voir Charges" href="javascript:void(0)">
 							<i class="glyph-icon  iconsmind-Billing" style="font-size: 15px;"></i>
 						</a>
-						<?php if ($ligne->valide == 0): ?>
-							<a class="badge badge-success mb-2 valide_achat" style="color: white;cursor: pointer;"
-								title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>"
-								data-id="<?php echo $ligne->id_achat; ?>">
+						<?php if ($ligne->valide == 0) : ?>
+							<a class="badge badge-success mb-2 valide_achat" style="color: white;cursor: pointer;" title="Valide la commande" type="button" id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
 								<i class="simple-icon-check" style="font-size: 15px;"></i>
 							</a>
 						<?php endif; ?>
@@ -99,7 +86,7 @@ if ($_POST['act'] == 'getproduit') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
-		?>
+	?>
 		<optgroup label="<?php echo $rep_depot->nom; ?> ">
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $_POST['id_categorie'] . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
@@ -113,7 +100,7 @@ if ($_POST['act'] == 'rech') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
-		?>
+	?>
 		<optgroup label="<?php echo $rep_depot->nom; ?> ">
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  code_bar like '" . $_POST['id'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
@@ -126,7 +113,7 @@ if ($_POST['act'] == 'rech') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
-		?>
+	?>
 		<optgroup label="<?php echo $rep_depot->nom; ?> ">
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  designation like '" . $_POST['designation'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
@@ -143,7 +130,7 @@ if ($_POST['act'] == 'rech') {
 	$data = $detail_achat->selectAllNonValide();
 	$total = 0;
 	foreach ($data as $ligne) {
-		?>
+	?>
 		<tr>
 			<td>
 				<?php echo $ligne->designation; ?>
@@ -168,11 +155,10 @@ if ($_POST['act'] == 'rech') {
 				$total += $ligne->qte_achete * $ligne->prix_produit;
 				?>
 			</td>
-			<td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
-					style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+			<td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
 					<i class="simple-icon-trash" style="font-size: 15px;"></i></a> </td>
 		</tr>
-		<?php
+	<?php
 	}
 	?>
 	<tr>
@@ -199,7 +185,7 @@ if ($_POST['act'] == 'rech') {
 	$data = $detail_achat->selectAllNonValide();
 	$total = 0;
 	foreach ($data as $ligne) {
-		?>
+	?>
 		<tr>
 			<td>
 				<?php echo $ligne->designation; ?>
@@ -226,13 +212,12 @@ if ($_POST['act'] == 'rech') {
 				$total += $ligne->qte_achete * $ligne->prix_produit;
 				?>
 			</td>
-			<td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
-					style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+			<td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
 					<i class="simple-icon-trash" style="font-size: 15px;"></i>
 				</a>
 			</td>
 		</tr>
-		<?php
+	<?php
 	}
 	?>
 	<tr>
@@ -241,50 +226,61 @@ if ($_POST['act'] == 'rech') {
 				<?php echo number_format($total, 2, '.', ' '); ?>
 			</b></td>
 	</tr>
-	<?php
+<?php
 } elseif ($_POST['act'] == 'insert') {
 	$_POST["id_user"] = auth::user()["id"];
 	$achat = new achat();
 	if (isset($_POST["id_fournisseur"])) {
-		$statut = $achat->insert();
-		connexion::getConnexion()->exec("UPDATE  detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
+		$statut  = $achat->insert();
+		
+
+		 
+		// connexion::getConnexion()->exec("");
+		connexion::getConnexion()->exec("UPDATE detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
 		unset($_SESSION['rand_a_er']);
+
+		$last_inserted = $achat->laset_insert() ; 
+		$result=connexion::getConnexion()->query("select a.devise_produit , sum(da.`prix_produit`*da.`qte_achete`)as
+		 montant from achat a left join detail_achat da on da.id_achat=a.id_achat
+		 where  a.id_achat  = $last_inserted 
+		group by  a.id_achat")->fetchAll(PDO::FETCH_OBJ);
+
+		
+		$query  = "UPDATE achat  SET montant = " . $result[0]->montant. " WHERE achat.id_achat = $last_inserted"  ;
+		$statut  = connexion::getConnexion()->exec($query );
+
+
+
 		// $query=$result=connexion::getConnexion()->query("SELECT max(id_achat) as dernier_achat FROM achat ");
 		// $result=$query->fetch(PDO::FETCH_OBJ);
 		// $dernier_achat=$result->dernier_achat;
 		/*
-									  $result2=connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
-									  where a.id_achat=$dernier_achat group by  da.id_produit");
-									  $data=$result2->fetchAll(PDO::FETCH_OBJ);
-									  foreach($data as $ligne)
-										  {
-									  connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
-										  }
-										  */
+		$result2=connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
+		where a.id_achat=$dernier_achat group by  da.id_produit");
+		$data=$result2->fetchAll(PDO::FETCH_OBJ);
+		foreach($data as $ligne)
+			{
+		connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
+			}
+			*/
 	}
 	die("success");
-
-
-//-----------------------------------------------------------------------------------Valider Les Achats ------------------------------------------------------------------------------------------------------
-} elseif ($_POST['act'] == 'valide_achat') {
+}
+//--------------------------------------------------------------------------------------- Valider Achat ------------------------------------------------------------------------------------------------------
+elseif ($_POST['act'] == 'valide_achat') {
 	$achat = new achat();
 	$a = $achat->selectById($_POST['id']);
-	if ($a['valide'] == 1) {
-		die();
-	}
-	#change state
+	if (!$a['valide'] ) {
+		#change state
 	connexion::getConnexion()->exec('UPDATE achat SET valide = 1 WHERE id_achat =' . $_POST['id']);
-	$statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1 , date_validation = CURDATE() WHERE id_achat =' . $_POST['id']);
-
-
-
-	debug($statut);
+	}
 	#update products qte
 	// $result2 = connexion::getConnexion()->query("select da.id_produit, da.id_depot, sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
 	// where a.id_achat=" . $_POST['id'] . " group by  da.id_produit");
-	$result2 = connexion::getConnexion()->query("select da.id_produit, da.id_depot, da.qte_achete as qte_achete from detail_achat da WHERE da.id_achat =" . $_POST['id']);
+	$result2 = connexion::getConnexion()->query("select da.id_detail ,  da.id_produit, da.id_depot, da.qte_achete as qte_achete , da.valide from detail_achat da WHERE da.id_achat =" . $_POST['id']);
 	$data = $result2->fetchAll(PDO::FETCH_OBJ);
 	foreach ($data as $d) {
+		if(!$d->valide) {
 		$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  id_produit = " . $d->id_produit);
 		$produit_depot = new produit_depot();
 		$target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
@@ -294,9 +290,14 @@ if ($_POST['act'] == 'rech') {
 			$produit_depot->new_produit_depot($d->id_produit, $d->id_depot, $d->qte_achete);
 		}
 	}
+}
 	//calculate composant et produit fini
+	// debug($data) ; 
 	foreach ($data as $d) {
-		//avoir produit
+		// valider detail achat  
+		if(!$d->valide) {
+			$statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
+			//avoir produit
 		$prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
 		//Si produit est composant
 		if ($prod->type_produit == 2) {
@@ -333,17 +334,15 @@ if ($_POST['act'] == 'rech') {
 			}
 			$arr = [];
 		}
+		} 
 	}
 	die('success');
-
-
-//-------------------------------------------------------------------------------- Modifier Achat ---------------------------------------------------------------------------------------------------------
 } elseif ($_POST['act'] == 'update') {
 	try {
 		$_POST["idu"] = auth::user()["id"];
 		$achat = new achat();
 		$achat->update($_POST["id"]);
-		connexion::getConnexion()->query("UPDATE detail_achat SET cout_device = " . $_POST['cout_device'] . " where id_achat =" . $_POST['id']);
+		connexion::getConnexion()->query("UPDATE detail_achat SET cout_device = " . $_POST['cout_device'] . " where id_achat =" .$_POST['id']) ;  
 		die('success');
 	} catch (Exception $e) {
 		die($e);
@@ -355,6 +354,7 @@ if ($_POST['act'] == 'rech') {
 		foreach ($data as $value) {
 			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel -" . $value["qte_achete"] . " WHERE  id_produit =" . $value["id_produit"]);
 		}
+		connexion::getConnexion()->query("delete from charge where id_achat=".$_POST['id']) ; 
 		$achat->delete($_POST["id"]);
 		die('success');
 	} catch (Exception $e) {

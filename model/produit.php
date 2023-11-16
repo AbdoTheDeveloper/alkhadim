@@ -27,6 +27,7 @@ class produit extends table
 	protected $unite2;
 	protected $type_produit;
 	protected $fournisseur;
+	protected $bloque  ;
 
 	public function selectQteVenteParProduit($id_produit, $date)
 	{

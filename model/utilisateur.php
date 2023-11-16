@@ -18,6 +18,9 @@ protected $nom;
 protected $tele;
 protected $email;
 
+protected $bloque  ; 
+protected $id_zone ;   
+
 public function selectAllUtilisateur($moi){
 $result=connexion::getConnexion()->query("select * from utilisateur where id <>'".$moi."' order by idu desc");
 return $result->fetchAll(PDO::FETCH_OBJ);

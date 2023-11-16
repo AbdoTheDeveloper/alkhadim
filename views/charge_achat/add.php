@@ -5,24 +5,20 @@ if (isset($_POST['ajax'])) {
 $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
 // var_dump($id) ; 
 // die() ; 
-
 $charge = new charge();
 $data = $charge->selectDesignation();
 ?>
-
 <div class="container-fluid disable-text-selection">
     <div class="row">
         <div class="col-12">
             <div class="mb-2">
                 <h1>charge d'achat </h1>
-
                 <div class="float-sm-right text-zero">
                     <button type="button" class="btn btn-success  url"
                         data-url="charge_achat/index.php?id=<?php echo $id; ?>"> <i
                             class="glyph-icon simple-icon-arrow-left"></i></button>
                 </div>
             </div>
-
             <div class="separator mb-5"></div>
         </div>
     </div>
@@ -39,33 +35,27 @@ $data = $charge->selectDesignation();
                                 <label for="id_fournisseur">Fournisseur : </label>
                                 <input type="text" name="fournisseur" id="fournisseur" class="form-control"
                                     placeholder="Fournisseur">
-
                             </div> -->
                             <div class="form-group col-md-4">
                                 <label for="id_fournisseur">Fournisseur : </label>
                                 <select class="form-control select2-single" name="id_fournisseur" id="id_fournisseur">
-
                                     <?php
                                     $fournisseur = new fournisseur();
                                     $fournisseurs = $fournisseur->selectChamps("*", '', '', 'raison_sociale', 'asc');
                                     foreach ($fournisseurs as $row) {
                                         echo '<option value="' . $row->id_fournisseur . '">' . $row->raison_sociale . '</option>';
                                     } ?>
-
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="designation">Désignation</label>
-
                                 <input type="text" class="form-control" id="designation" placeholder="Designation"
                                     name="designation">
                             </div>
-
                             <div class="form-group col-md-4">
                                 <label for="mode_reg">Mode de r&eacute;glement : </label>
                                 <select name="mode_reg" class="form-control" id="mode_reg" onchange="if(this.value=='Espece'){
                                                     document.getElementById('num_cheque').disabled='false';
-
                                                     document.getElementById('num_cheque').value='';
                                                     }else{
                                                     document.getElementById('num_cheque').disabled='';
@@ -74,7 +64,6 @@ $data = $charge->selectDesignation();
                                                     document.getElementById('date_validation_tr').style.display = 'block';
                                                     }else {
                                                     document.getElementById('date_validation_tr').style.display = 'none';
-                                                   
                                                     }">
                                     <option value=""> Choix</option>
                                     <option value="Espece"> Espece</option>
@@ -85,7 +74,6 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="num_cheque">Num&eacute;ro : </label>
-
                                 <input type="text" name="num_cheque" class="form-control" id="num_cheque" />
                             </div>
                             <div class="form-group col-md-4">
@@ -93,16 +81,11 @@ $data = $charge->selectDesignation();
                                 <input type="text" class="form-control" id="montant" placeholder="Montant"
                                     name="montant">
                             </div>
-
                             <div class="form-group col-md-4">
                                 <label for="date_charge">Date Charge</label>
                                 <input name="date_charge" type="text" class="form-control  datepicker"
                                     placeholder="2019-01-03" value="<?php echo date('Y-m-d') ?>" />
                             </div>
-
-
-
-
                             <div class="form-group mb-10 col-md-4">
                                 <label>Piéce jointe</label>
                                 <div class="input-group">
@@ -115,40 +98,30 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4" id="date_validation_tr">
                                 <label for="date_validation">Date d'&eacute;ch&eacute;cance: </label>
-
                                 <input type="text" autocomplete="off" name="date_validation"
                                     class="form-control datepicker" id="date_validation"
                                     value="<?php echo date('Y-m-d') ?>" />
                             </div>
-                            <div class='col-md-4'>
-                                <label for="id_fournisseur">Devis : </label>
-                                <select class="form-control select2-single " name="devise" id="devise">
-                                    <option value="1">MAD</option>
-                                    <option value="9.8">USD</option>
-                                    <option value="9">EUR</option>
+                            <div class="form-group col-md-4">
+                                <label for="id_fournisseur">Devise : </label>
+                                <select class="form-control select2-single" name="devise_produit" id="devise_produit">
+                                    <option data-devise="1" value="MAD">MAD</option>
+                                    <option data-devise="9.8" value="$">USD</option>
+                                    <option data-devise="9" value="£">EUR</option>
                                 </select>
                             </div>
-
-
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
-                                <input name="" type="text" class="form-control" value=1 id="cout_devise" />
+                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
                             </div>
-
                         </div>
-
                         <div class="form-group">
                             <label for="category">Remarque</label>
                             <textarea name="remarque" class="form-control" rows="6"></textarea>
                         </div>
-
-
-
-
                         <div class="float-sm-right text-zero">
                             <button type="submit" class="btn btn-primary btn-lg mr-1 ">Enregistrer</button>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -157,7 +130,6 @@ $data = $charge->selectDesignation();
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-
         $(".select2-single").select2({
             theme: "bootstrap",
             placeholder: "",
@@ -172,9 +144,6 @@ $data = $charge->selectDesignation();
             }
         });
         $("#id_categorie").change(function () {
-
-
-
             var id_categorie = $(this).val();
             $.ajax({
                 type: "POST",
@@ -184,16 +153,11 @@ $data = $charge->selectDesignation();
                     id_categorie: id_categorie
                 },
                 success: function (data) {
-
                     $('#id_produit').html(data);
                 }
             });
-
         });
         $("#id_produit").change(function () {
-
-
-
             var id_produit = $(this).val();
             $.ajax({
                 type: "POST",
@@ -208,13 +172,8 @@ $data = $charge->selectDesignation();
                     $('#reste_stock').html(tab[1]);
                 }
             });
-
         });
-
         $("#addProduct").click(function () {
-
-
-
             var id_produit = $(this).val();
             $.ajax({
                 type: "POST",
@@ -230,13 +189,9 @@ $data = $charge->selectDesignation();
                     $('#detail_commande').html(data);
                 }
             });
-
         });
-
         $('body').on("click", ".delete", function (event) {
             event.preventDefault();
-
-
             var btn = $(this);
             swal({
                 title: 'Êtes-vous sûr?',
@@ -248,7 +203,6 @@ $data = $charge->selectDesignation();
                 confirmButtonText: 'Oui, Supprimer !'
             }).then((result) => {
                 if (result.value) {
-
                     $.ajax({
                         type: "POST",
                         url: "<?php echo BASE_URL . 'views/charge_achat/'; ?>controle.php",
@@ -257,28 +211,21 @@ $data = $charge->selectDesignation();
                             id_detail: btn.data('id')
                         },
                         success: function (data) {
-
                             swal(
                                 'Supprimer',
                                 'charge a ete bien Supprimer',
                                 'success'
                             ).then((result) => {
-
                                 // btn.parents("td").parents("tr").remove();
                                 $('#detail_commande').html(data);
                             });
-
                         }
                     });
-
                 }
             });
-
         });
-
         $("#addform").on("submit", function (event) {
             event.preventDefault();
-
             var form = $(this);
             $.ajax({
                 type: "POST",
@@ -289,17 +236,13 @@ $data = $charge->selectDesignation();
                 contentType: false,
                 processData: false,
                 success: function (data) {
-
-
                     if (data.indexOf("success") >= 0) {
-
                         swal(
                             'Ajouter',
                             'charge a été bien Ajouté',
                             'success'
                         ).then((result) => {
                             $.ajax({
-
                                 method: 'POST',
                                 data: {
                                     ajax: true
@@ -313,7 +256,6 @@ $data = $charge->selectDesignation();
                             });
                         });
                     } else {
-
                         form.append(` <div id="alert-danger" class="alert alert-danger alert-dismissible fade show rounded mb-0" role="alert">
                                 <strong>${data}</strong> 
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -324,11 +266,9 @@ $data = $charge->selectDesignation();
                 }
             });
         });
-        $('#cout_devise').val($('#devise').val());
-        $('#devise').change(() => {
-            $('#cout_devise').val($('#devise').val());
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        $('#devise_produit').change(() => {
+            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
         })
-
-
     });
 </script>

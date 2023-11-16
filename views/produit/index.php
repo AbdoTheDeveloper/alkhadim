@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['ajax'])) {
-  session_start();
+  // session_start();
   include('../../evr.php');/*$conn = mysqli_connect(SERVER,USER,PASSWORD,DATABASE);
 $result = $conn->query('select * from produit');
 $data = $result->fetch_assoc();echo 'rows: ' . $data['code_bar'];var_dump($data);*/

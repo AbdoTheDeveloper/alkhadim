@@ -60,9 +60,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               <div class="form-group col-md-2">
                 <label for="id_fournisseur">Devise : </label>
                 <select class="form-control select2-single" name="devise_produit" id="devise_produit">
-                  <option value="1">MAD</option>
-                  <option value="9.8">USD</option>
-                  <option value="9">EUR</option>
+                  <option data-devise = "1" value="MAD">MAD</option>
+                  <option data-devise = "9.8" value="$">USD</option>
+                  <option data-devise = "9" value="£">EUR</option>
                 </select>
               </div>
 
@@ -83,14 +83,24 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                 <textarea class="form-control" name="remarque" id="remarque"></textarea>
               </div>
 
+              <div class="form-group col-md-1">
+                <label for="prix_produit">Num Fature :</label>
+                <input type="text" name="num_facture" id="num_facture" class="form-control" placeholder="num facture" >
+              </div>
 
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-1">
+                <label for="qte_achete">Num  Dum :  </label>
+                <input type="text" name="num_dum" id="num_dum" class="form-control" placeholder= "num dum ">
+              </div>
+
+
+              <div class="form-group col-md-3">
                 <label for="rech"> Recherche Référence: </label>
                 <input type="text" class="form-control" style="border-color: red" id="rech">
               </div>
 
 
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label for="rech_designation"> Recherche Désignation: </label>
                 <input type="text" class="form-control" style="border-color: red" id="rech_designation">
               </div>
@@ -628,6 +638,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
           qte_achete: $("#qte_achete").val(),
           date_expiration: $("#date_exp").val(),
           id_depot: $("#id_depot").val(),
+          devise_produit :$("#devise_produit").val(),
           cout_device: $("#cout_device").val(),
           f_approch: $("#f_approch").val()
         },
@@ -696,9 +707,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         contentType: false,
         processData: false,
         success: function (data) {
-
           if (data == "success") {
-
             swal(
               'Achat',
               'achat a ete bien Ajouter',
@@ -734,7 +743,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
     });
 
     $('#devise_produit').change(() => {
-      $('#cout_device').val($('#devise_produit').val());
+      $('#cout_device').val($('#devise_produit option:selected').data("devise"));
     })
 
 

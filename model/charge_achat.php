@@ -8,7 +8,7 @@ protected $designation;
 protected $date_charge;
 protected $montant;
 protected $mode_reg;
-protected $devise;
+protected $devise_produit;
 protected $image;
 protected $num_cheque;
 protected $date_validation;
@@ -17,7 +17,7 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
-protected $cout_devise; 
+protected $cout_device; 
 
 public function All()
 {

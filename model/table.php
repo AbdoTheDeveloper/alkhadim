@@ -32,8 +32,9 @@ class table
 			}
 			$fields = substr($fields, 0, strlen($fields) - 1);
 			$values = substr($values, 0, strlen($values) - 2);
-			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")";
+			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")"; 
 
+			// debug($query) ; 
 			$statut = connexion::getConnexion()->exec($query);
 
 

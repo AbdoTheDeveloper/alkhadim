@@ -94,11 +94,11 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                     <?php echo $transfert_caisse->date_transfert_caisse ?>
                   </td>
                   <td>
-                    <?php echo $transfert_caisse->montant_espece ?>
+                    <?php echo $transfert_caisse->montant_espece . " ".$transfert_caisse->devise_produit?>
                   </td>
                   <td>
                     <?php 
-                    if ($transfert_caisse->montant_espece)  echo $transfert_caisse->montant_espece * $transfert_caisse->devise  ?>
+                    if ($transfert_caisse->montant_espece)  echo $transfert_caisse->montant_espece * $transfert_caisse->cout_device  ?>
                   </td>
                    <td>
                     <?php echo $transfert_caisse->remarque ?>

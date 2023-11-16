@@ -85,9 +85,13 @@ $id_produit = $id[1];
 
               </div>
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-1">
                 <label for="tva"> Min QTE :</label>
                 <input type="text" class="form-control" name="minqte" id="minqte" value="<?php echo $oldvalue['minqte'] ?>" placeholder="minqte">
+              </div>
+               <div class="form-group col-md-1">
+                <label for="tva"> Qte Stock  :</label>
+                <input type="text" class="form-control" name="qte_actuel" id="minqte" value="<?php echo $oldvalue['qte_actuel'] ?>" placeholder="Quantité actuelle en stock ">
               </div>
             </div>
 
@@ -251,6 +255,24 @@ $id_produit = $id[1];
                 <input type="text" name="qte_vendu" id="qte" class="form-control" value="0">
 
               </div>
+              <div class="form-group col-md-2">
+                                  <label for="bloque1">bloqué :</label>
+                                  <div class="mb-4">
+                                      <div style="display: inline-block;" class="custom-control custom-radio">
+                                          <input <?php $oldvalue['bloque']==1 ? print 'checked' : '' ?> type="radio"
+                                              id="bloque1" value="1" checked="" name="bloque"
+                                              class="custom-control-input">
+                                          <label class="custom-control-label" for="bloque1">Oui</label>
+                                      </div>
+                                      <div style="display: inline-block;margin-left: 20px"
+                                          class="custom-control custom-radio">
+                                          <input <?php $oldvalue['bloque']==0 ? print 'checked' : '' ?> type="radio"
+                                              id="bloque2" value="0" name="bloque" class="custom-control-input">
+                                          <label class="custom-control-label" for="bloque2">Non</label>
+
+                                      </div>
+                                  </div>
+                              </div>
 
               <div class="form-group col-md-2">
                 <button id="addIngredient" type="button" class="btn btn-success default btn-lg btn-block  mr-1 " style="margin-top: 25px;">Ajouter</button>
