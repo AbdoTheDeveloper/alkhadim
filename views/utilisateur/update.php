@@ -17,7 +17,10 @@ $oldvalue=$utilisateur->selectById($id[1]);
           <div class="col-12">
               <div class="mb-2">
                   <h1>utilisateurs </h1>
-
+                  <div class="float-sm-right text-zero">
+                    <button type="button" class="btn btn-success  url notlink" data-url="utilisateur/index.php"> <i
+                            class="glyph-icon simple-icon-arrow-left"></i></button>
+                </div>
 
               </div>
 
@@ -80,6 +83,22 @@ $oldvalue=$utilisateur->selectById($id[1]);
                                           value="User"> User</option>
                                   </select>
                               </div>
+
+                              <div class="form-group col-md-4">
+                                <label for="nom_prenom_ar">Zone :</label>
+                                <select class="form-control" name="id_zone">
+                                <?php
+                                    $zone = new zone();
+                                    $zones = $zone->selectChamps("*", '', '', 'libelle', 'asc');
+                                    foreach ($zones as $row) {
+                                        if ($row->id_zone == $oldvalue['id_zone']) {
+                                            echo '<option value="' . $row->id_zone . '" selected="selected">' . $row->libelle . '</option>';
+                                        } else {
+                                            echo '<option value="' . $row->id_zone . '">' . $row->libelle . '</option>';
+                                        }
+                                    } ?>
+                                </select>
+                            </div>
                           </div>
 
 
@@ -110,20 +129,20 @@ $oldvalue=$utilisateur->selectById($id[1]);
                                   </div>
                               </div>
                               <div class="form-group col-md-2">
-                                  <label for="remarque">Fournisseur :</label>
+                                  <label for="remarque">zone :</label>
                                   <div class="mb-4">
                                       <div style="display: inline-block;" class="custom-control custom-radio">
-                                          <input type="radio" id="fournisseur1" value="1"
-                                              <?php $oldvalue['fournisseur']==1 ? print 'checked' : '' ?>
-                                              name="fournisseur" class="custom-control-input">
-                                          <label class="custom-control-label" for="fournisseur1">oui</label>
+                                          <input type="radio" id="zone1" value="1"
+                                              <?php $oldvalue['zone']==1 ? print 'checked' : '' ?>
+                                              name="zone" class="custom-control-input">
+                                          <label class="custom-control-label" for="zone1">oui</label>
                                       </div>
                                       <div style="display: inline-block;margin-left: 20px"
                                           class="custom-control custom-radio">
-                                          <input <?php $oldvalue['fournisseur']==0 ? print 'checked' : '' ?>
-                                              type="radio" id="fournisseur2" value="0" name="fournisseur"
+                                          <input <?php $oldvalue['zone']==0 ? print 'checked' : '' ?>
+                                              type="radio" id="zone2" value="0" name="zone"
                                               class="custom-control-input">
-                                          <label class="custom-control-label" for="fournisseur2">Non</label>
+                                          <label class="custom-control-label" for="zone2">Non</label>
 
                                       </div>
                                   </div>
@@ -217,7 +236,7 @@ $oldvalue=$utilisateur->selectById($id[1]);
                                       </div>
                                   </div>
                               </div>
-
+                              
 
                           </div>
                           <?php 

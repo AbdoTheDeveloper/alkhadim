@@ -9,7 +9,6 @@ if (isset($_POST['ajax'])) {
         color: black;
         transition: all .3s linear;
     }
-
     .input-group-text:hover {
         background-color: red;
     }
@@ -67,31 +66,23 @@ if (isset($_POST['ajax'])) {
                                     </div>
                                 </div>
                             </div>
-                            
-
-
                             <div class="form-group col-md-4 espece">
                                 <label for="espece">Espèce</label>
                                 <input name="montant_espece" type="text" class="form-control" id="montant_espece"
                                     placeholder="Montant En Espèce">
                             </div>
-
-                            <div class='col-md-4'>
-                                    <label for="id_fournisseur">Devis : </label>
-                                    <select class="form-control select2-single " name="devise" id="devise">
-                                        <option value="1">MAD</option>
-                                        <option value="9.8">USD</option>
-                                        <option value="9">EUR</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-4">
-                                    <label for="cout_devise"> Cout devise : </label>
-                                    <input name="" type="text" class="form-control" value=1 id="cout_devise" />
-                                </div>
-                                
-                            
+                            <div class="form-group col-md-4">
+                                <label for="id_fournisseur">Devise : </label>
+                                <select class="form-control select2-single" name="devise_produit" id="devise_produit">
+                                    <option data-devise="1" value="MAD">MAD</option>
+                                    <option data-devise="9.8" value="$">USD</option>
+                                    <option data-devise="9" value="£">EUR</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="cout_devise"> Cout devise : </label>
+                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
+                            </div>
                             <div class="col-md-4  shadow-lg ">
                                 <div class="card ">
                                     <div class="card-body">
@@ -147,12 +138,10 @@ if (isset($_POST['ajax'])) {
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group col-md-4" >
                                 <label for="remarque">Remarque</label>
                                 <textarea id="remarque"name="remarque" class="form-control" rows="6"></textarea>
                             </div>
-
                             <div class=" d-flex " style ="margin:auto">
                                 <button type="submit" style="margin-top : 20px" class="btn btn-primary btn-lg mt-5 ">Enregistrer</button>
                             </div>
@@ -308,7 +297,6 @@ if (isset($_POST['ajax'])) {
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  
                                                   <div class="col-md-5">
                                                       <label for="montant_effet[]">Effet :</label>
                                                       <input type="text" placeholder="Effet" class="form-control" name="montant_effet[]">
@@ -333,7 +321,6 @@ if (isset($_POST['ajax'])) {
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
-                                                  
                                                   <div class="col-md-5">
                                                       <label for="inputCheque1">Chèque :</label>
                                                       <input type="text" placeholder="Chèque" class="form-control" name="montant_cheque[]">
@@ -385,9 +372,9 @@ if (isset($_POST['ajax'])) {
         $(document).ready(function () {
             add_new_input();
         })
-
-        $('#devise').change(() => {
-            $('#cout_devise').val($('#devise').val());
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        $('#devise_produit').change(() => {
+            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
         })
     });
 </script>

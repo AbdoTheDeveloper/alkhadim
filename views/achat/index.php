@@ -84,11 +84,15 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                       <?php echo $ligne->date_achat; ?>
                     </td>
                     <td style="text-align: center;" class="nowrap">
-                      <?php echo number_format($ligne->montant, 2, '.', ' '); ?>
+                      <?php  
+                      $montant  = number_format($ligne->montant, 2, '.', ' ') ; 
+                      echo $montant . " $ligne->devise_produit "  ; 
+                       
+                      ?>
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
-                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '); ?> &nbsp;&nbsp;
+                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' ') ?> &nbsp;&nbsp;
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
@@ -149,9 +153,14 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                         </a>
                       <?php //endif; ?> -->
                       <!-- <?php // if ($ligne->valide == 0): ?> -->
-                        <a class="badge badge-success mb-2 url notlink" style="color: white;cursor: pointer;"
+                        <a 
+                        class="badge  mb-2 <?php echo !$ligne->valide ? 'badge-success url notlink ' : 'badge-secondary url notlink ' ?>"style="color: white;cursor: pointer;"
+                
                         data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>&valide=true"
-                        title="Valider la commande" 
+
+
+                       
+                      title="<?php echo $ligne->valide ? 'commande validé ' : 'valider commande' ?>"
                         >
                           <i class="simple-icon-check" style="font-size: 15px;"></i>
                         </a>

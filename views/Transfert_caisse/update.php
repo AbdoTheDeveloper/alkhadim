@@ -70,18 +70,16 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                             </div>
                             <div class='col-md-4'>
                                 <label for="id_fournisseur">Devis : </label>
-                                <select class="form-control select2-single " name="devise" id="devise">
-                                    <option value="1" <?php echo $oldvalue['devise'] == '1' ? "selected" : "" ?>>MAD
-                                    </option>
-                                    <option value="9.8" <?php echo $oldvalue['devise'] == '9.8' ? "selected" : "" ?>>USD
-                                    </option>
-                                    <option value="9" <?php echo $oldvalue['devise'] == '9' ? "selected" : "" ?>>EUR
+                                <select class="form-control select2-single " name="devise_produit" id="devise_produit">
+                                    <option data-devise = "1" <?php echo $oldvalue["devise_produit"]== 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
+                                    <option data-devise = "9.8"<?php echo$oldvalue["devise_produit"]== '$' ? 'selected' : '' ?> value="$">USD</option>
+                                    <option data-devise = "9"<?php echo $oldvalue["devise_produit"]== '£' ? 'selected' : '' ?> value="£">EUR
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
-                                <input name="" type="text" class="form-control" id="cout_devise" />
+                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
                             </div>
                             <div class="col-md-4  shadow-lg ">
                                 <div class="card ">
@@ -317,5 +315,10 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                 }
             });
         });
+
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        $('#devise_produit').change(() => {
+            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        })
     });
 </script>

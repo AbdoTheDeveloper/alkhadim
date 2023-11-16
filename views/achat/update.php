@@ -49,6 +49,18 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                                 <input type="text" class="form-control datepicker" id="date_achat" name="date_achat"
                                     value="<?php echo $oldvalue['date_achat']; ?>">
                             </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="prix_produit">Num Fature :</label>
+                                <input type="text" name="num_facture" value="<?php echo $oldvalue['num_facture'] ?>"
+                                    id="num_facture" class="form-control" placeholder="num facture">
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="qte_achete">Num Dum : </label>
+                                <input type="text" name="num_dum" value = "<?php echo $oldvalue['num_dum']?>" id="num_dum" class="form-control"
+                                    placeholder="num dum ">
+                            </div>
                             <!--                             
                              <div class="form-group col-md-4">
                                 <label for="type">Type:</label>
@@ -60,12 +72,12 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                             </div> -->
                             <div class='col-md-2'>
                                 <label for="id_fournisseur">Devis : </label>
-                                <select class="form-control select2-single " name="devise" id="devise">
-                                    <option <?php echo $sub_data->cout_device == '1' ? 'selected' : '' ?> value="1">MAD
-                                    </option>
-                                    <option <?php echo $sub_data->cout_device == '9.8' ? 'selected' : '' ?> value="9.8">
-                                        USD</option>
-                                    <option <?php echo $sub_data->cout_device == '9' ? 'selected' : '' ?> value="9">EUR
+                                <select class="form-control select2-single " name="devise_produit" id="devise_produit">
+                                    <option data-devise="1" <?php echo $sub_data->cout_device == '1' ? 'selected' : '' ?>
+                                        value="MAD">MAD</option>
+                                    <option data-devise="9.8" <?php echo $sub_data->cout_device == '9.8' ? 'selected' : '' ?> value="$">USD</option>
+                                    <option data-devise="9" <?php echo $sub_data->cout_device == '9' ? 'selected' : '' ?>
+                                        value="£">EUR
                                     </option>
                                 </select>
                             </div>
@@ -159,9 +171,9 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                 }
             });
         });
-        $('#cout_device').val($('#devise').val());
-        $('#devise').change(() => {
-            $('#cout_device').val($('#devise').val());
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        $('#devise_produit').change(() => {
+            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
         })
     });
 </script>

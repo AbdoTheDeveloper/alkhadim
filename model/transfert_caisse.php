@@ -12,9 +12,8 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
-protected $devise ;
-
-
+protected $devise_produit;
+protected $cout_device ; 
 
 
 public function All()

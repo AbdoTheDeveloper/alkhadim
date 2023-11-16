@@ -266,7 +266,7 @@ if (isset($_GET['p'])) {
 
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i>Stock par catégorie</a></li>
 
-
+                <li id='link_inventaire'   style="cursor:pointer; "><a  data-url="etat/inventaire_depot.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> inventaire Depot </a></li>
             </ul>
         </div>
     </div>

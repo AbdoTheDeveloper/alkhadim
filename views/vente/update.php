@@ -9,7 +9,7 @@ $id = explode('?id=',$_SERVER["REQUEST_URI"]);
 
 $oldvalue=$vente->selectById($id[1]);
 
-
+$vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE privilege = 'Vendeur' ORDER BY nom ASC")->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <div class="container-fluid disable-text-selection">
@@ -36,7 +36,7 @@ $oldvalue=$vente->selectById($id[1]);
                                      <input type="hidden" name="id" value="<?php echo $id[1] ;?>">
 
                                     
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                 <label for="id_client">Client : </label>
                                 <select class="form-control select2-single" name="id_client" id="id_client" >
                                     
@@ -56,7 +56,26 @@ $oldvalue=$vente->selectById($id[1]);
                                     
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label for="id_client">Vendeur : </label>
+                                <select class="form-control select2-single" name="id_vendeur" id="id_client" >
+                                    
+                                    <?php
+                                    foreach ($vendeurs as $row)
+                                    {
+                                        if ($row->id == $oldvalue['id_vendeur']) 
+                                        {
+                                            echo '<option value="'.$row->id.'" selected="selected">'.$row->nom.'</option>';
+                                        }
+                                        else{
+                                            echo '<option value="'.$row->id.'">'.$row->nom.'</option>';
+                                        }
+                                    
+                                    }?>
+                                    
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="date_vente">Date :</label>
                                 <input type="text" class="form-control datepicker" id="date_vente" name="date_vente" value="<?php echo $oldvalue['date_vente'] ; ?>" >
                             </div>

@@ -13,6 +13,7 @@ if ($result == false) {
 $detail_achat = new detail_achat();
 $achat = new achat();
 $data = $detail_achat->selectAllValide($id);
+
 $achat = $achat->selectById($id);
 ?>
 <div class="container-fluid disable-text-selection">
@@ -33,9 +34,8 @@ $achat = $achat->selectById($id);
         </div>
         <?php if ($valide && $achat->valide == 0) { ?>
           <a class="mb-2 valide_achat float-sm-right text-zero" style="color: white;cursor: pointer;"
-            title="Valide la commande" type="button" id="btn_valide_<?php echo $id; ?>"
-            data-id="<?php echo $id ;?>">
-            <button type="button" class="btn btn-primary btn-lg mr-1 " <?php $achat->valide == 1 ? "disabled" : "" ?> >Valider Tout </button>
+            title="Valide la commande" type="button" id="btn_valide_<?php echo $id; ?>" data-id="<?php echo $id; ?>">
+            <button type="button" class="btn btn-primary btn-lg mr-1 ">Valider Tout </button>
             <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
           </a>
         <?php } ?>
@@ -54,6 +54,7 @@ $achat = $achat->selectById($id);
                 <th scope="col">Produit</th>
                 <th scope="col">Dépot</th>
                 <th> Prix</th>
+                <th scope = "col">Prix Revient </th>
                 <th scope="col" style='width:170px;'> Qte</th>
                 <th scope="col"> Qte*Prix</th>
                 <?php if ($valide) { ?>
@@ -80,6 +81,14 @@ $achat = $achat->selectById($id);
                   <td style="text-align:right;">
                     <label>
                       <?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>
+                    </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
+                  </td>
+                  <td style="text-align:right;">
+                    <label>
+                      <?php 
+                      $pourcentage_prix_article  = ($ligne->prix_produit * $ligne->montant_achat) / 100  ;
+                      $prix_revient  = $ligne->prix_produit +($pourcentage_prix_article * ($ligne->charge_total  / $ligne->qte_total)) /100 ;  
+                      echo number_format($prix_revient, 2, '.', 3); ?>
                     </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
                   <td><label>
@@ -112,11 +121,13 @@ $achat = $achat->selectById($id);
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                       </a>
                     <?php } ?>
-                    <?php if ($valide && $ligne->valide == 0 && $achat->valide == 0): ?>
-                      <a class="badge badge-success mb-2 valide_detail_achat url notlink"
-                        style="color: white;cursor: pointer;" title="Valide la commande" type="button"
-                        data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
-                        id="btn_valide_<?php echo $ligne->id_achat; ?>" data-id="<?php echo $ligne->id_achat; ?>">
+                    <?php if ($valide): ?>
+
+
+                      <a class="badge  mb-2   <?php echo !$ligne->valide ? 'badge-success valide_detail_achat ' : 'badge-secondary ' ?>"
+                        title="<?php echo $ligne->valide ? 'commande validé ' : 'valider commande' ?>" type="button"
+                        style="color: white;cursor: pointer;" id="btn_valide_<?php echo $ligne->detail; ?>"
+                        data-id="<?php echo $ligne->id_detail; ?>">
                         <i class="simple-icon-check" style="font-size: 15px;"></i>
                       </a>
                     <?php endif; ?>
@@ -137,7 +148,7 @@ $achat = $achat->selectById($id);
 <script>
   $('body').on("click", ".valide_achat", function () {
     let id = $(this).attr('data-id');
-    document.getElementById('btn_valide_' + id).style.display = 'none';
+    // document.getElementById('btn_valide_' + id).style.display = 'none';
     $.ajax({
       type: "POST",
       url: "<?php echo BASE_URL . 'views/achat/controle.php' ?>",
@@ -145,41 +156,45 @@ $achat = $achat->selectById($id);
         act: 'valide_achat',
         id: id
       },
-      dataType: 'json',
+      dataType: 'text',
       success: function (data) {
         swal(
           'Validation achat',
           'l\'achat N°' + id + ' a ete bien validé',
           'success'
         ).then((result) => {
-          //location.reload();
+          location.reload();
         });
       }
     });
   });
-  // $('body').on("click", ".valide_detail_achat", function () {
-  //   let id = $(this).attr('data-id');
-  //   document.getElementById('btn_valide_' + id).style.display = 'none';
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
-  //     data: {
-  //       act: 'valide_detail_achat',
-  //       id: id
-  //     },
-  //     dataType: 'json',
-  //     success: function (data) {
-  //       console.log(data);
-  //       swal(
-  //         'Validation achat',
-  //         'l\'achat N°' + id + ' a ete bien validé',
-  //         'success'
-  //       ).then((result) => {
-  //         //location.reload();
-  //       });
-  //     }
-  //   });
-  // });
+
+
+  // /======================================================================================================= Valider Detail Achat ============================================================================================== 
+  $('body').on("click", ".valide_detail_achat", function (e) {
+    // e.preventDefault() ; 
+    let id = $(this).attr('data-id');
+    // document.getElementById('btn_valide_' + id).style.display = 'none';
+    $.ajax({
+      type: "POST",
+      url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
+      data: {
+        act: 'valide_detail_achat',
+        id: id
+      },
+      dataType: 'text',
+      success: function (data) {
+        console.log(data);
+        swal(
+          'Validation achat',
+          'l\'achat N°' + id + ' a ete bien validé',
+          'success'
+        ).then((result) => {
+          location.reload();
+        });
+      }
+    });
+  });
 </script>
 <script type="text/javascript">
   $(document).ready(function () {

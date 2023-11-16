@@ -265,10 +265,11 @@ $tbl = '
 
       <th  align="center" height="10" width="6%" style="color:white; font-weight:800; font-size:8.5pt;">N°</th>
         <th  align="center" height="10" width="49%" style="color:white; font-weight:800; font-size:8.5pt;">Désignation</th>
-        <th  align="center" height="10" width="10%" style="color:white; font-weight:800; font-size:8.5pt;">Unite</th>
+        <th  align="center" height="10" width="8%" style="color:white; font-weight:800; font-size:8.5pt;">Unite</th>
         <th  align="center" height="10" width="10%" style="color:white; font-weight:800; font-size:8.5pt;">Qte</th>
-        <th  align="center" height="10" width="12%" style="color:white; font-weight:800; font-size:8.5pt;">PU</th>
-        <th  align="center" height="10" width="12%" style="color:white; font-weight:800; font-size:8.5pt;">TOTAL </th>  
+        <th  align="center" height="10" width="11%" style="color:white; font-weight:800; font-size:8.5pt;">PU</th>
+        <th  align="center" height="10" width="8%" style="color:white; font-weight:800; font-size:8.5pt;">Remise</th>
+        <th  align="center" height="10" width="11%" style="color:white; font-weight:800; font-size:8.5pt;">TOTAL </th>  
     </tr>
 
   ';
@@ -312,6 +313,7 @@ $tbl .= '
         <td align="center">U</td>
         <td  align="right">'.number_format($ligne["qte_vendu"],2,"."," ") . ' ' . $unit .'</td>
         <td  align="right">'.number_format($ligne["prix_produit"]/ (1 + $ligne["tva"]),2,"."," ").'</td>
+        <td  align="right">'.$ligne['remise'].'</td>
         <td  align="right">'. number_format($tot_ht,2,"."," ")  .'</td>
     </tr>
    ';

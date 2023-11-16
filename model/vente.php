@@ -19,7 +19,7 @@ class vente extends table
    protected $id_bon;
    protected $localisation;
    protected $created_at;
-
+   protected $id_vendeur  ;  
    public function selectVenteByClient($id_client, $date)
    {
       $result = connexion::getConnexion()->query("
