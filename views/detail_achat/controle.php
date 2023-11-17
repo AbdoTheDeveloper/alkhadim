@@ -89,11 +89,11 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
 }
 
 	//calculate composant et produit fini
-
-	// debug($data) ; 
+	if(!$data[0]->valide) {
 	foreach ($data as $d) {
 		// valider detail achat  
 		if(!$d->valide) {
+      
 		$statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
 
 
@@ -155,8 +155,11 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
 
 		
 	}
+  die('success');
+  }else {
+    die('achat déja validé');
+  }
 
-	die('success');
 } 
 elseif ($_POST['act'] == 'addProduct') {
   if (!isset($_SESSION['rand_a_er']) || $_SESSION['rand_a_er'] === "") {

@@ -236,7 +236,24 @@ $oldvalue=$utilisateur->selectById($id[1]);
                                       </div>
                                   </div>
                               </div>
-                              
+                              <div class="form-group col-md-2">
+                                  <label for="bloque1">bloqué :</label>
+                                  <div class="mb-4">
+                                      <div style="display: inline-block;" class="custom-control custom-radio">
+                                          <input <?php $oldvalue['bloque']==1 ? print 'checked' : '' ?> type="radio"
+                                              id="bloque1" value="1" checked="" name="bloque"
+                                              class="custom-control-input">
+                                          <label class="custom-control-label" for="bloque1">Oui</label>
+                                      </div>
+                                      <div style="display: inline-block;margin-left: 20px"
+                                          class="custom-control custom-radio">
+                                          <input <?php $oldvalue['bloque']==0 ? print 'checked' : '' ?> type="radio"
+                                              id="bloque2" value="0" name="bloque" class="custom-control-input">
+                                          <label class="custom-control-label" for="bloque2">Non</label>
+
+                                      </div>
+                                  </div>
+                              </div>
 
                           </div>
                           <?php 

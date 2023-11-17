@@ -296,7 +296,7 @@ if (isset($_POST['ajax'])) {
                             // })
                    
                         }else {
-                            console.log('not updated in the product table ')
+                            console.log('not updated ')
                         }
                     })
                 } else {

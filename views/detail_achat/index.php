@@ -39,6 +39,10 @@ $achat = $achat->selectById($id);
             <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
           </a>
         <?php } ?>
+        <div class="float-sm-right text-zero">
+          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+            data-url="detail_achat/pointage.php?id=<?php echo $id ?>">Pointage</button>
+        </div>
       </div>
       <div class="separator mb-5"></div>
     </div>
@@ -54,7 +58,7 @@ $achat = $achat->selectById($id);
                 <th scope="col">Produit</th>
                 <th scope="col">Dépot</th>
                 <th> Prix</th>
-                <th scope = "col">Prix Revient </th>
+                <th scope="col">Prix Revient </th>
                 <th scope="col" style='width:170px;'> Qte</th>
                 <th scope="col"> Qte*Prix</th>
                 <?php if ($valide) { ?>
@@ -85,9 +89,9 @@ $achat = $achat->selectById($id);
                   </td>
                   <td style="text-align:right;">
                     <label>
-                      <?php 
-                      $pourcentage_prix_article  = ($ligne->prix_produit * $ligne->montant_achat) / 100  ;
-                      $prix_revient  = $ligne->prix_produit +($pourcentage_prix_article * ($ligne->charge_total  / $ligne->qte_total)) /100 ;  
+                      <?php
+                      $pourcentage_prix_article = ($ligne->prix_produit * $ligne->montant_achat) / 100;
+                      $prix_revient = $ligne->prix_produit + ($pourcentage_prix_article * ($ligne->charge_total / $ligne->qte_total)) / 100;
                       echo number_format($prix_revient, 2, '.', 3); ?>
                     </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
@@ -184,7 +188,6 @@ $achat = $achat->selectById($id);
       },
       dataType: 'text',
       success: function (data) {
-        console.log(data);
         swal(
           'Validation achat',
           'l\'achat N°' + id + ' a ete bien validé',
@@ -192,6 +195,7 @@ $achat = $achat->selectById($id);
         ).then((result) => {
           location.reload();
         });
+
       }
     });
   });

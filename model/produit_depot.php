@@ -17,6 +17,11 @@ class produit_depot extends table
 		
 		return $result;
 	}
+	public function get_produit_achetee($produit,$id_achat){
+ 
+		$result = connexion::getConnexion()->query("SELECT sum(qte_achete) as qte , id_detail FROM detail_achat WHERE id_produit = $produit AND id_achat = $id_achat")->fetch(PDO::FETCH_OBJ);
+		return $result;
+	}
 	
 	public function depots($produit)
 	{

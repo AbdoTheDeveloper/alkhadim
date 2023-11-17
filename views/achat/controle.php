@@ -101,13 +101,15 @@ if ($_POST['act'] == 'rech') {
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
 	?>
-		<optgroup label="<?php echo $rep_depot->nom; ?> ">
+		<optgroup 
+		label="<?php echo $rep_depot->nom; ?> "
+		>
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  code_bar like '" . $_POST['id'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
 			foreach ($produits as $row) {
 				echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
 			} ?>
-		</optgroup>
+		<!-- </optgroup> -->
 	<?php }
 } elseif ($_POST['act'] == 'rech_designation') {
 	$depot = new depot();

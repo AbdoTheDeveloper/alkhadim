@@ -3,7 +3,7 @@
 
  include('eve.php');
 
- function debug($param) { 
+ function x_debug($param) { 
   if(is_array($param)){
     print_r($param);
     die()    ; 

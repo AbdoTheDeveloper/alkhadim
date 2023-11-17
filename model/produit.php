@@ -118,4 +118,11 @@ class produit extends table
 		$result = connexion::getConnexion()->query("select c.* from  categorie c  order by c.nom asc");
 		return $result->fetchAll(PDO::FETCH_OBJ);
 	}
+
+	public function update_quantity($produit, $depot, $qte)
+	{
+		$query = "UPDATE produit_depot SET qte = $qte WHERE id_produit = $produit AND id_depot = $depot";
+		
+		connexion::getConnexion()->exec($query);
+	}
 }
