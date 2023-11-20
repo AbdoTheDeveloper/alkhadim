@@ -114,8 +114,7 @@ if ($_POST['act'] == 'filter') {
   $id = $Transfert_caisse->laset_insert();
   $effet_transfert_caisse = new effet_transfert_caisse();
   $cheque_transfert_caisse = new cheque_transfert_caisse();
-  //  var_dump($_POST['montant_effet']) ; 
-  //  die() ; 
+
   foreach ($_POST['montant_effet'] as $key => $value) {
     $effet_transfert_caisse->id_transfert_caisse = $cheque_transfert_caisse->id_transfert_caisse = $_POST['id_transfert_caisse'] = (int) $id;
     $effet_transfert_caisse->montant_effet = $_POST['montant_effet'][$key];
@@ -159,9 +158,8 @@ if ($_POST['act'] == 'filter') {
     $cheque_transfert_caisse->deletebyIdTransfertCaisse($id);
 
 
-
     foreach ($_POST['montant_effet'] as $key => $value) {
-      if (!empty($_POST['montant_effet'][$key]) && !empty($_POST['num_effet'][$key])) {
+      if ($_POST['montant_effet'][$key] != "" && $_POST['num_effet'][$key] != "" ) {
         $effet_transfert_caisse->id_transfert_caisse = $cheque_transfert_caisse->id_transfert_caisse = $_POST['id_transfert_caisse'] = (int) $_POST['id'];
         $effet_transfert_caisse->montant_effet = $_POST['montant_effet'][$key];
         $effet_transfert_caisse->num_effet = $_POST['num_effet'][$key];

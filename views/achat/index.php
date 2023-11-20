@@ -61,9 +61,9 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                   <th scope="col" width="1px">Id</th>
                   <th scope="col">Fournisseur</th>
                   <th> Date </th>
-                  <th style="text-align:center" scope="col"> Montant En devise</th>
+                  <th style="text-align:center" scope="col"> Montant En Devise</th>
                   <th style="text-align:center" scope="col"> Montant En Dh </th>
-                  <th scope="col"> Reste </th>
+                  <th scope="col"> Reste En Dh</th>
                   <th scope="col"> remarque </th>
                   <th scope="col">Actions</th>
                 </tr>
@@ -92,14 +92,14 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
-                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' ') ?> &nbsp;&nbsp;
+                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '). " DH" ?> &nbsp;&nbsp;
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
                       $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_achat where id_achat=" . $ligne->id_achat);
                       $result = $query->fetch(PDO::FETCH_OBJ);
                       $paye = $result->paye;
-                      echo number_format($ligne->montant - $paye, 2, '.', ' ');
+                      echo number_format(($ligne->montant - $paye) * $sub_data[0]->cout_device, 2, '.', ' '). " DH";
                       ?> &nbsp;&nbsp;
                     </td>
                     <td>

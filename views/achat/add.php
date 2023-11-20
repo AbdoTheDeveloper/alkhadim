@@ -20,8 +20,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         <h1>Achat</h1>
 
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i
-              class="glyph-icon simple-icon-arrow-left"></i></button>
+          <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
       </div>
 
@@ -51,8 +50,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               </div>
               <div class="form-group col-md-4">
                 <label for="date_achat">Date :</label>
-                <input type="text" class="form-control datepicker" id="date_achat" name="date_achat"
-                  value="<?php echo date('Y-m-d'); ?>">
+                <input type="text" class="form-control datepicker" id="date_achat" name="date_achat" value="<?php echo date('Y-m-d'); ?>">
               </div>
 
 
@@ -60,9 +58,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               <div class="form-group col-md-2">
                 <label for="id_fournisseur">Devise : </label>
                 <select class="form-control select2-single" name="devise_produit" id="devise_produit">
-                  <option data-devise = "1" value="MAD">MAD</option>
-                  <option data-devise = "9.8" value="$">USD</option>
-                  <option data-devise = "9" value="£">EUR</option>
+                  <option data-devise="1" value="MAD">MAD</option>
+                  <option data-devise="9.8" value="$">USD</option>
+                  <option data-devise="9" value="£">EUR</option>
                 </select>
               </div>
 
@@ -83,24 +81,24 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                 <textarea class="form-control" name="remarque" id="remarque"></textarea>
               </div>
 
-              <div class="form-group col-md-1">
+              <div class="form-group col-md-2">
                 <label for="prix_produit">Num Fature :</label>
-                <input type="text" name="num_facture" id="num_facture" class="form-control" placeholder="num facture" >
+                <input type="text" name="num_facture" id="num_facture" class="form-control" placeholder="num facture">
               </div>
 
-              <div class="form-group col-md-1">
-                <label for="qte_achete">Num  Dum :  </label>
-                <input type="text" name="num_dum" id="num_dum" class="form-control" placeholder= "num dum ">
+              <div class="form-group col-md-2">
+                <label for="qte_achete">Num Dum : </label>
+                <input type="text" name="num_dum" id="num_dum" class="form-control" placeholder="num dum ">
               </div>
 
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="rech"> Recherche Référence: </label>
                 <input type="text" class="form-control" style="border-color: red" id="rech">
               </div>
 
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="rech_designation"> Recherche Désignation: </label>
                 <input type="text" class="form-control" style="border-color: red" id="rech_designation">
               </div>
@@ -108,8 +106,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
 
               <div class="form-group col-md-4">
 
-                <button style="display: none;" type="button" data-toggle="modal" data-target="#addModal"
-                  class="btn btn-secondary" style="margin-top:30px;">
+                <button style="display: none;" type="button" data-toggle="modal" data-target="#addModal" class="btn btn-secondary" style="margin-top:30px;">
                   <i class='bx bx-globe'></i> Liste des produits
                 </button>
 
@@ -137,7 +134,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                   $depot = new depot();
                   $res_depot = $depot->selectAll();
                   foreach ($res_depot as $rep_depot) {
-                    ?>
+                  ?>
                     <optgroup label="<?php echo $rep_depot->nom; ?> ">
                       <?php
                       $produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $categories[0]->id_categorie . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
@@ -156,7 +153,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                   <?php
                   $depot = new depot();
                   $res_depot = $depot->selectAll();
-                  foreach ($res_depot as $d): ?>
+                  foreach ($res_depot as $d) : ?>
                     <option value="<?php echo $d->id ?>">
                       <?php echo $d->nom ?>
                     </option>';
@@ -166,8 +163,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               </div>
               <div class="form-group col-md-1">
                 <label for="reste_stock">Stock</label>
-                <span class="badge badge-danger mb-1" style=" display: block; margin-top: 10px;"
-                  id="reste_stock">0</span>
+                <span class="badge badge-danger mb-1" style=" display: block; margin-top: 10px;" id="reste_stock">0</span>
 
               </div>
               <div class="form-group col-md-1">
@@ -195,8 +191,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                 <input type="text" name="f_approch" id="f_approch" class="form-control" value="1">
               </div>
               <div class="form-group col-md-2">
-                <button id="addProduct" type="button" class="btn btn-success default btn-lg btn-block  mr-1 "
-                  style="margin-top: 30px;">Ajouter</button>
+                <button id="addProduct" type="button" class="btn btn-success default btn-lg btn-block  mr-1 " style="margin-top: 30px;">Ajouter</button>
               </div>
             </div>
 
@@ -214,7 +209,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                     <th width="102" scope="col">Prix</th>
                     <th width="109" scope="col">Qte</th>
                     <th width="109" scope="col">Date Exp</th>
-                    <th width="109" scope="col">Poid</th>
+                    <!-- <th width="109" scope="col">Poid</th> -->
                     <th width="129" scope="col">PU*Qte*Devise</th>
                     <th width="129" scope="col">Action</th>
                   </tr>
@@ -228,7 +223,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
 
                   foreach ($data as $ligne) {
 
-                    ?>
+                  ?>
                     <tr>
                       <td>
                         <?php echo $ligne->designation; ?>
@@ -245,29 +240,27 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                       <td>
                         <?php echo $ligne->date_expiration; ?>
                       </td>
-                      <td>
+                      <!-- <td>
                         <?php echo $ligne->poid * $ligne->qte_achete;
-                        $somme_poid += $ligne->poid * $ligne->qte_achete;
+                        //   $somme_poid += $ligne->poid * $ligne->qte_achete;
                         ?> g
-                      </td>
+                      </td> -->
                       <td width="90" style="text-align: right;">
                         <?php echo number_format($ligne->prix_produit, 2, '.', ' ');
                         $total += $ligne->qte_achete * $ligne->prix_produit;
                         ?>
                       </td>
-                      <td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
-                          style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                      <td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                           <i class="simple-icon-trash" style="font-size: 15px;"></i>
                         </a>
                       </td>
                     </tr>
-                    <?php
+                  <?php
                   }
                   ?>
                   <tr>
                     <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
-                    <td style="text-align: right;" colspan="3"> <b
-                        style="font-size: 15px;color: green;text-align: right;">
+                    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right;">
                         <?php echo number_format($total, 2, '.', ' '); ?>
                       </b></td>
 
@@ -286,8 +279,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
     </div>
   </div>
 </div>
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document" style="min-width:80%;">
     <div class="modal-content" style="padding:0px; background-color:initial;">
       <div class="modal-body" style="padding:0px; background-color:initial;">
@@ -318,14 +310,13 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                     <div class="form-row">
                       <div class="form-group   col-md-3">
                         <label> &nbsp;&nbsp;Code / Nom : </label>
-                        <input type="text" id="keywords" class="form-control" placeholder="Recherche par Num ou Nom"
-                          onkeyup="searchFilter()" />
+                        <input type="text" id="keywords" class="form-control" placeholder="Recherche par Num ou Nom" onkeyup="searchFilter()" />
                       </div>
                       <div class="form-group   col-md-2">
                         <label> &nbsp;&nbsp;Emplacement : </label>
                         <select id="depot" onchange="searchFilter()" class="form-control">
                           <option value="0">Tous</option>
-                          <?php foreach ($data_depot as $depot): ?>
+                          <?php foreach ($data_depot as $depot) : ?>
                             <option value="<?php echo $depot->id; ?>">
                               <?php echo $depot->nom ?>
                             </option>
@@ -336,7 +327,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                         <label> Fournisseur : </label>
                         <select id="fournisseur" class="form-control select2-single" onchange="searchFilter()">
                           <option value='-1' selected>Choisir un fournisseur</option>
-                          <?php foreach ($fournisseurs_all as $fr): ?>
+                          <?php foreach ($fournisseurs_all as $fr) : ?>
                             <option value="<?php echo $fr->nom; ?>">
                               <?php echo $fr->nom ?>
                             </option>
@@ -347,7 +338,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                         <label> &nbsp;&nbsp;Catégorie :</label>
                         <select id="categorie" onchange="searchFilter()" class="form-control select2-single">
                           <option value="0">Choisir la catégorie</option>
-                          <?php foreach ($data_cat as $cat): ?>
+                          <?php foreach ($data_cat as $cat) : ?>
                             <option value="<?php echo $cat->id_categorie; ?>">
                               <?php echo $cat->nom ?>
                             </option>
@@ -397,8 +388,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               <p id="barcode_footer" style="font-weight:900; font-size:16pt;"></p>
             </center>
           </div>
-          <div class=""
-            style="font-weight:900; font-size:16pt;height:8px;background-color:#2a93d5;border-style: none;color: white;font-size: 12pt;font-weight: 900;width: 100%; cursor:pointer; ">
+          <div class="" style="font-weight:900; font-size:16pt;height:8px;background-color:#2a93d5;border-style: none;color: white;font-size: 12pt;font-weight: 900;width: 100%; cursor:pointer; ">
           </div>
         </div>
       </div>
@@ -419,10 +409,10 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
       type: 'POST',
       url: "<?php echo BASE_URL . 'views/produit/'; ?>controle.php",
       data: 'act=filter_vente&keywords=' + keywords + '&depot=' + depot + '&categorie=' + categorie + '&stock=' + stock + '&sortBy=' + sortBy + '&fournisseur=' + fournisseur,
-      beforeSend: function () {
+      beforeSend: function() {
         $('.loading-overlay').show();
       },
-      success: function (html) {
+      success: function(html) {
         $('#posts_content').html(html);
         $('#datatables').dataTable({
           responsive: false,
@@ -451,7 +441,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
 
           },
 
-          drawCallback: function () {
+          drawCallback: function() {
 
             $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
 
@@ -466,9 +456,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
     });
   }
 
-  $(document).ready(function () {
+  $(document).ready(function() {
 
-    $('body').on('click', '.add_v2_btn', function () {
+    $('body').on('click', '.add_v2_btn', function() {
 
       //get values
       let id = $(this).data('id');
@@ -522,13 +512,13 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
           cout_device: cout,
           f_approch: approch
         },
-        success: function (data) {
+        success: function(data) {
           $('#detail_commande').html(data);
         }
       });
     });
 
-    $("#rech").keyup(function () {
+    $("#rech").keyup(function() {
 
       var id = $(this).val();
       $.ajax({
@@ -536,9 +526,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
         data: {
           act: "rech",
-          id: id
+          id: id.trim()
         },
-        success: function (data) {
+        success: function(data) {
 
           $('#id_produit').html(data);
           $("#id_produit").change();
@@ -547,7 +537,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
     });
 
 
-    $("#rech_designation").keyup(function () {
+    $("#rech_designation").keyup(function() {
 
       var designation = $(this).val();
       $.ajax({
@@ -555,9 +545,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
         data: {
           act: "rech_designation",
-          designation: designation
+          designation: designation.trim()
         },
-        success: function (data) {
+        success: function(data) {
 
           $('#id_produit').html(data);
           $("#id_produit").change();
@@ -581,7 +571,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         rightArrow: '<i class="simple-icon-arrow-right"></i>'
       }
     });
-    $("#id_categorie").change(function () {
+    $("#id_categorie").change(function() {
 
 
 
@@ -593,7 +583,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
           act: "getproduit",
           id_categorie: id_categorie
         },
-        success: function (data) {
+        success: function(data) {
           console.log(data);
           $('#id_produit').html(data);
           $("#id_produit").change();
@@ -601,7 +591,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
       });
 
     });
-    $("#id_produit").change(function () {
+    $("#id_produit").change(function() {
 
 
 
@@ -613,7 +603,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
           act: "getPrix",
           id_produit: id_produit
         },
-        success: function (data) {
+        success: function(data) {
 
           console.log(data);
           var tab = data.split('/');
@@ -624,7 +614,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
 
     });
 
-    $("#addProduct").click(function () {
+    $("#addProduct").click(function() {
 
       var id_produit = $(this).val();
 
@@ -638,11 +628,11 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
           qte_achete: $("#qte_achete").val(),
           date_expiration: $("#date_exp").val(),
           id_depot: $("#id_depot").val(),
-          devise_produit :$("#devise_produit").val(),
+          devise_produit: $("#devise_produit").val(),
           cout_device: $("#cout_device").val(),
           f_approch: $("#f_approch").val()
         },
-        success: function (data) {
+        success: function(data) {
           console.log(data);
           $('#detail_commande').html(data);
         }
@@ -650,7 +640,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
 
     });
 
-    $('body').on("click", ".delete", function (event) {
+    $('body').on("click", ".delete", function(event) {
       event.preventDefault();
 
 
@@ -673,7 +663,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               act: "deleterow",
               id_detail: btn.data('id')
             },
-            success: function (data) {
+            success: function(data) {
 
               swal(
                 'Supprimer',
@@ -694,7 +684,31 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
     });
 
 
-    $("body").on("click", "#senddata", function (event) {
+
+    function get_currrency_value() {
+      // set endpoint and your API key
+      endpoint = 'convert';
+      access_key = 'API_KEY';
+
+      // define from currency, to currency, and amount
+      from = 'EUR';
+      to = 'GBP';
+      amount = '10';
+
+      // execute the conversion using the "convert" endpoint:
+      $.ajax({
+        url: 'https://api.exchangeratesapi.io/v1/' + endpoint + '?access_key=' + access_key + '&from=' + from + '&to=' + to + '&amount=' + amount,
+        dataType: 'jsonp',
+        success: function(json) {
+
+          // access the conversion result in json.result
+          alert(json.result);
+
+        }
+      });
+    }
+
+    $("body").on("click", "#senddata", function(event) {
       event.preventDefault();
 
       var form = document.getElementById('addform');
@@ -706,8 +720,8 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data) {
-          if (data == "success") {
+        success: function(data) {
+          if (data.trim() == "success") {
             swal(
               'Achat',
               'achat a ete bien Ajouter',
@@ -724,7 +738,7 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
                 },
                 url: `<?php echo BASE_URL . "views/achat/index.php"; ?>`,
                 context: document.body,
-                success: function (data) {
+                success: function(data) {
                   $("#main").html(data);
                 }
               });

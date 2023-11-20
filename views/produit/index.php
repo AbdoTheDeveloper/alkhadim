@@ -124,7 +124,7 @@ $fournisseurs = connexion::getConnexion()->query("SELECT fournisseur AS nom FROM
                     <th> P.achat</th>
                     <th> P.Gros</th>
                     <th> P.Détail</th>
-                    <th> P.Wanny</th>
+                    <!-- <th> P.Wanny</th> -->
                     <th> CMUP </th>
                     <th>Actions</th>
                   </tr>
@@ -147,7 +147,7 @@ $fournisseurs = connexion::getConnexion()->query("SELECT fournisseur AS nom FROM
                       <td> <?php echo $ligne->prix_achat; ?> </td>
                       <td> <?php echo $ligne->prix_vente; ?> </td>
                       <td> <?php echo $ligne->prix_vente2; ?> </td>
-                      <td> <?php echo $ligne->prix_vente3; ?> </td>
+                      <!-- <td> <?php echo $ligne->prix_vente3; ?> </td> -->
 
                       <td> <?php
                             $data =  $produit->getCmup($ligne->id_produit);
@@ -359,7 +359,7 @@ $fournisseurs = connexion::getConnexion()->query("SELECT fournisseur AS nom FROM
 
 
         page_num = page_num ? page_num : 0;
-        var keywords = $('#keywords').val();
+        var keywords = $('#keywords').val().trim();
         var depot = $('#depot').val();
         var categorie = $('#categorie').val();
         var stock = $('#stock').val();

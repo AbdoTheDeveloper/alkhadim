@@ -74,16 +74,16 @@ if (isset($_POST['ajax'])) {
                             <div class="form-group col-md-4">
                                 <label for="id_fournisseur">Devise : </label>
                                 <select class="form-control select2-single" name="devise_produit" id="devise_produit">
-                                    <option data-devise="1" value="MAD">MAD</option>
-                                    <option data-devise="9.8" value="$">USD</option>
-                                    <option data-devise="9" value="£">EUR</option>
+                                    <option  value="MAD">MAD</option>
+                                    <option  value="$">USD</option>
+                                    <option  value="£">EUR</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
                                 <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
                             </div>
-                            <div class="col-md-4  shadow-lg ">
+                            <div class="col-md-4 ">
                                 <div class="card ">
                                     <div class="card-body">
                                         <div class="input-group mb-3 effet">
@@ -110,7 +110,7 @@ if (isset($_POST['ajax'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4  shadow-lg ">
+                            <div class="col-md-4  ">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="input-group cheque mb-3">
@@ -372,9 +372,6 @@ if (isset($_POST['ajax'])) {
         $(document).ready(function () {
             add_new_input();
         })
-        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        $('#devise_produit').change(() => {
-            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        })
+
     });
 </script>

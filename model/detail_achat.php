@@ -23,28 +23,29 @@ public function selectAllNonValide(){
 	} 
 	
 public function selectAllValide($id){
-	$result=connexion::getConnexion()->query("
-	SELECT 
-    dp.nom AS depot, 
-    da.id_detail, 
-    da.id_produit, 
-    p.designation, 
-    da.prix_produit, 
-    da.qte_achete, 
-    da.valide, 
-    da.date_validation, 
-    a.montant AS montant_achat ,
-    sum(da.qte_achete) as qte_total  , 
-    (select sum(montant) from charge where id_achat  = da.id_achat ) as charge_total 
+	$result=connexion::getConnexion()->query("SELECT 
+  dp.nom AS depot, 
+  da.id_detail, 
+  da.id_produit, 
+  p.designation, 
+  da.prix_produit, 
+  da.qte_achete, 
+  da.valide, 
+  da.date_validation, 
+  sum((da.prix_produit * da.qte_achete) * da.cout_device) as montant_achat,
+  sum(da.qte_achete) as qte_total, 
+  ((sum(c.montant) * c.cout_device )+   sum((da.prix_produit * da.qte_achete) * da.cout_device)) as total_cost  , 
+  da.cout_device 
 FROM 
-    detail_achat da 
-    LEFT JOIN produit p ON p.id_produit = da.id_produit 
-    LEFT JOIN achat a ON a.id_achat = da.id_achat 
-    LEFT JOIN depot dp ON dp.id = da.id_depot 
+  detail_achat da 
+  LEFT JOIN produit p ON p.id_produit = da.id_produit 
+  LEFT JOIN achat a ON a.id_achat = da.id_achat 
+  LEFT JOIN depot dp ON dp.id = da.id_depot
+  LEFT JOIN charge c on c.id_achat  = a.id_achat
 WHERE 
-    da.id_achat = $id
+  da.id_achat = $id
 ORDER BY 
-    da.id_detail DESC
+  da.id_detail DESC
 ");
 	return $result->fetchAll(PDO::FETCH_OBJ);
 	} 	

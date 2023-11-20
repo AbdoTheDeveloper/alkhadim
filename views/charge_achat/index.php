@@ -107,7 +107,7 @@ if ($id) {
                       <?php echo $charge->montant ." ". $charge->devise_produit?>
                     </td>
                     <td>
-                      <?php echo $charge->montant * $charge->cout_device ?>
+                      <?php echo $charge->montant * $charge->cout_device . " DH" ?>
                     </td>
                     <td>
                       <?php echo $charge->remarque ?>

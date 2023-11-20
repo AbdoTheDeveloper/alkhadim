@@ -96,6 +96,19 @@ if ($_POST['act'] == 'getproduit') {
 		</optgroup>
 	<?php }
 }
+
+
+
+// ===============================================================================================  Afficher la quantité achetée du produit ================================================================================================================ 
+
+if ($_POST['act'] == 'getAcheteQte') {
+	$produit_depot = new produit_depot();
+	$pd = $produit_depot->get_produit_achetee($_POST['id_produit'], $_POST['id_achat']);
+	echo json_encode($pd);
+	exit;
+  }
+  
+  
 if ($_POST['act'] == 'rech') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
@@ -204,11 +217,11 @@ if ($_POST['act'] == 'rech') {
 			<td>
 				<?php echo $ligne->date_expiration; ?>
 			</td>
-			<td>
-				<?php echo $ligne->poid * $ligne->qte_achete;
-				$somme_poid += $ligne->poid * $ligne->qte_achete;
+			<!-- <td>
+				<?php  // echo $ligne->poid * $ligne->qte_achete;
+				// $somme_poid += $ligne->poid * $ligne->qte_achete;
 				?> g
-			</td>
+			</td> -->
 			<td width="90" style="text-align: right;">
 				<?php echo number_format($ligne->qte_achete * $ligne->prix_produit, 2, '.', ' ');
 				$total += $ligne->qte_achete * $ligne->prix_produit;
@@ -234,8 +247,6 @@ if ($_POST['act'] == 'rech') {
 	$achat = new achat();
 	if (isset($_POST["id_fournisseur"])) {
 		$statut  = $achat->insert();
-		
-
 		 
 		// connexion::getConnexion()->exec("");
 		connexion::getConnexion()->exec("UPDATE detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
@@ -249,7 +260,7 @@ if ($_POST['act'] == 'rech') {
 
 		
 		$query  = "UPDATE achat  SET montant = " . $result[0]->montant. " WHERE achat.id_achat = $last_inserted"  ;
-		$statut  = connexion::getConnexion()->exec($query );
+		$statut  = connexion::getConnexion()->exec($query);
 
 
 
@@ -265,8 +276,9 @@ if ($_POST['act'] == 'rech') {
 		connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
 			}
 			*/
+			die("success");
 	}
-	die("success");
+
 }
 //--------------------------------------------------------------------------------------- Valider Achat ------------------------------------------------------------------------------------------------------
 elseif ($_POST['act'] == 'valide_achat') {
@@ -340,11 +352,15 @@ elseif ($_POST['act'] == 'valide_achat') {
 	}
 	die('success');
 } elseif ($_POST['act'] == 'update') {
+	$devise  =  (String)$_POST['devise_produit'] ; 
+	$cout_device  = $_POST['cout_device'] ; 
 	try {
 		$_POST["idu"] = auth::user()["id"];
 		$achat = new achat();
-		$achat->update($_POST["id"]);
-		connexion::getConnexion()->query("UPDATE detail_achat SET cout_device = " . $_POST['cout_device'] . " where id_achat =" .$_POST['id']) ;  
+		$achat->update($_POST["id"]); 
+		// debug("UPDATE detail_achat SET devise_produit = '$devise' , cout_device = $cout_device where id_achat =" .$_POST['id']) ; 
+		connexion::getConnexion()->query("UPDATE detail_achat SET devise_produit = '$devise' , cout_device = $cout_device where id_achat =" .$_POST['id']) ;  
+		
 		die('success');
 	} catch (Exception $e) {
 		die($e);
@@ -357,6 +373,7 @@ elseif ($_POST['act'] == 'valide_achat') {
 			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel -" . $value["qte_achete"] . " WHERE  id_produit =" . $value["id_produit"]);
 		}
 		connexion::getConnexion()->query("delete from charge where id_achat=".$_POST['id']) ; 
+		connexion::getConnexion()->query("delete from detail_achat where id_achat=".$_POST['id']) ; 
 		$achat->delete($_POST["id"]);
 		die('success');
 	} catch (Exception $e) {

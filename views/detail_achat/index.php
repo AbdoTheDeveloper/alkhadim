@@ -13,8 +13,8 @@ if ($result == false) {
 $detail_achat = new detail_achat();
 $achat = new achat();
 $data = $detail_achat->selectAllValide($id);
-
-$achat = $achat->selectById($id);
+$achat = $achat->selectById($id); 
+// debug($data[0]) ; 
 ?>
 <div class="container-fluid disable-text-selection">
   <div class="row">
@@ -24,14 +24,16 @@ $achat = $achat->selectById($id);
           <?php echo $id ?>
         </h1>
         <input type="hidden" id="id_achat" value="<?php echo $id ?>" />
-        <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-success  url notlink" data-url="achat/index.php"> <i
+        <div class="float-sm-right text-zero mb-1">
+          <button type="button" class="btn btn-primary  url notlink" data-url="achat/index.php"> <i
               class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
+        <?php if (!$valide) { ?>
         <div class="float-sm-right text-zero">
           <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
             data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
         </div>
+        <?php } ?>
         <?php if ($valide && $achat->valide == 0) { ?>
           <a class="mb-2 valide_achat float-sm-right text-zero" style="color: white;cursor: pointer;"
             title="Valide la commande" type="button" id="btn_valide_<?php echo $id; ?>" data-id="<?php echo $id; ?>">
@@ -39,10 +41,14 @@ $achat = $achat->selectById($id);
             <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
           </a>
         <?php } ?>
+
+        <?php if ($valide && $achat->valide == 0) { ?>
         <div class="float-sm-right text-zero">
           <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
             data-url="detail_achat/pointage.php?id=<?php echo $id ?>">Pointage</button>
         </div>
+        <?php } ?>
+
       </div>
       <div class="separator mb-5"></div>
     </div>
@@ -57,7 +63,7 @@ $achat = $achat->selectById($id);
                 <th scope="col" width="1px">Id</th>
                 <th scope="col">Produit</th>
                 <th scope="col">Dépot</th>
-                <th> Prix</th>
+                <th scope="col"> Prix</th>
                 <th scope="col">Prix Revient </th>
                 <th scope="col" style='width:170px;'> Qte</th>
                 <th scope="col"> Qte*Prix</th>
@@ -70,6 +76,7 @@ $achat = $achat->selectById($id);
             <tbody>
               <?php
               $total = 0;
+              $total_avec_charge = 0; 
               foreach ($data as $ligne) {
                 ?>
                 <tr id="<?php echo $ligne->id_detail; ?>">
@@ -84,15 +91,21 @@ $achat = $achat->selectById($id);
                   </td>
                   <td style="text-align:right;">
                     <label>
-                      <?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>
+                      <?php echo number_format($ligne->prix_produit * $ligne->cout_device , 2, '.', 3) ; ?> DH
                     </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
                   <td style="text-align:right;">
                     <label>
                       <?php
-                      $pourcentage_prix_article = ($ligne->prix_produit * $ligne->montant_achat) / 100;
-                      $prix_revient = $ligne->prix_produit + ($pourcentage_prix_article * ($ligne->charge_total / $ligne->qte_total)) / 100;
-                      echo number_format($prix_revient, 2, '.', 3); ?>
+                      // $pourcentage_prix_article = ($ligne->prix_produit * $ligne->montant_achat) / 100;
+                      // // $montant = $total  
+                      // $prix_revient = $ligne->prix_produit  + ($pourcentage_prix_article * ($ligne->charge_total * $ligne->cout_charge / $ligne->qte_total)) / 100;
+                   
+
+                      $produit = new produit() ; 
+                      $product_cost  =  $produit->calculateCostPricePercentage($ligne->prix_produit * $ligne->cout_device, $ligne->montant_achat , $ligne->total_cost) ; 
+                      $total_avec_charge += $product_cost * $ligne->qte_achete  ; 
+                      echo number_format($product_cost , 2, '.', 3); ?> DH 
                     </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
                   <td><label>
@@ -100,9 +113,9 @@ $achat = $achat->selectById($id);
                     </label><input style='width:80px;' type='text' value="<?php echo $ligne->qte_achete; ?>" />
                   </td>
                   <td style="text-align:right;" width="90">
-                    <?php echo number_format($ligne->qte_achete * $ligne->prix_produit, 2, '.', '');
-                    $total += $ligne->qte_achete * $ligne->prix_produit;
-                    ?> &nbsp;&nbsp;
+                    <?php echo number_format($ligne->qte_achete * $ligne->prix_produit * $ligne->cout_device, 2, '.', '');
+                    $total += $ligne->qte_achete * $ligne->prix_produit * $ligne->cout_device
+                    ?> DH &nbsp;&nbsp;
                   </td>
                   <?php if ($valide) { ?>
                     <td>
@@ -141,8 +154,12 @@ $achat = $achat->selectById($id);
             </tbody>
           </table>
           <br>
-          <h1 id="total">Total :
-            <?php echo number_format($total, 2, '.', '') ?> DH
+          <h1 id="total">Total Sans Charge :
+            <?php echo number_format($total , 2, '.', '') ?> DH
+          </h1>
+          <br>
+          <h1 id="total">Total Avec Charge :
+            <?php echo number_format($total_avec_charge , 2, '.', '') ?> DH
           </h1>
         </div>
       </div>
@@ -175,6 +192,10 @@ $achat = $achat->selectById($id);
 
 
   // /======================================================================================================= Valider Detail Achat ============================================================================================== 
+
+
+
+
   $('body').on("click", ".valide_detail_achat", function (e) {
     // e.preventDefault() ; 
     let id = $(this).attr('data-id');

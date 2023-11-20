@@ -71,17 +71,17 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                             <div class='col-md-4'>
                                 <label for="id_fournisseur">Devis : </label>
                                 <select class="form-control select2-single " name="devise_produit" id="devise_produit">
-                                    <option data-devise = "1" <?php echo $oldvalue["devise_produit"]== 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
-                                    <option data-devise = "9.8"<?php echo$oldvalue["devise_produit"]== '$' ? 'selected' : '' ?> value="$">USD</option>
-                                    <option data-devise = "9"<?php echo $oldvalue["devise_produit"]== '£' ? 'selected' : '' ?> value="£">EUR
+                                    <option <?php echo $oldvalue["devise_produit"]== 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
+                                    <option <?php echo $oldvalue["devise_produit"]== '$' ? 'selected' : '' ?> value="$">USD</option>
+                                    <option <?php echo $oldvalue["devise_produit"]== '£' ? 'selected' : '' ?> value="£">EUR
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
-                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
+                                <input name="cout_device" type="text" class="form-control" value="<?php echo $oldvalue["cout_device"]?>" id="cout_device" />
                             </div>
-                            <div class="col-md-4  shadow-lg ">
+                            <div class="col-md-4   ">
                                 <div class="card ">
                                     <div class="card-body">
                                         <div class="input-group mb-3 effet ">
@@ -92,7 +92,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="num_effet">Num&eacute;ro : </label>
-                                                <input type="number" name="num_effet[]" class="form-control"
+                                                <input type="text" name="num_effet[]" class="form-control"
                                                     id="num_effet[]" placeholder="Numéro" />
                                             </div>
                                         </div>
@@ -125,7 +125,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 shadow-lg ">
+                            <div class="col-md-4 ">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="input-group mb-3 cheque">
@@ -158,7 +158,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
                                                 </div>
                                                 <div class="col-md-5">
                                                     <label for="num_effet[]">Num&eacute;ro : </label>
-                                                    <input type="number" name="num_effet[]"
+                                                    <input type="text" name="num_effet[]"
                                                         value="<?php echo $value->num_cheque ?>" class="form-control"
                                                         id="num_cheque[]" placeholder="Numéro" />
                                                 </div>
@@ -194,12 +194,8 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
 <script type="text/javascript">
     $(document).ready(function () {
         function add_new_input() {
-            console.log("message ")
-            let counter1 = 1;
-            let counter2 = 1;
             // Add button click event for Card 1
             $('#addButton1').on('click', function (e) {
-                counter1++;
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
@@ -223,7 +219,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
             });
             // Add button click event for Card 2
             $('#addButton2').on('click', function (e) {
-                counter2++;
+
                 e.preventDefault();
                 const newInputField = `
               <div class="input-group mb-3">
@@ -253,10 +249,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
         $(document).ready(function () {
             add_new_input();
         })
-        $('#cout_devise').val($('#devise').val());
-        $('#devise').change(() => {
-            $('#cout_devise').val($('#devise').val());
-        })
+
         $(".select2-single").select2({
             theme: "bootstrap",
             placeholder: "",
@@ -316,9 +309,6 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
             });
         });
 
-        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        $('#devise_produit').change(() => {
-            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        })
+
     });
 </script>

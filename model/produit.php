@@ -125,4 +125,10 @@ class produit extends table
 		
 		connexion::getConnexion()->exec($query);
 	}
+
+	function calculateCostPricePercentage($productPrice, $totalPurchaseAmountWithoutCharges, $totalCost) {
+
+		$costPrice =((($productPrice * 100)/ $totalPurchaseAmountWithoutCharges) / 100  )* $totalCost;
+		return $costPrice;
+	}
 }

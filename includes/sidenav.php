@@ -3,8 +3,14 @@ $page = 'Acceuil';
 if (isset($_GET['p'])) {
     $page = $_GET['p'];
 } ?>
-
 <div class="sidebar">
+
+    <style>
+        #inventaire_depot:hover {
+            color: #034dff;
+            /* Additional styles can be added here if needed */
+        }
+    </style>
     <div class="main-menu">
         <div class="scroll">
             <ul class="list-unstyled">
@@ -24,7 +30,6 @@ if (isset($_GET['p'])) {
                         <i class="iconsmind-Digital-Drawing"></i> Opérations
                     </a>
                 </li>
-
                 <li id="Configuration" class="<?= $page == 'parametrage' || $page == 'categorie'  || $page == 'compte'  || $page == 'depot'  || $page == 'societe'  || $page == 'design_charges'  ? 'active' : '' ?>">
                     <a href="#Configuration" class="submenu">
                         <i class="glyph-icon iconsmind-Gear"></i> Configuration
@@ -35,7 +40,6 @@ if (isset($_GET['p'])) {
                         <i class="glyph-icon iconsmind-Bar-Chart"></i> État
                     </a>
                 </li>
-
                 <?php
                 if ((int)auth::user()['produit'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -44,62 +48,52 @@ if (isset($_GET['p'])) {
                             <i class="glyph-icon iconsmind-Shop-4 "></i> Produit
                         </a>
                     </li>
-
                 <?php
                 }
                 ?>
             </ul>
         </div>
     </div>
-
     <div class="sub-menu sub-hidden">
         <div class="scroll">
-
-
             <ul class="list-unstyled" data-link="client">
-
                 <?php
                 if ((int)auth::user()['client'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
-
                     <li>
                         <a href="javascript:void(0)" data-url="client/index.php" class="url sub">
                             <i class="glyph-icon iconsmind-Business-Man"></i> Client
                         </a>
                     </li>
-
                 <?php
                 }
                 ?>
-
-
                 <?php
                 if ((int)auth::user()['fournisseur'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
-
-
                     <li>
                         <a href="javascript:void(0)" data-url="fournisseur/index.php" class="url sub">
                             <i class="glyph-icon iconsmind-Talk-Man"></i> Fournisseur
                         </a>
                     </li>
-
-
                 <?php
                 }
                 ?>
-
-
-
-
                 <li>
                     <a href="javascript:void(0)" data-url="utilisateur/index.php" class="url sub">
                         <i class="iconsmind-MaleFemale"></i> Utilisateur
                     </a>
                 </li>
-
             </ul>
             <ul class="list-unstyled" data-link="vente">
+                <?php
+                if ((int)auth::user()['achat'] == 1 || auth::user()['privilege'] == "Admin") {
+                ?>
+                    <li><a href="javascript:void(0)" data-url="achat/index.php" class="url sub">
+                            <i class="glyph-icon iconsmind-Add-Bag"></i> Achat</a> </li>
+                <?php
+                }
+                ?>
                 <li>
                     <a href="javascript:void(0)" data-url="depots/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Depots
@@ -113,7 +107,6 @@ if (isset($_GET['p'])) {
                     <a href="javascript:void(0)" data-url="devis/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Devis</a>
                 </li>
-
                 <?php
                 if ((int)auth::user()['vente'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -145,23 +138,11 @@ if (isset($_GET['p'])) {
                 <li> <a href="javascript:void(0)" data-url="vente/bon.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i>Bon de livraison </a>
                 </li>
-
-                <?php
-                if ((int)auth::user()['achat'] == 1 || auth::user()['privilege'] == "Admin") {
-                ?>
-                    <li><a href="javascript:void(0)" data-url="achat/index.php" class="url sub">
-                            <i class="glyph-icon iconsmind-Add-Bag"></i> Achat</a> </li>
-                <?php
-                }
-                ?>
-
                 <?php
                 if ((int)auth::user()['avoir'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
-
                     <li><a href="javascript:void(0)" data-url="avoir/index.php" class="url sub">
                             <i class="glyph-icon iconsmind-Shopping-Cart"></i> Avoir</a> </li>
-
                 <?php
                 }
                 ?>
@@ -173,8 +154,6 @@ if (isset($_GET['p'])) {
                     <a href="javascript:void(0)" data-url="facture/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Facture</a>
                 </li>
-
-
                 <?php
                 if ((int)auth::user()['charge'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -185,31 +164,23 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
-
                 <li>
                     <a href="javascript:void(0)" data-url="caisse/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Caisse</a>
                 </li>
-
                 <li>
                     <a href="javascript:void(0)" data-url="transfert_caisse/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Transfert Caisse</a>
                 </li>
-
-
                 <li>
                     <a href="javascript:void(0)" data-url="recette/index.php" class="url sub">
-
                         <i class="glyph-icon  iconsmind-Billing"></i> Recettes Points De Vente</a>
                 </li>
-
                 <li>
                     <a href="javascript:void(0)" data-url="annulations/index.php" class="url sub">
-
                         <i class="glyph-icon  iconsmind-Billing"></i>Annulations </a>
                 </li>
             </ul>
-
             <ul class="list-unstyled" data-link="Configuration">
 
                 <li><a href="javascript:void(0)" data-url="categorie/index.php" class="url sub"> <i class="glyph-icon simple-icon-settings"></i>Catégories</a>
@@ -228,15 +199,14 @@ if (isset($_GET['p'])) {
                 </li>
                 <li><a href="javascript:void(0)" data-url="compte/index.php" class="url sub"> <i class="glyph-icon simple-icon-settings"></i>Comptes bancaires</a>
                 </li>
-
                 <li>
                     <a href="javascript:void(0)" data-url="parametrage/pv.php" class="url sub">
                         <i class="glyph-icon simple-icon-settings"></i>Config Point de Vente
                     </a>
                 </li>
-
+                <li><a href="javascript:void(0)" data-url="zone/index.php" class="url sub"> <i class="glyph-icon simple-icon-settings"></i>Zones</a>
+                </li>
             </ul>
-
             <ul class="list-unstyled" data-link="Etat">
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/moveCaisse.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Mouvement caisse</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État vente</a></li>
@@ -246,27 +216,19 @@ if (isset($_GET['p'])) {
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_achat.php' ?>"> <i class="glyph-icon  iconsmind-Billing"></i> État achat </a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vent_achat.php' ?>"> <i class="glyph-icon  iconsmind-Billing"></i> État vente-achat </a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/magasinier.php' ?>"> <i class="glyph-icon  iconsmind-Billing"></i> Magasinier </a></li>
-
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/cheque_vente.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Chèque V</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/cheque_achat.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Chèque A</a> </li>
-
                 <li><a href="javascript:void(0)" data-url="chart/vente_client.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> Vente par employé</a>
                 </li>
                 <!--         <li><a href="javascript:void(0)" data-url="chart/vente_categorie.php" class="url sub" > <i class="glyph-icon iconsmind-Bar-Chart3"></i> Vente produit par Categorie</a>
                    </li>
  -->
                 <li><a href="javascript:void(0)" data-url="chart/vente_achat.php" class="url sub"> <i class="glyph-icon iconsmind-Line-Chart4"></i> Vente / Achat</a></li>
-
                 <li><a a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente_categorie.php' ?>"> <i class="glyph-icon iconsmind-Pie-Chart2"></i>Vente par catégorie</a>
-
-
                 </li>
-
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/inventaire_stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Inventaire Stock </a></li>
-
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i>Stock par catégorie</a></li>
-
-                <li id='link_inventaire'   style="cursor:pointer; "><a  data-url="etat/inventaire_depot.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> inventaire Depot </a></li>
+                <li id='inventaire_depot' style="cursor:pointer; "><a data-url="etat/inventaire_depot.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> Inventaire Depot </a></li>
             </ul>
         </div>
     </div>

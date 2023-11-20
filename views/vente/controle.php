@@ -1,5 +1,7 @@
 <?php
+
 include('../../evr.php');
+//=============================================================================================================    Filtrer vente  par Date    =================================================================================================================
 if ($_POST['act'] == 'filter') {
   $vente = new vente();
   if ($_POST['anne'] != 0) {
@@ -119,7 +121,7 @@ if ($_POST['act'] == 'filter') {
               <a class="badge badge-primary mb-2 notlink" style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket" href='<?php echo BASE_URL . '/views/vente/ticket.php?id=' . $ligne->id_vente; ?>' target="_black">
                 <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
               </a>
-              <? php // } 
+              <?php //} 
               ?>
           </td>
         </tr>
@@ -129,31 +131,27 @@ if ($_POST['act'] == 'filter') {
   </table>
 <?php
 }
+// ============================================================================================== Afficher la quantité du produit par depot  ==============================================================================================================  
 if ($_POST['act'] == 'getDepotQte') {
   $produit_depot = new produit_depot();
   $pd = $produit_depot->get_produit_depot($_POST['id_produit'], $_POST['id_depot']);
-  echo json_encode($pd);
-  exit;
-}
-if ($_POST['act'] == 'getAcheteQte') {
-  $produit_depot = new produit_depot();
-  $pd = $produit_depot->get_produit_achetee($_POST['id_produit'], $_POST['id_achat']);
+
   echo json_encode($pd);
   exit;
 }
 if ($_POST['act'] == 'update_quantity') {
   try {
-    $id_produit = $_POST['id_produit'] ; 
-    $id_depot = $_POST['id_depot'] ; 
-    $new_quantity = $_POST['new_quantity'] ; 
-    $produit = new produit() ;  
-    $produit -> update_quantity($id_produit,$id_depot, $new_quantity ) ;
+    $id_produit = $_POST['id_produit'];
+    $id_depot = $_POST['id_depot'];
+    $new_quantity = $_POST['new_quantity'];
+    $produit = new produit();
+    $produit->update_quantity($id_produit, $id_depot, $new_quantity);
     $result = connexion::getConnexion()->query("UPDATE produit SET qte_actuel = $new_quantity WHERE id_produit  = $id_produit")->fetchAll(PDO::FETCH_OBJ);
-    die('success') ;
+    die('success');
   } catch (Exception $th) {
-    die($th) ; 
+    die($th);
   }
-  }
+}
 if ($_POST['act'] == 'changebon') {
   $id_bon = $_POST['id_bon'];
   $details = connexion::getConnexion()->query('SELECT d.*, p.designation  FROM detail_commande d LEFT JOIN produit p ON p.id_produit = d.id_produit WHERE id_bon = ' . $id_bon)->fetchAll(PDO::FETCH_ASSOC);
@@ -310,25 +308,35 @@ if ($_POST['act'] == 'getproduit') {
 }
 if ($_POST['act'] == 'rech') {
   $depot = new depot();
-  $res_depot = $depot->selectAll();  
+  $res_depot = $depot->selectAll();
   foreach ($res_depot as $rep_depot) {
   ?>
- 
+    <optgroup label="<?php echo $rep_depot->nom; ?> ">
       <?php
-      $produits = $depot->selectQuery("SELECT  produit.id_produit,produit.designation as designation  , sum(da.qte_achete) as qte   FROM produit 
-      left join  detail_achat da on da.id_produit = produit.id_produit  where da.id_achat =" .$_POST['id_achat'].    
-      " and produit.code_bar like '" . $_POST['id'] . "%' and   produit.emplacement='" . $rep_depot->id . "' order by designation asc");
-      if($produits[0]->id_produit){
-        foreach ($produits as $row) {
-          echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
-        }
-        
-      }else{
-        die("error") ; 
+      $produits = $depot->selectQuery("SELECT  id_produit,designation as designation   FROM produit where  code_bar like '" . $_POST['id'] . "%' and   emplacement='" . $rep_depot->id . "' and produit.bloque = 0 order by designation asc");
+      foreach ($produits as $row) {
+        echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
+      } ?>
+    </optgroup>
+  <?php }
+}
+if ($_POST['act'] == 'rech_qte_achete') {
+  $depot = new depot();
+  $res_depot = $depot->selectAll();
+  foreach ($res_depot as $rep_depot) {
+  ?>
+    <?php
+    $produits = $depot->selectQuery("SELECT produit.id_produit,produit.designation as designation  , sum(da.qte_achete) as qte   FROM produit 
+      left join  detail_achat da on da.id_produit = produit.id_produit  where da.id_achat =" . $_POST['id_achat'] .
+      " and produit.code_bar like '" . $_POST['id'] . "%' and produit.emplacement ='" . $rep_depot->id . "'  order by designation asc");
+    if ($produits[0]->id_produit) {
+      foreach ($produits as $row) {
+        echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
       }
-     
-       ?>
-    
+    } else {
+      die("error");
+    }
+    ?>
   <?php }
 } elseif ($_POST['act'] == 'rech_designation') {
   $depot = new depot();
@@ -337,7 +345,7 @@ if ($_POST['act'] == 'rech') {
   ?>
     <optgroup label="<?php echo $rep_depot->nom; ?> ">
       <?php
-      $produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  designation like '" . $_POST['designation'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
+      $produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  designation like '" . $_POST['designation'] . "%' and   emplacement='" . $rep_depot->id . "'  and produit.bloque = 0 order by designation asc");
       foreach ($produits as $row) {
         echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
       } ?>
@@ -460,7 +468,7 @@ if ($_POST['act'] == 'rech') {
   ?>
   <tr>
     <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
-    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right; metotal">
+    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right; ">
         <?php echo number_format($total, 2, '.', ' '); ?>
       </b></td>
   </tr>
@@ -619,17 +627,31 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
   }
   echo json_encode(['depots' => $d_options, 'val' => round($prix_v, 2) . "/" . $ligne['qte_actuel'] . "/" . $ligne['unite2']]);
   exit;
+
+
+
+// ========================================================================================================================= get Prix =============================================================================================================== 
+
+
 } elseif ($_POST['act'] == 'getPrix') {
+
+
+
+
+
+
+
   $produit = new produit();
   $ligne = $produit->selectById($_POST['id_produit']);
   $prix_v = 0;
-  //$serch_cli=connexion::getConnexion()->query('
-  //SELECT dt.prix_produit from detail_vente dt 
-  //where dt.id_detail= (SELECT MAX(dt1.id_detail) FROM detail_vente dt1, vente v 
-  //WHERE dt1.id_vente=v.id_vente
-  //AND v.id_client='.$_POST['id_client'].' and id_produit='.$_POST['id_produit'].'
-  //)'
-  //)->fetch(PDO::FETCH_ASSOC);
+
+
+
+
+
+
+
+
   $query = "SELECT prix_achat,prix_vente, prix_vente2, prix_vente3 FROM produit WHERE id_produit = " . $_POST['id_produit'];
   $prod = connexion::getConnexion()->query($query)->fetch(PDO::FETCH_OBJ);
   $augmentatation = connexion::getConnexion()->query("SELECT remise FROM client WHERE id_client = " . $_POST['id_client'])->fetch(PDO::FETCH_COLUMN);
@@ -649,20 +671,32 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
         break;
     }
   }
+
+
+
+
   //if(empty($serch_cli['prix_produit']))
   //{
   //$prix_v=$ligne['prix_vente'];
   //}else{
   //$prix_v=$serch_cli['prix_produit'];
   //}
+
+
+
   $produit_depot = new produit_depot();
   $depots = $produit_depot->depots($_POST['id_produit']);
   $d_options = '';
   foreach ($depots as $d) {
     $d_options .= "<option value='$d->id'>" . $d->nom . "</option>";
   }
+  // debug(['aug' => $augmentatation, 'prod' => json_encode($prod), 'depots' => $d_options, 'val' => round($prix_v, 2) . "/" . $ligne['qte_actuel'] . "/" . $ligne['unite2']]) ; 
+
   echo json_encode(['aug' => $augmentatation, 'prod' => json_encode($prod), 'depots' => $d_options, 'val' => round($prix_v, 2) . "/" . $ligne['qte_actuel'] . "/" . $ligne['unite2']]);
   exit;
+
+
+
 } elseif ($_POST['act'] == 'insertbon') {
   try {
     $data = vente::getdevis($_POST["id"]);

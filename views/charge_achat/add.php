@@ -74,7 +74,7 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="num_cheque">Num&eacute;ro : </label>
-                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" />
+                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" placeholder="Numéro" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="montant" class="col-form-label">Montant</label>
@@ -112,7 +112,7 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
-                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
+                                <input name="cout_device" type="text" class="form-control" id="cout_device" placeholder="Cout Devise"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -266,9 +266,9 @@ $data = $charge->selectDesignation();
                 }
             });
         });
-        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        $('#devise_produit').change(() => {
-            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        })
+        // $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        // $('#devise_produit').change(() => {
+        //     $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        // })
     });
 </script>

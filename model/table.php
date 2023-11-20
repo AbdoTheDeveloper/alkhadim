@@ -58,11 +58,10 @@ class table
 			}
 			$sqlupdate = substr($sqlupdate, 0, strlen($sqlupdate) - 2);
 			$sqlupdate .= " where " . $this->primary_key . "=$index";
-
-			
+ 
 
 			$statut = connexion::getConnexion()->exec($sqlupdate);
-			// debug($statut) ; 
+		
 
 		} catch (PDOException $e) {
 			die(handle_sql_errors($statut, $e->getMessage()));
@@ -105,7 +104,7 @@ class table
 
 	public function selectById($id)
 	{
-		$result = connexion::getConnexion()->query("select * from " . $this->className . " where " . $this->primary_key . "=" . $id);
+		$result = connexion::getConnexion()->query("select * from " . $this->className . " where " . $this->primary_key . "=" . $id); 
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -121,6 +120,7 @@ class table
 	public function delete($id)
 	{
 		$statut = connexion::getConnexion()->exec("delete from " . $this->className . " where " . $this->primary_key . "='" . $id . "'");
+		debug("delete from " . $this->className . " where " . $this->primary_key . "='" . $id . "'");
 		return $statut;
 	}
 
