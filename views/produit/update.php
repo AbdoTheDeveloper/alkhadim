@@ -151,10 +151,10 @@ $id_produit = $id[1];
                 <label for="prix_achat_i"> Prix Achat :</label>
                 <input type="text" class="form-control" name="prix_achat" value="<?php echo $oldvalue['prix_achat'] ?>" id="prix_achat">
               </div>
-              <div class="form-group col-md-2">
+              <!-- <div class="form-group col-md-2">
                 <label for="prix_achat_i"> Prix Revient :</label>
-                <input type="text" class="form-control" name="prix_achat" value="<?php echo $oldvalue['prix_achat'] ?>" id="prix_achat">
-              </div>
+                <input type="text" class="form-control" name="prix_achat" value="<?php // echo $oldvalue['prix_achat'] ?>" id="prix_achat">
+              </div> -->
               <div class="form-group col-md-2">
                 <label for="tva">T.V.A :</label>
                 <input type="text" value="<?php echo $oldvalue['tva'] ?>" class="form-control" name="tva" id="tva" placeholder="TVA">

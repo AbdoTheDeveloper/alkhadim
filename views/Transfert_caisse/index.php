@@ -62,11 +62,11 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                 <tr>
                   
                   <th>NR°</th>
-                  <th>Mode</th>
+                  <!-- <th>Mode</th> -->
                   <th>Designation</th>
                   <th>Date Transfert Caisse </th>
                   <th>Montant En Devise</th>
-                  <th>Montant En Dh</th>
+                  <th>Montant En DH</th>
                   <th>Remarque</th>
                   <th style="width: 85px;">Action</th>
                 </tr>
@@ -83,9 +83,9 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                   <td>
                     <?php echo $transfert_caisse->id ?>
                   </td>
-                   <td>
-                    <?php echo $transfert_caisse->type_reg ?>
-                  </td>
+                   <!-- <td> -->
+                    <?php // echo $transfert_caisse->type_reg ?>
+                  <!-- </td> -->
                   <td>
                     <?php echo $transfert_caisse->designation ?>
                   </td>
@@ -98,7 +98,7 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
                   </td>
                   <td>
                     <?php 
-                    if ($transfert_caisse->montant_espece)  echo $transfert_caisse->montant_espece * $transfert_caisse->cout_device  ?>
+                    if ($transfert_caisse->montant_espece)  echo $transfert_caisse->montant_espece * $transfert_caisse->cout_device . " DH"  ?>
                   </td>
                    <td>
                     <?php echo $transfert_caisse->remarque ?>

@@ -23,28 +23,19 @@ public function selectAllNonValide(){
 	} 
 	
 public function selectAllValide($id){
-	$result=connexion::getConnexion()->query("
-	SELECT 
-    dp.nom AS depot, 
-    da.id_detail, 
-    da.id_produit, 
-    p.designation, 
-    da.prix_produit, 
-    da.qte_achete, 
-    da.valide, 
-    da.date_validation, 
-    a.montant AS montant_achat ,
-    sum(da.qte_achete) as qte_total  , 
-    (select sum(montant) from charge where id_achat  = da.id_achat ) as charge_total 
-FROM 
-    detail_achat da 
-    LEFT JOIN produit p ON p.id_produit = da.id_produit 
-    LEFT JOIN achat a ON a.id_achat = da.id_achat 
-    LEFT JOIN depot dp ON dp.id = da.id_depot 
-WHERE 
-    da.id_achat = $id
-ORDER BY 
-    da.id_detail DESC
+	$result=connexion::getConnexion()->query("SELECT dp.nom AS depot, da.devise_produit, da.id_detail,
+	da.id_produit,p.designation,da.prix_produit,da.qte_achete ,da.cout_device, da.valide ,  da.date_validation ,  
+  (a.montant * da.cout_device) as montant_achat , 
+  sum(qte_achete) as qte_total
+  FROM 
+  detail_achat da 
+    left join produit p on (p.id_produit=da.id_produit) 
+   LEFT JOIN depot dp ON dp.id = da.id_depot
+   LEFT JOIN achat a on a.id_achat = da.id_achat 
+   
+  where da.id_achat=".$id." 
+  group by da.id_detail 
+  order by da.id_detail desc 
 ");
 	return $result->fetchAll(PDO::FETCH_OBJ);
 	} 	

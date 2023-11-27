@@ -5,7 +5,8 @@ if (isset($_POST['ajax'])) {
 $achat = new achat();
 $id = explode('?id=', $_SERVER["REQUEST_URI"]);
 $oldvalue = $achat->selectById($id[1]);
-$sub_data = connexion::getConnexion()->query("select d.cout_device from achat a , detail_achat d where d.id_achat = a .id_achat and a.id_achat = $id[1] limit 1 ")->fetchAll(PDO::FETCH_OBJ)[0];
+$sub_data = connexion::getConnexion()->query("select d.cout_device ,d.devise_produit from achat a , detail_achat d where d.id_achat = a .id_achat and a.id_achat = $id[1] limit 1 ")->fetchAll(PDO::FETCH_OBJ)[0];
+// debug($sub_data->devise_produit) ;  
 ?>
 <div class="container-fluid disable-text-selection">
     <div class="row">
@@ -50,13 +51,13 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                                     value="<?php echo $oldvalue['date_achat']; ?>">
                             </div>
 
-                            <div class="form-group col-md-1">
+                            <div class="form-group col-md-2">
                                 <label for="prix_produit">Num Fature :</label>
                                 <input type="text" name="num_facture" value="<?php echo $oldvalue['num_facture'] ?>"
                                     id="num_facture" class="form-control" placeholder="num facture">
                             </div>
 
-                            <div class="form-group col-md-1">
+                            <div class="form-group col-md-2">
                                 <label for="qte_achete">Num Dum : </label>
                                 <input type="text" name="num_dum" value = "<?php echo $oldvalue['num_dum']?>" id="num_dum" class="form-control"
                                     placeholder="num dum ">
@@ -71,19 +72,16 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                                </select>
                             </div> -->
                             <div class='col-md-2'>
-                                <label for="id_fournisseur">Devis : </label>
+                                <label for="devise_produit">Devis : </label>
                                 <select class="form-control select2-single " name="devise_produit" id="devise_produit">
-                                    <option data-devise="1" <?php echo $sub_data->cout_device == '1' ? 'selected' : '' ?>
-                                        value="MAD">MAD</option>
-                                    <option data-devise="9.8" <?php echo $sub_data->cout_device == '9.8' ? 'selected' : '' ?> value="$">USD</option>
-                                    <option data-devise="9" <?php echo $sub_data->cout_device == '9' ? 'selected' : '' ?>
-                                        value="£">EUR
-                                    </option>
+                                    <option  <?php echo $oldvalue['devise_produit'] == 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
+                                    <option  <?php echo $oldvalue['devise_produit'] == '$' ? 'selected' : '' ?> value="$">USD</option>
+                                    <option  <?php echo $oldvalue['devise_produit'] == '£' ? 'selected' : '' ?> value="£">EUR</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
                                 <label for="cout_device"> Cout devise : </label>
-                                <input name="cout_device" type="text" class="form-control" id="cout_device" />
+                                <input name="cout_device" type="text" class="form-control" id="cout_device" value="<?php echo $sub_data->cout_device ?>" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -171,9 +169,9 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device from achat a 
                 }
             });
         });
-        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        $('#devise_produit').change(() => {
-            $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        })
+        // $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        // $('#devise_produit').change(() => {
+        //     $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        // })
     });
 </script>

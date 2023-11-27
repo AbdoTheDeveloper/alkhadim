@@ -74,7 +74,7 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="num_cheque">Num&eacute;ro : </label>
-                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" />
+                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" placeholder="Numéro" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="montant" class="col-form-label">Montant</label>
@@ -106,13 +106,13 @@ $data = $charge->selectDesignation();
                                 <label for="id_fournisseur">Devise : </label>
                                 <select class="form-control select2-single" name="devise_produit" id="devise_produit">
                                     <option data-devise="1" value="MAD">MAD</option>
-                                    <option data-devise="9.8" value="$">USD</option>
-                                    <option data-devise="9" value="£">EUR</option>
+                                    <option  value="$">USD</option>
+                                    <option  value="£">EUR</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="cout_devise"> Cout devise : </label>
-                                <input name="cout_device" type="text" class="form-control" value=1 id="cout_device" />
+                                <input name="cout_device" type="text" class="form-control" id="cout_device" placeholder="Cout Devise"/>
                             </div>
                         </div>
                         <div class="form-group">

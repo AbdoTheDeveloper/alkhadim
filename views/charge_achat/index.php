@@ -72,7 +72,7 @@ if ($id) {
               <thead>
                 <tr>
                   <th>NR°</th>
-                  <th>Mode</th>
+                  <th>Fournisseur</th>
                   <th>Num&egrave;ro</th>
                   <th>Designation</th>
                   <th>Date charge</th>
@@ -92,7 +92,10 @@ if ($id) {
                       <?php echo $charge->id ?>
                     </td>
                     <td>
-                      <?php echo $charge->mode_reg ?>
+                      <?php 
+                      $c = new charge() ; 
+                      $fournisseur  = $c->selectFournisseurbyIdCharge( $charge->id_fournisseur)  ;
+                      if($fournisseur) echo $fournisseur  ; ?>
                     </td>
                     <td>
                       <?php echo $charge->num_cheque ?>
@@ -107,7 +110,7 @@ if ($id) {
                       <?php echo $charge->montant ." ". $charge->devise_produit?>
                     </td>
                     <td>
-                      <?php echo $charge->montant * $charge->cout_device ?>
+                      <?php echo $charge->montant * $charge->cout_device . " DH" ?>
                     </td>
                     <td>
                       <?php echo $charge->remarque ?>

@@ -13,7 +13,9 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
         <div class="float-sm-right text-zero">
           <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
             data-url="achat/add.php">AJOUTER</button>
-          <a target="_blank" href="<?php echo BASE_URL . 'views/achat/import.php' ?>"
+          <a 
+            target="_blank" 
+            href="<?php echo BASE_URL . 'views/achat/import.php' ?>"
             class="btn btn-primary btn-lg  mr-1">IMPORTER</a>
         </div>
       </div>
@@ -60,10 +62,10 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                 <tr>
                   <th scope="col" width="1px">Id</th>
                   <th scope="col">Fournisseur</th>
-                  <th> Date </th>
-                  <th style="text-align:center" scope="col"> Montant En devise</th>
+                  <th scop="col"> Date </th>
+                  <th style="text-align:center" scope="col"> Montant En Devise</th>
                   <th style="text-align:center" scope="col"> Montant En Dh </th>
-                  <th scope="col"> Reste </th>
+                  <th scope="col"> Reste En Dh</th>
                   <th scope="col"> remarque </th>
                   <th scope="col">Actions</th>
                 </tr>
@@ -92,14 +94,14 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
-                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' ') ?> &nbsp;&nbsp;
+                      echo number_format($sub_data[0]->cout_device * $ligne->montant, 2, '.', ' '). " DH" ?> &nbsp;&nbsp;
                     </td>
                     <td class="nowrap" style="text-align: center;">
                       <?php
                       $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_achat where id_achat=" . $ligne->id_achat);
                       $result = $query->fetch(PDO::FETCH_OBJ);
                       $paye = $result->paye;
-                      echo number_format($ligne->montant - $paye, 2, '.', ' ');
+                      echo number_format(($ligne->montant - $paye) * $sub_data[0]->cout_device, 2, '.', ' '). " DH";
                       ?> &nbsp;&nbsp;
                     </td>
                     <td>
@@ -122,17 +124,25 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                           style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                           <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                         </a>
+                        <?php if(auth::user()['privilege'] == 'Admin'){?>
                         <a class="badge badge-success mb-2  url notlink"
                           data-url="reg_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
                           style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
                           <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
                         </a>
+                        <?php }?>
                         <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer"
                           href="<?php echo BASE_URL . "views/achat/facture.php?id=" . $ligne->id_achat; ?>&h=15"
                           target="_black">
                           <i class=" simple-icon-printer" style="font-size: 15px;"></i>
                         </a>
-                      <?php } ?>
+
+                        <a class="badge badge-primary mb-2  " style="color: white;cursor: pointer;" title="Imprimmer Bon Reception "
+                          href="<?php echo BASE_URL . "views/achat/bon_reception.php?id=" . $ligne->id_achat; ?>&h=15"
+                          target="_black">
+                          <i class=" simple-icon-printer" style="font-size: 15px;"></i>
+                        </a>
+                        <?php } ?>
                       <a class="badge badge-secondary mb-2 url notlink"
                         data-url="detail_achat/index.php?id=<?php echo $ligne->id_achat; ?>"
                         style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">

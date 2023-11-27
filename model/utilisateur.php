@@ -20,6 +20,25 @@ protected $email;
 
 protected $bloque  ; 
 protected $id_zone ;   
+protected $depot;
+protected $ancienne_vente;
+protected $devis;
+protected $achat_vente;
+protected $bon_commande;
+protected $commande_vendeur;
+
+protected $bon_livraison;
+protected $reglement;
+protected $facture;
+
+protected $caisse  ; 
+protected $transfert_caisse;  
+
+
+protected $recette_point_vente;
+protected $annulation;
+
+protected $etat  ; 
 
 public function selectAllUtilisateur($moi){
 $result=connexion::getConnexion()->query("select * from utilisateur where id <>'".$moi."' order by idu desc");

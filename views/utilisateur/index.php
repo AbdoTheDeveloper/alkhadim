@@ -17,7 +17,7 @@ if (auth::user()['privilege'] == "Admin") {
   <div class="row">
     <div class="col-12">
       <div class="mb-2">
-        <h1>Liste Des utilisateur</h1>
+        <h1>Liste Des utilisateurs</h1>
         <div class="float-sm-right text-zero">
           <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="utilisateur/add.php">AJOUTER</button>
         </div>

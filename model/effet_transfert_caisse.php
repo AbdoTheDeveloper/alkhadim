@@ -13,7 +13,8 @@ class effet_transfert_caisse extends table
 	}
     public function deletebyIdTransfertCaisse($id)
    {
-       connexion::getConnexion()->query("delete from effet_transfert_caisse where id_transfert_caisse  = ".  $id );      
+       $statut  = connexion::getConnexion()->query("delete from effet_transfert_caisse where id_transfert_caisse  = ".  $id );   
+    return $statut  ;            
    }
 
 }

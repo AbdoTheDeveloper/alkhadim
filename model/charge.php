@@ -42,7 +42,10 @@ public function selectByIdAchat($id){
 
 }
 
-
+public function selectFournisseurbyIdCharge($id){
+$result  = connexion::getConnexion()->query("select raison_sociale from fournisseur where id_fournisseur = $id")->fetch(PDO::FETCH_OBJ)->raison_sociale ; 
+if($result) return $result  ; 
+}
 
 public function selectEtat($dd,$df)
 {

@@ -20,7 +20,7 @@ $depot = new depot();
 $data_depot = $depot->selectAll();
 $produit = new produit();
 $data_cat = $produit->selectAllCat();
-$vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE privilege = 'Vendeur' ORDER BY nom ASC")->fetchAll(PDO::FETCH_OBJ);
+$vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE privilege = 'Vendeur' and bloque = 0 ORDER BY nom ASC")->fetchAll(PDO::FETCH_OBJ);
 ?>
 <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 <div class="container-fluid disable-text-selection">
@@ -63,7 +63,6 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                   } ?>
                 </select>
               </div>
-
               <div class="form-group col-md-4">
                 <label for="id_client">Vendeur : </label>
                 <select class="form-control select2-single" name="id_vendeur" id="id_vendeur">
@@ -79,7 +78,6 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 <input type="text" class="form-control datepicker" id="date_vente" name="date_vente"
                   value="<?php echo date('Y-m-d'); ?>">
               </div>
-             
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
@@ -263,6 +261,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                                       <label> Fournisseur : </label>
                                       <select id="fournisseur" class="form-control select2-single"
                                         onchange="searchFilter()">
+                                        
                                         <option value='-1' selected>Choisir un fournisseur</option>
                                         <?php foreach ($fournisseurs as $fournisseur): ?>
                                           <option value="<?php echo $fournisseur->nom; ?>">
@@ -645,7 +644,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
         data: {
           act: "rech",
-          id: id
+          id: id.trim()
         },
         success: function (data) {
           $('#id_produit').html(data);
@@ -657,10 +656,10 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
       var designation = $(this).val();
       $.ajax({
         type: "POST",
-        url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
+        url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
         data: {
           act: "rech_designation",
-          designation: designation
+          designation: designation.trim() , 
         },
         success: function (data) {
           $('#id_produit').html(data);
@@ -750,6 +749,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_client: $("#id_client").val()
         },
         success: function (data) {
+           
           var tab = data.val.split('/');
           $("#id_depot").html(data.depots);
           $('#prix_produit').val(tab[0]);
