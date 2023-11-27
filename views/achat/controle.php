@@ -106,29 +106,27 @@ if ($_POST['act'] == 'getAcheteQte') {
 	$pd = $produit_depot->get_produit_achetee($_POST['id_produit'], $_POST['id_achat']);
 	echo json_encode($pd);
 	exit;
-  }
-  
-  
+}
+
+
 if ($_POST['act'] == 'rech') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
 	?>
-		<optgroup 
-		label="<?php echo $rep_depot->nom; ?> "
-		>
+		<optgroup label="<?php echo $rep_depot->nom; ?> ">
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  code_bar like '" . $_POST['id'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
 			foreach ($produits as $row) {
 				echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
 			} ?>
-		<!-- </optgroup> -->
-	<?php }
+			<!-- </optgroup> -->
+		<?php }
 } elseif ($_POST['act'] == 'rech_designation') {
 	$depot = new depot();
 	$res_depot = $depot->selectAll();
 	foreach ($res_depot as $rep_depot) {
-	?>
+		?>
 		<optgroup label="<?php echo $rep_depot->nom; ?> ">
 			<?php
 			$produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  designation like '" . $_POST['designation'] . "%' and   emplacement='" . $rep_depot->id . "' order by designation asc");
@@ -247,46 +245,45 @@ if ($_POST['act'] == 'rech') {
 	$achat = new achat();
 	if (isset($_POST["id_fournisseur"])) {
 		$statut  = $achat->insert();
-		 
+
 		// connexion::getConnexion()->exec("");
 		connexion::getConnexion()->exec("UPDATE detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
 		unset($_SESSION['rand_a_er']);
 
-		$last_inserted = $achat->laset_insert() ; 
-		$result=connexion::getConnexion()->query("select a.devise_produit , sum(da.`prix_produit`*da.`qte_achete`)as
-		 montant from achat a left join detail_achat da on da.id_achat=a.id_achat
-		 where  a.id_achat  = $last_inserted 
-		group by  a.id_achat")->fetchAll(PDO::FETCH_OBJ);
+		// $last_inserted = $achat->laset_insert() ; 
 
-		
-		$query  = "UPDATE achat  SET montant = " . $result[0]->montant. " WHERE achat.id_achat = $last_inserted"  ;
+
+
+		$query = $result = connexion::getConnexion()->query("SELECT max(id_achat) as dernier_achat FROM achat ");
+		$result = $query->fetch(PDO::FETCH_OBJ);
+		$dernier_achat = $result->dernier_achat;
+
+		$result2 = connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
+		where a.id_achat=$dernier_achat group by  da.id_produit");
+		$data = $result2->fetchAll(PDO::FETCH_OBJ);
+		foreach ($data as $ligne) {
+			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+" . $ligne->qte_achete . " WHERE  id_produit =" . $ligne->id_produit);
+		}
+
+		$result = connexion::getConnexion()->query("select a.devise_produit , sum(da.`prix_produit`*da.`qte_achete`)as
+		montant from achat a left join detail_achat da on da.id_achat=a.id_achat
+		where  a.id_achat  = $dernier_achat 
+	   group by  a.id_achat")->fetchAll(PDO::FETCH_OBJ);
+
+
+		$query  = "UPDATE achat  SET montant = " . $result[0]->montant . " WHERE achat.id_achat = $dernier_achat";
 		$statut  = connexion::getConnexion()->exec($query);
 
-
-
-		// $query=$result=connexion::getConnexion()->query("SELECT max(id_achat) as dernier_achat FROM achat ");
-		// $result=$query->fetch(PDO::FETCH_OBJ);
-		// $dernier_achat=$result->dernier_achat;
-		/*
-		$result2=connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
-		where a.id_achat=$dernier_achat group by  da.id_produit");
-		$data=$result2->fetchAll(PDO::FETCH_OBJ);
-		foreach($data as $ligne)
-			{
-		connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
-			}
-			*/
-			die("success");
+		die("success");
 	}
-
 }
-//--------------------------------------------------------------------------------------- Valider Achat ------------------------------------------------------------------------------------------------------
+                           //--------------------------------------------------------------------------------------- Valider Achat ------------------------------------------------------------------------------------------------------
 elseif ($_POST['act'] == 'valide_achat') {
 	$achat = new achat();
 	$a = $achat->selectById($_POST['id']);
-	if (!$a['valide'] ) {
+	if (!$a['valide']) {
 		#change state
-	connexion::getConnexion()->exec('UPDATE achat SET valide = 1 WHERE id_achat =' . $_POST['id']);
+		connexion::getConnexion()->exec('UPDATE achat SET valide = 1 WHERE id_achat =' . $_POST['id']);
 	}
 	#update products qte
 	// $result2 = connexion::getConnexion()->query("select da.id_produit, da.id_depot, sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
@@ -294,73 +291,73 @@ elseif ($_POST['act'] == 'valide_achat') {
 	$result2 = connexion::getConnexion()->query("select da.id_detail ,  da.id_produit, da.id_depot, da.qte_achete as qte_achete , da.valide from detail_achat da WHERE da.id_achat =" . $_POST['id']);
 	$data = $result2->fetchAll(PDO::FETCH_OBJ);
 	foreach ($data as $d) {
-		if(!$d->valide) {
-		$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  id_produit = " . $d->id_produit);
-		$produit_depot = new produit_depot();
-		$target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
-		if ($target) {
-			$produit_depot->add_qte($d->id_produit, $d->id_depot, $d->qte_achete);
-		} else {
-			$produit_depot->new_produit_depot($d->id_produit, $d->id_depot, $d->qte_achete);
+		if (!$d->valide) {
+			// $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  id_produit = " . $d->id_produit);
+			$produit_depot = new produit_depot();
+			$target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
+			if ($target) {
+				$produit_depot->add_qte($d->id_produit, $d->id_depot, $d->qte_achete);
+			} else {
+				$produit_depot->new_produit_depot($d->id_produit, $d->id_depot, $d->qte_achete);
+			}
 		}
 	}
-}
 	//calculate composant et produit fini
 	// debug($data) ; 
 	foreach ($data as $d) {
 		// valider detail achat  
-		if(!$d->valide) {
+		if (!$d->valide) {
 			$statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
 			//avoir produit
-		$prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
-		//Si produit est composant
-		if ($prod->type_produit == 2) {
-			//avoir produit fini
-			$q = "SELECT p.* FROM produit p LEFT JOIN detail_produit dp ON dp.id_produit = p.id_produit WHERE dp.id_ingredient = " . $d->id_produit;
-			$prod_fini = connexion::getConnexion()->query($q)->fetch(PDO::FETCH_OBJ);
-			//avoir tous les composants
-			$q = "SELECT * FROM detail_produit WHERE id_produit = " . $prod_fini->id_produit;
-			$composants = connexion::getConnexion()->query($q)->fetchAll(PDO::FETCH_OBJ);
-			$qteOfProduct = 0;
-			$arr = [];
-			foreach ($composants as $cmp) {
-				$qte_actuel = connexion::getConnexion()->query("SELECT qte_actuel FROM produit WHERE id_produit = " . $cmp->id_ingredient)->fetch(PDO::FETCH_COLUMN);
-				$arr[] = intval($qte_actuel / $cmp->qte);
-			}
-			$nbrOfProduct = min($arr);
-			if ($nbrOfProduct) {
-				//suctracter la qte des composants
+			$prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
+			//Si produit est composant
+			if ($prod->type_produit == 2) {
+				//avoir produit fini
+				$q = "SELECT p.* FROM produit p LEFT JOIN detail_produit dp ON dp.id_produit = p.id_produit WHERE dp.id_ingredient = " . $d->id_produit;
+				$prod_fini = connexion::getConnexion()->query($q)->fetch(PDO::FETCH_OBJ);
+				//avoir tous les composants
+				$q = "SELECT * FROM detail_produit WHERE id_produit = " . $prod_fini->id_produit;
+				$composants = connexion::getConnexion()->query($q)->fetchAll(PDO::FETCH_OBJ);
+				$qteOfProduct = 0;
+				$arr = [];
 				foreach ($composants as $cmp) {
-					$qte_cmp = $cmp->qte * $nbrOfProduct;
-					$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel -  $qte_cmp WHERE  id_produit = " . $cmp->id_ingredient);
+					$qte_actuel = connexion::getConnexion()->query("SELECT qte_actuel FROM produit WHERE id_produit = " . $cmp->id_ingredient)->fetch(PDO::FETCH_COLUMN);
+					$arr[] = intval($qte_actuel / $cmp->qte);
+				}
+				$nbrOfProduct = min($arr);
+				if ($nbrOfProduct) {
+					//suctracter la qte des composants
+					foreach ($composants as $cmp) {
+						$qte_cmp = $cmp->qte * $nbrOfProduct;
+						$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel -  $qte_cmp WHERE  id_produit = " . $cmp->id_ingredient);
+						$produit_depot = new produit_depot();
+						$target = $produit_depot->minus_last($cmp->id_ingredient, $qte_cmp);
+					}
+					//incrementer produit qte 
+					$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $nbrOfProduct WHERE  id_produit = " . $prod_fini->id_produit);
 					$produit_depot = new produit_depot();
-					$target = $produit_depot->minus_last($cmp->id_ingredient, $qte_cmp);
+					$target = $produit_depot->get_produit_depot($prod_fini->id_produit, $prod_fini->emplacement);
+					if ($target) {
+						$produit_depot->add_qte($prod_fini->id_produit, $prod_fini->emplacement, $nbrOfProduct);
+					} else {
+						$produit_depot->new_produit_depot($prod_fini->id_produit, $prod_fini->emplacement, $nbrOfProduct);
+					}
 				}
-				//incrementer produit qte 
-				$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $nbrOfProduct WHERE  id_produit = " . $prod_fini->id_produit);
-				$produit_depot = new produit_depot();
-				$target = $produit_depot->get_produit_depot($prod_fini->id_produit, $prod_fini->emplacement);
-				if ($target) {
-					$produit_depot->add_qte($prod_fini->id_produit, $prod_fini->emplacement, $nbrOfProduct);
-				} else {
-					$produit_depot->new_produit_depot($prod_fini->id_produit, $prod_fini->emplacement, $nbrOfProduct);
-				}
+				$arr = [];
 			}
-			$arr = [];
 		}
-		} 
 	}
 	die('success');
 } elseif ($_POST['act'] == 'update') {
-	$devise  =  (String)$_POST['devise_produit'] ; 
-	$cout_device  = $_POST['cout_device'] ; 
+	$devise  =  (string)$_POST['devise_produit'];
+	$cout_device  = $_POST['cout_device'];
 	try {
 		$_POST["idu"] = auth::user()["id"];
 		$achat = new achat();
-		$achat->update($_POST["id"]); 
+		$achat->update($_POST["id"]);
 		// debug("UPDATE detail_achat SET devise_produit = '$devise' , cout_device = $cout_device where id_achat =" .$_POST['id']) ; 
-		connexion::getConnexion()->query("UPDATE detail_achat SET devise_produit = '$devise' , cout_device = $cout_device where id_achat =" .$_POST['id']) ;  
-		
+		connexion::getConnexion()->query("UPDATE detail_achat SET devise_produit = '$devise' , cout_device = $cout_device where id_achat =" . $_POST['id']);
+
 		die('success');
 	} catch (Exception $e) {
 		die($e);
@@ -372,8 +369,8 @@ elseif ($_POST['act'] == 'valide_achat') {
 		foreach ($data as $value) {
 			connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel -" . $value["qte_achete"] . " WHERE  id_produit =" . $value["id_produit"]);
 		}
-		connexion::getConnexion()->query("delete from charge where id_achat=".$_POST['id']) ; 
-		connexion::getConnexion()->query("delete from detail_achat where id_achat=".$_POST['id']) ; 
+		connexion::getConnexion()->query("delete from charge where id_achat=" . $_POST['id']);
+		connexion::getConnexion()->query("delete from detail_achat where id_achat=" . $_POST['id']);
 		$achat->delete($_POST["id"]);
 		die('success');
 	} catch (Exception $e) {

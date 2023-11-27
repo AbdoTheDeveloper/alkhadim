@@ -94,19 +94,27 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
+                <?php   if (auth::user()['depot'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="depots/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Depots
                     </a>
                 </li>
+                <?php }?>
+                <?php   if ((int)auth::user()['ancienne_vente'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="ancien_vente/add.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i>Ancienne Vente</a>
                 </li>
+                <?php }?>
+                <?php   if ((int)auth::user()['devis'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="devis/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Devis</a>
                 </li>
+
+                <?php }?>
+
                 <?php
                 if ((int)auth::user()['vente'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -118,7 +126,7 @@ if (isset($_GET['p'])) {
                 }
                 ?>
                 <?php
-                if (((int)auth::user()['vente'] == 1 && (int)auth::user()['achat'] == 1) || auth::user()['privilege'] == "Admin") {
+                if ((int)auth::user()['achat_vente'] == 1  || auth::user()['privilege'] == "Admin") {
                 ?>
                     <li>
                         <a href="javascript:void(0)" data-url="achat-vente/add.php" class="url sub">
@@ -127,17 +135,28 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
+                 <?php   if ((int)auth::user()['bon_commande'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="bon-commande/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Bon commande</a>
                 </li>
+                <?php }?>
+
+                <?php   if ((int)auth::user()['commande_vendeur'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="commande-vendeurs/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Commande vendeur</a>
                 </li>
+
+                <?php }?>
+
+                <?php   if ((int)auth::user()['bon_livraison'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li> <a href="javascript:void(0)" data-url="vente/bon.php" class="url sub">
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i>Bon de livraison </a>
                 </li>
+                <?php }?>
+
+
                 <?php
                 if ((int)auth::user()['avoir'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -146,14 +165,19 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
+                 <?php   if (auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="regelement/index.php" class="url sub">
                         <i class="glyph-icon iconsmind-Money-2"></i> Règlement</a>
                 </li>
+                <?php }?>
+
+                <?php   if ((int)auth::user()['facture'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="facture/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Facture</a>
                 </li>
+                <?php }?>
                 <?php
                 if ((int)auth::user()['charge'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -164,22 +188,35 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
+                 <?php   if ((int)auth::user()['caisse'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="caisse/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Caisse</a>
                 </li>
+                <?php }?>
+
+                <?php   if ((int)auth::user()['transfert_caisse'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="transfert_caisse/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Transfert Caisse</a>
                 </li>
+
+                <?php }?>
+
+                <?php   if ((int)auth::user()['recette_point_vente'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="recette/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i> Recettes Points De Vente</a>
                 </li>
+                <?php }?>
+
+
+                 <?php   if ((int)auth::user()['annulation'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li>
                     <a href="javascript:void(0)" data-url="annulations/index.php" class="url sub">
                         <i class="glyph-icon  iconsmind-Billing"></i>Annulations </a>
                 </li>
+                <?php }?>
             </ul>
             <ul class="list-unstyled" data-link="Configuration">
 
@@ -208,7 +245,9 @@ if (isset($_GET['p'])) {
                 </li>
             </ul>
             <ul class="list-unstyled" data-link="Etat">
+                <?php if ((int)auth::user()['etat'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/moveCaisse.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Mouvement caisse</a> </li>
+                <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleur_client.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> État Meilleurs Clients</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État vente</a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_bl.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État BL</a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_cmd_vendeurs.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État commande vendeurs</a></li>
@@ -229,6 +268,9 @@ if (isset($_GET['p'])) {
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/inventaire_stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Inventaire Stock </a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i>Stock par catégorie</a></li>
                 <li id='inventaire_depot' style="cursor:pointer; "><a data-url="etat/inventaire_depot.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> Inventaire Depot </a></li>
+                
+
+                <?php }?>
             </ul>
         </div>
     </div>

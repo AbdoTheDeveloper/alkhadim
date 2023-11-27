@@ -10,32 +10,26 @@ if (auth::user()['privilege'] == "Admin") {
 } else {
   $data = $utilisateur->getById(auth::user()['id']);
 }
-
 ?>
-
 <div class="container-fluid disable-text-selection">
   <div class="row">
     <div class="col-12">
       <div class="mb-2">
         <h1>Liste Des utilisateurs</h1>
-        <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="utilisateur/add.php">AJOUTER</button>
-        </div>
-
+        <?php if (auth::user()['privilege'] == "Admin" || auth::user()['privilege'] == "User+") { ?>
+          <div class="float-sm-right text-zero">
+            <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="utilisateur/add.php">AJOUTER</button>
+          </div>
+        <?php } ?>
       </div>
-
       <div class="separator mb-5"></div>
     </div>
   </div>
   <div class="row">
-
-
-
     <div class="col-xl-12 col-lg-12 mb-4">
       <div class="card h-100">
         <div class="card-body">
           <?php if (count($data) > 0) { ?>
-
             <table class="table responsive table-striped table-bordered table-hover" id="datatables">
               <thead>
                 <tr>
@@ -60,23 +54,17 @@ if (auth::user()['privilege'] == "Admin") {
                         <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                           <i class="simple-icon-trash" style="font-size: 15px;"></i>
                         </a>
-
                       <?php } ?>
                       <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['privilege'] == 'User+') { ?>
                         <a class="badge badge-warning mb-2  url notlink" data-url="utilisateur/update.php?id=<?php echo $ligne->id; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                           <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                         </a>
                       <?php } ?>
-
                       <?php if (auth::user()['privilege'] == 'Admin' && $ligne->privilege == 'Vendeur') : ?>
-
                         <a class="badge badge-secondary mb-2  " target="_blank" style="color: white;cursor: pointer;" title="Cmd Founisseur" href="<?php echo BASE_URL ?>/views/etat/commande_vendeur_fourniss.php?id=<?php echo $ligne->id; ?>">
                           <i class=" simple-icon-printer" style="font-size: 15px;"></i>
-
                         </a>
                       <?php endif; ?>
-
-
                     </td>
                   </tr>
                 <?php } ?>
@@ -86,12 +74,8 @@ if (auth::user()['privilege'] == "Admin") {
         </div>
       </div>
     </div>
-
     <script type="text/javascript">
       $(document).ready(function() {
-
-
-
         $('#datatables').dataTable({
           pageLength: 10,
           language: {
@@ -106,11 +90,8 @@ if (auth::user()['privilege'] == "Admin") {
               $(".dataTables_wrapper .pagination").addClass("pagination-sm")
           }
         });
-
         $('body').on("click", ".delete", function(event) {
           event.preventDefault();
-
-
           var btn = $(this);
           swal({
             title: 'Êtes-vous sûr?',
@@ -122,7 +103,6 @@ if (auth::user()['privilege'] == "Admin") {
             confirmButtonText: 'Oui, Supprimer !'
           }).then((result) => {
             if (result.value) {
-
               $.ajax({
                 type: "POST",
                 url: "<?php echo BASE_URL . 'views/utilisateur/'; ?>controle.php",
@@ -131,29 +111,20 @@ if (auth::user()['privilege'] == "Admin") {
                   id: btn.data('id')
                 },
                 success: function(data) {
-
                   swal(
                     'Supprimer',
                     'utilisateur a ete bien Supprimer',
                     'success'
                   ).then((result) => {
-
                     btn.parents("td").parents("tr").remove();
                   });
-
                 }
               });
-
             }
           });
-
         });
-
-
         $('body').on("click", ".archive", function(event) {
           event.preventDefault();
-
-
           var btn = $(this);
           swal({
             title: 'Êtes-vous sûr?',
@@ -165,7 +136,6 @@ if (auth::user()['privilege'] == "Admin") {
             confirmButtonText: 'Oui, Archiver!'
           }).then((result) => {
             if (result.value) {
-
               $.ajax({
                 type: "POST",
                 url: "<?php echo BASE_URL . 'views/utilisateur/'; ?>controle.php",
@@ -175,7 +145,6 @@ if (auth::user()['privilege'] == "Admin") {
                   val: btn.data('arc')
                 },
                 success: function(data) {
-
                   swal(
                     "Archived",
                     'Your Product has been archived.',
@@ -183,19 +152,13 @@ if (auth::user()['privilege'] == "Admin") {
                   ).then((result) => {
                     btn.parents("td").parents("tr").remove();
                   });
-
                 }
               });
-
             }
           });
-
         });
-
-
         $('body').on("click", ".static", function(event) {
           event.preventDefault();
-
           var btn = $(this);
           $.ajax({
             type: "POST",
@@ -210,15 +173,9 @@ if (auth::user()['privilege'] == "Admin") {
               $('#idstatic').val(data[0]);
             }
           });
-
-
-
         });
-
-
         $("#Staticform").on("submit", function(event) {
           event.preventDefault();
-
           var form = $(this);
           $.ajax({
             type: "POST",
@@ -229,15 +186,9 @@ if (auth::user()['privilege'] == "Admin") {
             contentType: false,
             processData: false,
             success: function(data) {
-
-
               $('#etatstatic').html(data);
-
-
             }
           });
-
         });
-
       });
     </script>

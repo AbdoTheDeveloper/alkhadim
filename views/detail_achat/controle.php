@@ -50,8 +50,7 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
   $data = $result2->fetchAll(PDO::FETCH_OBJ);
   if (!$data[0]->valide) {
     foreach ($data as $d) {
-      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  
-    id_produit = " . $d->id_produit);
+      // $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  id_produit = " . $d->id_produit);
       $produit_depot = new produit_depot();
       $target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
       if ($target) {
@@ -64,7 +63,7 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     foreach ($data as $d) {
       // valider detail achat  
       // if(!$d->valide) {
-      $statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
+      $statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1 , date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
       //avoir produit
       $prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
       //Si produit est composant
@@ -106,6 +105,7 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     }
     die('Validation');
   } else {
+
     $qte_a_valider  = (int) $_POST['qte_a_valider'];
     foreach ($data as $d) {
       $new_quantity = $qte_a_valider - (int)$d->qte_achete ; 

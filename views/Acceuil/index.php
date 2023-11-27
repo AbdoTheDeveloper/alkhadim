@@ -2,7 +2,7 @@
 if (isset($_POST['ajax'])) {
   include('../../evr.php');
 }
-
+// debug(auth::user()) ; 
 $produit = new produit();
 $produits = $produit->selectPlusVendu();
 $totalproduits = $produit->selectChamps("count(*) as total");

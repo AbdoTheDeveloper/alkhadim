@@ -55,7 +55,8 @@ function design_ar($design,$design_ar){
 </fieldset>
 <?php  
 $eleveurs=new client();
-if(isset($_GET['id_client'])){$data_eleveurs=$eleveurs->selectById2($_GET['id_client']);}
+if(isset($_GET['id_client'])){
+$data_eleveurs=$eleveurs->selectById2($_GET['id_client']);}
 else{$data_eleveurs=$eleveurs->selectAll2_($_POST['dd'],$_POST['df']);
 // var_dump($data_eleveurs);die();
 }
