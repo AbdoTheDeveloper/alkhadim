@@ -19,7 +19,7 @@ $data = $detail_bon_vendeur->selectAllValide($id);
         <h1>Detail commande N° : <?php echo $id ?></h1>
         <input type="hidden" id="id_bon" value="<?php echo $id  ?>" />
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-success  url notlink" data-url="commande-vendeurs/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+          <button type="button" class="btn btn-primary url notlink" data-url="commande-vendeurs/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
         <div class="float-sm-right text-zero">
           <?php if (auth::user()['privilege'] != 'Vendeur') : ?>
@@ -134,7 +134,7 @@ $data = $detail_bon_vendeur->selectAllValide($id);
                     <?php echo $ligne->depot ?>
                   </td>
                   <td>
-                    <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['privilege'] == 'Vendeur') { ?>
+                    <?php if (auth::user()['privilege'] == 'Admin' ) { ?>
                       <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                         <i class="simple-icon-trash" style="font-size: 15px;"></i>
                       </a>

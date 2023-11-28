@@ -48,10 +48,11 @@ if ($_POST['act'] == 'getproduit') {
 elseif ($_POST['act'] == 'valide_detail_achat') {
   $result2 = connexion::getConnexion()->query("select da.id_detail ,  da.id_produit, da.id_depot, da.qte_achete as qte_achete , da.valide from detail_achat da WHERE da.id_detail =" . $_POST['id']);
   $data = $result2->fetchAll(PDO::FETCH_OBJ);
-  if (!$data[0]->valide) {
+  if (!$data[0]->valide ) {
     foreach ($data as $d) {
-      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  
-    id_produit = " . $d->id_produit);
+       
+      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel + $d->qte_achete WHERE  id_produit = ". $d->id_produit);
+      
       $produit_depot = new produit_depot();
       $target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
       if ($target) {
@@ -168,7 +169,17 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     }
     die('Revalidation');
   }
-} elseif ($_POST['act'] == 'addProduct') {
+} elseif($_POST['act'] == "cloturer"){
+  $id = $_POST['id']  ;  
+  $prix_revient =  $_POST['prix_revient'] ;
+  $statut = connexion::getConnexion()->query("UPDATE detail_achat SET prix_revient = $prix_revient where id_detail  = $id") ; 
+  if($statut){
+    die("Cloturage") ; 
+  }else{
+    die("Pas Cloturer") ;
+  }
+}
+elseif ($_POST['act'] == 'addProduct') {
   if (!isset($_SESSION['rand_a_er']) || $_SESSION['rand_a_er'] === "") {
     $_SESSION['rand_a_er'] = rand(10, 1000);
   }
