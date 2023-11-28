@@ -12,7 +12,7 @@ protected $date_expiration;
 protected $cout_device;
 protected $f_approch;
 protected $id_user;
-
+protected $prix_revient ; 
 public function selectAllNonValide(){
 	$result=connexion::getConnexion()->query("SELECT dp.nom AS depot, da.id_detail ,da.date_expiration ,da.id_produit, p.tva, p.designation,p.poid,da.prix_produit,da.qte_achete ,da.devise_produit  FROM 
 	  detail_achat da left join produit p on (p.id_produit=da.id_produit) 
@@ -23,29 +23,19 @@ public function selectAllNonValide(){
 	} 
 	
 public function selectAllValide($id){
-	$result=connexion::getConnexion()->query("SELECT 
-  dp.nom AS depot, 
-  da.id_detail, 
-  da.id_produit, 
-  p.designation, 
-  da.prix_produit, 
-  da.qte_achete, 
-  da.valide, 
-  da.date_validation, 
-  sum((da.prix_produit * da.qte_achete) * da.cout_device) as montant_achat,
-  sum(da.qte_achete) as qte_total, 
-  ((sum(c.montant) * c.cout_device )+   sum((da.prix_produit * da.qte_achete) * da.cout_device)) as total_cost  , 
-  da.cout_device 
-FROM 
+	$result=connexion::getConnexion()->query("SELECT dp.nom AS depot, da.devise_produit, da.id_detail,
+	da.id_produit,p.designation,da.prix_produit,da.qte_achete ,da.cout_device, da.valide ,  da.date_validation ,  da.prix_revient , 
+  (a.montant * da.cout_device) as montant_achat , 
+  sum(qte_achete) as qte_total
+  FROM 
   detail_achat da 
-  LEFT JOIN produit p ON p.id_produit = da.id_produit 
-  LEFT JOIN achat a ON a.id_achat = da.id_achat 
-  LEFT JOIN depot dp ON dp.id = da.id_depot
-  LEFT JOIN charge c on c.id_achat  = a.id_achat
-WHERE 
-  da.id_achat = $id
-ORDER BY 
-  da.id_detail DESC
+    left join produit p on (p.id_produit=da.id_produit) 
+   LEFT JOIN depot dp ON dp.id = da.id_depot
+   LEFT JOIN achat a on a.id_achat = da.id_achat 
+   
+  where da.id_achat=".$id." 
+  group by da.id_detail 
+  order by da.id_detail desc 
 ");
 	return $result->fetchAll(PDO::FETCH_OBJ);
 	} 	

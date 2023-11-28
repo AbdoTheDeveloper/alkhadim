@@ -103,12 +103,27 @@ $data = $charge->selectDesignation();
                                 <input type="text" class="form-control" id="montant" placeholder="Montant"
                                     name="montant" value="<?php echo $oldvalue['montant'] ?>">
                             </div>
+                            <div class="form-group col-md-4">
+                                <label for="id_depot"> Dépot :</label>
+                                <?php
+                                $depot = new depot();
+                                $res_depot = $depot->selectAll();
+                                ?>
+                                <select class="form-control select2-single" name="id_depot" id="id_depot">
+                                    <?php foreach ($res_depot as $d):?>
+                                        <option <?php  echo $oldvalue['id_depot'] == $d->id?  'selected' : "" ?> 
+                                        value="<?php echo $d->id ?>">
+                                            <?php echo $d->nom ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                             <div class='col-md-4'>
                                 <label for="id_fournisseur">Devis : </label>
-                                <select class="form-control select2-single " name="devise_produit" id="devise_produit">
+                                <select class="form-control select2-single " name="devise_produit" placeholder = "Cout devise"id="devise_produit">
                                     <option data-devise = "1" <?php echo $oldvalue["devise_produit"]== 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
-                                    <option data-devise = "9.8"<?php echo$oldvalue["devise_produit"]== '$' ? 'selected' : '' ?> value="$">USD</option>
-                                    <option data-devise = "9"<?php echo $oldvalue["devise_produit"]== '£' ? 'selected' : '' ?> value="£">EUR
+                                    <option <?php echo$oldvalue["devise_produit"]== '$' ? 'selected' : '' ?> value="$">USD</option>
+                                    <option <?php echo $oldvalue["devise_produit"]== '£' ? 'selected' : '' ?> value="£">EUR
                                     </option>
                                 </select>
                             </div>
@@ -213,10 +228,10 @@ $data = $charge->selectDesignation();
             });
         });
 
-        // $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        // $('#devise_produit').change(() => {
-        //     $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        // })
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+        $('#devise_produit').change(() => {
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+         })
 
 
 

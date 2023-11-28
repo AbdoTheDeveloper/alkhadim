@@ -252,30 +252,32 @@ if ($_POST['act'] == 'rech') {
 		connexion::getConnexion()->exec("UPDATE detail_achat  SET detail_achat.id_achat =(SELECT max(achat.id_achat) FROM achat)   WHERE detail_achat.id_achat=-1" . $_SESSION["rand_a_er"]);
 		unset($_SESSION['rand_a_er']);
 
-		$last_inserted = $achat->laset_insert() ; 
+		
+
+
+		$query=$result=connexion::getConnexion()->query("SELECT max(id_achat) as dernier_achat FROM achat ");
+		$result=$query->fetch(PDO::FETCH_OBJ);
+		$dernier_achat=$result->dernier_achat;
+
+
 		$result=connexion::getConnexion()->query("select a.devise_produit , sum(da.`prix_produit`*da.`qte_achete`)as
 		 montant from achat a left join detail_achat da on da.id_achat=a.id_achat
-		 where  a.id_achat  = $last_inserted 
+		 where  a.id_achat  = $dernier_achat 
 		group by  a.id_achat")->fetchAll(PDO::FETCH_OBJ);
 
 		
-		$query  = "UPDATE achat  SET montant = " . $result[0]->montant. " WHERE achat.id_achat = $last_inserted"  ;
+		$query  = "UPDATE achat  SET montant = " . $result[0]->montant. " WHERE achat.id_achat = $dernier_achat"  ;
 		$statut  = connexion::getConnexion()->exec($query);
 
-
-
-		// $query=$result=connexion::getConnexion()->query("SELECT max(id_achat) as dernier_achat FROM achat ");
-		// $result=$query->fetch(PDO::FETCH_OBJ);
-		// $dernier_achat=$result->dernier_achat;
-		/*
-		$result2=connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
-		where a.id_achat=$dernier_achat group by  da.id_produit");
-		$data=$result2->fetchAll(PDO::FETCH_OBJ);
-		foreach($data as $ligne)
-			{
-		connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
-			}
-			*/
+		
+		// $result2=connexion::getConnexion()->query("select da.id_produit,sum(da.qte_achete)as qte_achete from detail_achat da inner join achat a on a.id_achat=da.id_achat
+		// where a.id_achat=$dernier_achat group by  da.id_produit");
+		// $data=$result2->fetchAll(PDO::FETCH_OBJ);
+		// foreach($data as $ligne)
+		// 	{
+		// connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+".$ligne->qte_achete." WHERE  id_produit =".$ligne->id_produit);
+		// 	}
+		
 			die("success");
 	}
 
@@ -285,7 +287,7 @@ elseif ($_POST['act'] == 'valide_achat') {
 	$achat = new achat();
 	$a = $achat->selectById($_POST['id']);
 	if (!$a['valide'] ) {
-		#change state
+	#change state
 	connexion::getConnexion()->exec('UPDATE achat SET valide = 1 WHERE id_achat =' . $_POST['id']);
 	}
 	#update products qte
@@ -295,7 +297,7 @@ elseif ($_POST['act'] == 'valide_achat') {
 	$data = $result2->fetchAll(PDO::FETCH_OBJ);
 	foreach ($data as $d) {
 		if(!$d->valide) {
-		$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel+ $d->qte_achete WHERE  id_produit = " . $d->id_produit);
+		$rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel + $d->qte_achete WHERE  id_produit = " . $d->id_produit);
 		$produit_depot = new produit_depot();
 		$target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
 		if ($target) {
@@ -306,12 +308,12 @@ elseif ($_POST['act'] == 'valide_achat') {
 	}
 }
 	//calculate composant et produit fini
-	// debug($data) ; 
+	
 	foreach ($data as $d) {
 		// valider detail achat  
 		if(!$d->valide) {
-			$statut = connexion::getConnexion()->exec('UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
-			//avoir produit
+		$statut  = connexion::getConnexion()->query("UPDATE detail_achat SET valide = 1, date_validation = CURDATE() WHERE id_detail = " . $d->id_detail);
+		//avoir produit
 		$prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
 		//Si produit est composant
 		if ($prod->type_produit == 2) {
@@ -350,7 +352,7 @@ elseif ($_POST['act'] == 'valide_achat') {
 		}
 		} 
 	}
-	die('success');
+	die('Validation');
 } elseif ($_POST['act'] == 'update') {
 	$devise  =  (String)$_POST['devise_produit'] ; 
 	$cout_device  = $_POST['cout_device'] ; 

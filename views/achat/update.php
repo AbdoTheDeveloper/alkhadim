@@ -74,14 +74,14 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device ,d.devise_pro
                             <div class='col-md-2'>
                                 <label for="devise_produit">Devis : </label>
                                 <select class="form-control select2-single " name="devise_produit" id="devise_produit">
-                                    <option  <?php echo $oldvalue['devise_produit'] == 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
+                                    <option data-devise = "1"  <?php echo $oldvalue['devise_produit'] == 'MAD' ? 'selected' : '' ?> value="MAD">MAD</option>
                                     <option  <?php echo $oldvalue['devise_produit'] == '$' ? 'selected' : '' ?> value="$">USD</option>
                                     <option  <?php echo $oldvalue['devise_produit'] == '£' ? 'selected' : '' ?> value="£">EUR</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
                                 <label for="cout_device"> Cout devise : </label>
-                                <input name="cout_device" type="text" class="form-control" id="cout_device" value="<?php echo $sub_data->cout_device ?>" />
+                                <input name="cout_device"  placeholder="Cout Devise" type="text" class="form-control" id="cout_device" value="<?php echo $sub_data->cout_device ?>" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -170,8 +170,8 @@ $sub_data = connexion::getConnexion()->query("select d.cout_device ,d.devise_pro
             });
         });
         // $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        // $('#devise_produit').change(() => {
-        //     $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-        // })
+        $('#devise_produit').change(() => {
+        $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+         })
     });
 </script>

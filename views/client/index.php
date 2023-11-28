@@ -75,6 +75,7 @@ $data = $client->selectAllNonArchive();
                           <i class="iconsmind-Billing" style="font-size: 15px;"></i>
                         </a>
                         <br>
+                        
                         <a class="badge badge-success m-1  url notlink" data-url="reg_client/index.php?id=<?php echo $ligne->id_client; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
                           <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
                         </a>

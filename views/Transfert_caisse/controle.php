@@ -157,6 +157,7 @@ if ($_POST['act'] == 'filter') {
     $effet_transfert_caisse->deletebyIdTransfertCaisse($id);
     $cheque_transfert_caisse->deletebyIdTransfertCaisse($id);
 
+    // debug($_POST['montant_effet']) ; 
 
     foreach ($_POST['montant_effet'] as $key => $value) {
       if ($_POST['montant_effet'][$key] != "" && $_POST['num_effet'][$key] != "" ) {

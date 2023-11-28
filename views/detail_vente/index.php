@@ -136,7 +136,7 @@ $data = $detail_vente->selectAllValide($id);
                   </td>
 
                   <td>
-                    <?php if (auth::user()['privilege'] == 'Admin') { ?>
+                    <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['privilege'] == 'Vendeur' ) { ?>
                       <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                         <i class="simple-icon-trash" style="font-size: 15px;"></i>
                       </a>
