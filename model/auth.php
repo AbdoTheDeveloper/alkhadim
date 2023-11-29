@@ -35,11 +35,12 @@ class auth {
 			"annulation" => $_SESSION['gs_annulation'] , 
 			"etat" => $_SESSION['gs_etat']
 		);
+
 	 
 	 	return $user;
 	 
 	 	}
-	 	return null;
+
 	 }
 
 
@@ -76,6 +77,8 @@ class auth {
 			 $_SESSION['gs_etat'] = $user->etat;
 
 
+
+
 	 }
 
 	public static function logout()
@@ -108,6 +111,7 @@ class auth {
 			 unset($_SESSION['gs_annulation']);
 			 unset($_SESSION['gs_etat']);
 	 }
+
 	 }
  
 

@@ -109,10 +109,10 @@ $allfourn = $fournis->selectAll();
                   } ?>
                 </select>
               </div>
-              <div class="form-group col-md-4">
+              <!-- <div class="form-group col-md-4">
                 <label for="qte_actuel">Qte Stock : </label>
                 <input type="text" name="qte_actuel" class="form-control" value="0" id="qte_actuel" />
-              </div>
+              </div> -->
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
@@ -141,7 +141,7 @@ $allfourn = $fournis->selectAll();
               </div>
               <div class="form-group col-md-2">
                 <label for="tva"> Qte Stock  :</label>
-                <input type="text" class="form-control" name="qte_actuel" id="minqte" value="" placeholder="Quantité actuelle en stock ">
+                <input type="text" class="form-control" name="qte_actuel" id="minqte" value="0" placeholder="Quantité actuelle en stock ">
               </div>
             </div>
             <div class="form-group">
@@ -171,13 +171,13 @@ $allfourn = $fournis->selectAll();
                                 <label for="bloque1">bloqué :</label>
                                 <div class="mb-4">
                                     <div style="display: inline-block;" class="custom-control custom-radio">
-                                        <input type="radio" id="bloque1" value="1" checked="" name="bloque"
+                                        <input type="radio" id="bloque1" value="1"  name="bloque"
                                             class="custom-control-input">
                                         <label class="custom-control-label" for="bloque1">Oui</label>
                                     </div>
                                     <div style="display: inline-block;margin-left: 20px"
                                         class="custom-control custom-radio">
-                                        <input type="radio" id="bloque2" value="0" name="bloque"
+                                        <input type="radio" id="bloque2" value="0" checked ="true" name="bloque"
                                             class="custom-control-input">
                                         <label class="custom-control-label" for="bloque2">Non</label>
                                     </div>

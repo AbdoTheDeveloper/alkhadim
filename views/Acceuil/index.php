@@ -547,7 +547,7 @@ if ($recette > $depense) {
     </div>
 
   <?php }  ?>
-  <div class="row d-none">
+  <div class="row ">
     <div class="col-xl-6 col-lg-12 mb-4">
       <div class="card h-100">
         <div class="card-body">

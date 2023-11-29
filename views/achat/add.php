@@ -58,9 +58,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
               <div class="form-group col-md-2">
                 <label for="id_fournisseur">Devise : </label>
                 <select class="form-control select2-single" name="devise_produit" id="devise_produit">
-                  <option data-devise="1" value="MAD">MAD</option>
-                  <option data-devise="9.8" value="$">USD</option>
-                  <option data-devise="9" value="£">EUR</option>
+                  <option value="MAD">MAD</option>
+                  <option  value="$">USD</option>
+                  <option  value="£">EUR</option>
                 </select>
               </div>
 
@@ -756,9 +756,9 @@ $fournisseurs_all = connexion::getConnexion()->query("SELECT fournisseur AS nom 
       });
     });
 
-    $('#devise_produit').change(() => {
-      $('#cout_device').val($('#devise_produit option:selected').data("devise"));
-    })
+    // $('#devise_produit').change(() => {
+    //   $('#cout_device').val($('#devise_produit option:selected').data("devise"));
+    // })
 
 
   });

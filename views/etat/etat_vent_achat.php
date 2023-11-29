@@ -43,6 +43,11 @@ return $date->format('d-m-Y');
 
 <?php  
 $qv=$qa=$v=$a=0;
+debug("select prod.designation,prod.designation_ar, ifnull(d.prix_produit,0)  as achat, ifnull(vente,0)as vente ,ifnull(qte_vendu,0)as qte_vendu   from 
+(select  id_produit, designation,designation_ar  from produit)as prod 
+left join (SELECT p.id_produit, sum(`prix_produit`*`qte_vendu`)as 'vente',sum(qte_vendu) as 'qte_vendu' FROM `vente` v inner join detail_vente d on v.`id_vente`=d.`id_vente` inner join produit p on p.`id_produit`=d.`id_produit` where  (date_vente between '".$_POST['dd']."' and '".$_POST['df']."')  group by id_produit ) as vente on vente.id_produit=prod.id_produit
+left join ( select d.id_produit,d.prix_produit from (SELECT `id_produit`,max(`id_detail`) as id_detail FROM `detail_achat` group by `id_produit`)as lastd inner join `detail_achat` d on d.id_detail=lastd.id_detail)
+	  d on  d.id_produit=prod.id_produit where vente.id_produit IS NOT NULL order by vente -(qte_vendu*ifnull(d.prix_produit,0)) desc") ; 
 
  $query=$result=connexion::getConnexion()->query("select prod.designation,prod.designation_ar, ifnull(d.prix_produit,0)  as achat, ifnull(vente,0)as vente ,ifnull(qte_vendu,0)as qte_vendu   from 
 (select  id_produit, designation,designation_ar  from produit)as prod 

@@ -32,7 +32,7 @@ $data = $fournisseur->selectAllNonArchive();
                     <table class="table responsive table-striped table-bordered" id="datatables" >
                         <thead>
                             <tr>
-                               <th scope="col" width="1px">Id</th>
+                            <th scope="col" width="1px">Id</th>
                             <th scope="col">Raison Social</th>
                             <th scope="col">T&eacute;l&eacute;phone</th>
                             <th> Email</th>
@@ -45,8 +45,8 @@ $data = $fournisseur->selectAllNonArchive();
                     <?php  
                          foreach($data as $ligne){
                                    ?>
-                                  <tr>
-                                  <td> <?php echo $ligne->id_fournisseur; ?> </td>
+                                <tr>
+                               <td> <?php echo $ligne->id_fournisseur; ?> </td>
                                <td> <?php echo $ligne->raison_sociale; ?> </td>
                                <td> <?php echo $ligne->telephone; ?> </td>
                                <td> <?php echo $ligne->email; ?> </td>

@@ -12,8 +12,10 @@ if ($result == false) {
 }
 $detail_achat = new detail_achat();
 $achat = new achat();
+$charges = connexion::getConnexion()->query("select (sum(c.montant) * c.cout_device ) as total_charge  from charge c where id_achat = $id")->fetchAll(PDO::FETCH_OBJ)[0];
+$total_prix_produit = connexion::getConnexion()->query("select (sum(da.prix_produit) * da.cout_device) as total_prix_produit from detail_achat da where id_achat  = $id  ")->fetchAll(PDO::FETCH_OBJ)[0];
 $data = $detail_achat->selectAllValide($id);
-$achat = $achat->selectById($id); 
+$achat = $achat->selectById($id);
 // debug($data[0]) ; 
 ?>
 <div class="container-fluid disable-text-selection">
@@ -29,10 +31,10 @@ $achat = $achat->selectById($id);
               class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
         <?php if (!$valide) { ?>
-        <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
-            data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
-        </div>
+          <div class="float-sm-right text-zero">
+            <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+              data-url="detail_achat/add.php?id=<?php echo $id ?>">AJOUTER</button>
+          </div>
         <?php } ?>
         <?php if ($valide && $achat->valide == 0) { ?>
           <a class="mb-2 valide_achat float-sm-right text-zero" style="color: white;cursor: pointer;"
@@ -41,14 +43,12 @@ $achat = $achat->selectById($id);
             <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
           </a>
         <?php } ?>
-
         <?php if ($valide && $achat->valide == 0) { ?>
-        <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
-            data-url="detail_achat/pointage.php?id=<?php echo $id ?>">Pointage</button>
-        </div>
+          <div class="float-sm-right text-zero">
+            <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink"
+              data-url="detail_achat/pointage.php?id=<?php echo $id ?>">Pointage</button>
+          </div>
         <?php } ?>
-
       </div>
       <div class="separator mb-5"></div>
     </div>
@@ -76,7 +76,6 @@ $achat = $achat->selectById($id);
             <tbody>
               <?php
               $total = 0;
-              $total_avec_charge = 0; 
               foreach ($data as $ligne) {
                 ?>
                 <tr id="<?php echo $ligne->id_detail; ?>">
@@ -91,7 +90,7 @@ $achat = $achat->selectById($id);
                   </td>
                   <td style="text-align:right;">
                     <label>
-                      <?php echo number_format($ligne->prix_produit * $ligne->cout_device , 2, '.', 3) ; ?> DH
+                      <?php echo number_format($ligne->prix_produit, 2, '.', 3) . " " . $ligne->devise_produit; ?>
                     </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
                   </td>
                   <td style="text-align:right;">
@@ -100,22 +99,29 @@ $achat = $achat->selectById($id);
                       // $pourcentage_prix_article = ($ligne->prix_produit * $ligne->montant_achat) / 100;
                       // // $montant = $total  
                       // $prix_revient = $ligne->prix_produit  + ($pourcentage_prix_article * ($ligne->charge_total * $ligne->cout_charge / $ligne->qte_total)) / 100;
-                   
-
-                      $produit = new produit() ; 
-                      $product_cost  =  $produit->calculateCostPricePercentage($ligne->prix_produit * $ligne->cout_device, $ligne->montant_achat , $ligne->total_cost) ; 
-                      $total_avec_charge += $product_cost * $ligne->qte_achete  ; 
-                      echo number_format($product_cost , 2, '.', 3); ?> DH 
-                    </label> <input type='text' value="<?php echo number_format($ligne->prix_produit, 2, '.', 3); ?>" />
+                      $produit = new produit();
+                      if ($charges->total_charge) {
+                        $product_cost = $produit->calculateCostPricePercentage(
+                          $ligne->prix_produit * $ligne->cout_device,
+                          $charges->total_charge,
+                          $total_prix_produit->total_prix_produit,
+                          $ligne->qte_total
+                        );
+                      } else {
+                        $product_cost = $ligne->prix_produit * $ligne->cout_device;
+                      }
+                      echo number_format($product_cost, 2, '.', 3); ?> DH
+                    </label> <input type='text' class="product_cost"
+                      value="<?php echo number_format($product_cost, 2, '.', 3); ?>" />
                   </td>
-                  <td><label>
+                  <td style="float:right"><label>
                       <?php echo $ligne->qte_achete; ?>
                     </label><input style='width:80px;' type='text' value="<?php echo $ligne->qte_achete; ?>" />
                   </td>
                   <td style="text-align:right;" width="90">
-                    <?php echo number_format($ligne->qte_achete * $ligne->prix_produit * $ligne->cout_device, 2, '.', '');
-                    $total += $ligne->qte_achete * $ligne->prix_produit * $ligne->cout_device
-                    ?> DH &nbsp;&nbsp;
+                    <?php echo number_format($ligne->qte_achete * $ligne->prix_produit, 2, '.', '') . " " . $ligne->devise_produit;
+                    $total += $ligne->qte_achete * $ligne->prix_produit * $ligne->cout_device;
+                    ?> &nbsp;&nbsp;
                   </td>
                   <?php if ($valide) { ?>
                     <td>
@@ -139,8 +145,6 @@ $achat = $achat->selectById($id);
                       </a>
                     <?php } ?>
                     <?php if ($valide): ?>
-
-
                       <a class="badge  mb-2   <?php echo !$ligne->valide ? 'badge-success valide_detail_achat ' : 'badge-secondary ' ?>"
                         title="<?php echo $ligne->valide ? 'commande validé ' : 'valider commande' ?>" type="button"
                         style="color: white;cursor: pointer;" id="btn_valide_<?php echo $ligne->detail; ?>"
@@ -148,18 +152,41 @@ $achat = $achat->selectById($id);
                         <i class="simple-icon-check" style="font-size: 15px;"></i>
                       </a>
                     <?php endif; ?>
+                    <?php if ($valide): ?>
+                      <a class="badge  mb-2   <?php echo !$ligne->prix_revient ? 'badge-success cloturer' : 'badge-secondary ' ?>"
+                        title="<?php echo $ligne->valide ? 'commande cloturé ' : 'cloturer commande' ?>" type="button"
+                        style="color: white;cursor: pointer;" id="btn_valide_<?php echo $ligne->detail; ?>"
+                        data-id="<?php echo $ligne->id_detail; ?>">
+                        <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd"
+                            d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+                        </svg>
+                      </a>
+                    <?php endif; ?>
                   </td>
                 </tr>
               <?php } ?>
+
             </tbody>
           </table>
           <br>
           <h1 id="total">Total Sans Charge :
-            <?php echo number_format($total , 2, '.', '') ?> DH
+            <?php echo number_format($total / $data[0]->cout_device, 2, '.', '') . " " . $data[0]->devise_produit ?>
+          </h1>
+          <br>
+          <h1 id="total">Total Charges :
+            <?php
+            if ($charges->total_charge) {
+              echo number_format($charges->total_charge, 2, '.', '');
+            } else {
+              echo "0.00";
+            } ?> DH
           </h1>
           <br>
           <h1 id="total">Total Avec Charge :
-            <?php echo number_format($total_avec_charge , 2, '.', '') ?> DH
+            <?php echo number_format($total + $charges->total_charge, 2, '.', '') ?> DH
           </h1>
         </div>
       </div>
@@ -180,7 +207,7 @@ $achat = $achat->selectById($id);
       dataType: 'text',
       success: function (data) {
         swal(
-          'Validation achat',
+          `${data} achat`,
           'l\'achat N°' + id + ' a ete bien validé',
           'success'
         ).then((result) => {
@@ -189,13 +216,7 @@ $achat = $achat->selectById($id);
       }
     });
   });
-
-
   // /======================================================================================================= Valider Detail Achat ============================================================================================== 
-
-
-
-
   $('body').on("click", ".valide_detail_achat", function (e) {
     // e.preventDefault() ; 
     let id = $(this).attr('data-id');
@@ -216,9 +237,53 @@ $achat = $achat->selectById($id);
         ).then((result) => {
           location.reload();
         });
-
       }
     });
+  });
+
+//  cloturage detail achat
+
+  $('body').on("click", ".cloturer", function (e) {
+    // e.preventDefault() ; 
+    let id = $(this).attr('data-id') ;
+    let prix_revient = $('.product_cost').val() ; 
+    // document.getElementById('btn_valide_' + id).style.display = 'none';
+    Swal.fire({
+  title: 'Voulez vous vraiment cloturer le commande ?',
+  text: 'cet action ne peut pas etre altéré',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes',
+  cancelButtonText: 'No',
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33'
+}).then((result)=>{
+
+  if(result.value){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",
+      data: {
+        act: 'cloturer',
+        id: id ,
+        prix_revient : prix_revient
+      },
+      dataType: 'text',
+      success: function (data) {
+        swal(
+          `${data} achat`,
+          'l\'achat N°' + id + ' a ete bien validé',
+          'success'
+        ).then((result) => {
+          location.reload();
+        });
+      }
+    });
+  }
+  
+}) 
+
+    
   });
 </script>
 <script type="text/javascript">
@@ -298,6 +363,7 @@ $achat = $achat->selectById($id);
                 'success'
               ).then((result) => {
                 btn.parents("td").parents("tr").remove();
+                location.reload();
               });
             }
           });
@@ -374,23 +440,25 @@ $achat = $achat->selectById($id);
     $('#datatables tbody').on('click', '.updatee', function () {
       var value = $(this).data('id');
       $('#' + value).find("label").hide();
-      $('#' + value).find("input[type='text']").show();
+      $('#' + value).find("input[type='text']:not('.product_cost')").show();
       $('#' + value).children("td:last").html("<input type='button' class='Applique'  value='Applique'data-id= '" + value + "' />");
     });
     $('#datatables tbody').on('click', '.Applique', function () {
       var value = $(this).data('id');
-      var qte = $('#' + value).find("input[type='text']:eq(1)").val();
+      var qte = $('#' + value).find("input[type='text']:eq(2)").val();
       var reste_stock = parseInt($('#qte' + value).html());
       //if (reste_stock >= qte) {
       var prix = $('#' + value).find("input[type='text']:eq(0)").val();
-      alert("id_detail=" + value + "&id_achat=" + $('#id_achat').val() + "&prix_produit=" + prix + "&qte_achete=" + qte + "&id_produit=" + $('#' + value).children("td:eq(1)").attr('id') + "&qte_acheteh=" + $('#' + value).find("label:eq(1)").html())
+      alert("id_detail=" + value + "&id_achat=" + $('#id_achat').val() + "&prix_produit=" + prix + "&qte_achete=" + qte + "&id_produit=" + $('#' + value).children("td:eq(1)").attr('id') + "&qte_acheteh=" +
+        $('#' + value).find("label:eq(1)").html())
       $.ajax({
         type: "POST",
         url: "<?php echo BASE_URL . 'views/detail_achat/'; ?>controle.php",
-        data: "act=update_detail&id_detail=" + value + "&id_achat=" + $('#id_achat').val() + "&prix_produit=" + prix + "&qte_achete=" + qte + "&id_produit=" + $('#' + value).children("td:eq(1)").attr('id') + "&qte_acheteh=" + $('#' + value).find("label:eq(1)").html(),
+        data: "act=update_detail&id_detail=" + value + "&id_achat=" + $('#id_achat').val() +
+          "&prix_produit=" + prix + "&qte_achete=" + qte + "&id_produit=" + $('#' + value).children("td:eq(1)").attr('id') + "&qte_acheteh=" + $('#' + value).find("label:eq(1)").html(),
         success: function (data) {
           $('#' + value).find("label:eq(0)").html($('#' + value).find("input[type='text']:eq(0)").val());
-          $('#' + value).find("label:eq(1)").html($('#' + value).find("input[type='text']:eq(1)").val());
+          $('#' + value).find("label:eq(2)").html($('#' + value).find("input[type='text']:eq(2)").val());
           $('#' + value).find("label:eq(1)").html($('#' + value).find("input[type='text']:eq(1)").val());
           $('#' + value).find("label").show();
           $('#' + value).find("input[type='text']").hide();
@@ -401,9 +469,10 @@ $achat = $achat->selectById($id);
                       href="javascript:void(0)">
                       <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                     </a>`);
-          $('#' + value).children("td:eq(4)").html(parseFloat(prix) * parseFloat(qte));
+          $('#' + value).children("td:eq(6)").html(parseFloat(prix) * parseFloat(qte));
           $('#qte' + value).html("");
-          $('#total').html("Total : " + data + " DH");
+          $('#total').html("Total : " + data);
+          location.reload();
         }
       });
     })

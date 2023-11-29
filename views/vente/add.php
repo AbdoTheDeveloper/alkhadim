@@ -170,8 +170,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                   <?php
                   $depot = new depot();
                   $res_depot = $depot->selectAll();
-                  foreach ($res_depot as $rep_depot) {
-                    ?>
+                  foreach ($res_depot as $rep_depot) { ?>
                     <?php
                     $produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $categories[0]->id_categorie . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
                     foreach ($produits as $row) {

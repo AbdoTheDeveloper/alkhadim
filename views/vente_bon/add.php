@@ -950,11 +950,11 @@
         event.preventDefault();
 
         var form = document.getElementById('addform');
-        swal(
-          'Ajouter',
-          'Commande a ete bien Ajouter',
-          'success'
-        );
+        // swal(
+        //   'Ajouter',
+        //   'Commande a ete bien Ajouter',
+        //   'success'
+        // );
 
 
         $.ajax({

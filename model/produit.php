@@ -126,9 +126,9 @@ class produit extends table
 		connexion::getConnexion()->exec($query);
 	}
 
-	function calculateCostPricePercentage($productPrice, $totalPurchaseAmountWithoutCharges, $totalCost) {
-
-		$costPrice =((($productPrice * 100)/ $totalPurchaseAmountWithoutCharges) / 100  )* $totalCost;
+	function calculateCostPricePercentage($productPrice , $total_charge  , $total_prix_achat , $qte_total) {
+		$pourcentage  = ($productPrice * $total_charge) / $total_prix_achat ; 
+		$costPrice  = $productPrice +  ($pourcentage / 100 ) * ($total_charge / $qte_total)  ; 
 		return $costPrice;
 	}
 }

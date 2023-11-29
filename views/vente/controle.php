@@ -554,6 +554,9 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
   die("success");
 } elseif ($_POST['act'] == 'update') {
   try {
+    $id = $_POST['id'];
+    $id_user = auth::user()['id'];
+    $statut = connexion::getConnexion()->exec("INSERT INTO historique_modifs_vente(id_vente, date_modification, id_user) VALUES ($id, CURRENT_DATE, $id_user);");
     $_POST["idu"] = auth::user()["id"];
     $vente = new vente();
     $vente->update($_POST["id"]);
@@ -630,7 +633,7 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
 
 
 
-// ========================================================================================================================= get Prix =============================================================================================================== 
+  // ========================================================================================================================= get Prix =============================================================================================================== 
 
 
 } elseif ($_POST['act'] == 'getPrix') {
@@ -694,9 +697,6 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
 
   echo json_encode(['aug' => $augmentatation, 'prod' => json_encode($prod), 'depots' => $d_options, 'val' => round($prix_v, 2) . "/" . $ligne['qte_actuel'] . "/" . $ligne['unite2']]);
   exit;
-
-
-
 } elseif ($_POST['act'] == 'insertbon') {
   try {
     $data = vente::getdevis($_POST["id"]);

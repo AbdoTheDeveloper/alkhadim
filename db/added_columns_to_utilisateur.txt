@@ -30,3 +30,18 @@ add column cheque_achat int null  ,
 add column stock_par_categorie  int null  , 
 add column etat int null , 
 ADD COLUMN inventaire_depot INT NULL;
+
+create table historiques_modifs_vente (
+    id int primary key  auto_increment,
+    id_user int not null  , 
+    date_modification varchar(25) not null , 
+    id_vente int not null   
+    
+)
+
+create table historique_modifs_achat(
+    id int primary key auto_increment , 
+    id_user int not null  , 
+    date_modification varchar(25) not null  , 
+    id_achat int not null
+)

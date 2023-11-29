@@ -17,6 +17,7 @@ protected $tele;
 protected $email;
 protected $bloque  ; 
 protected $id_zone ;   
+<<<<<<< HEAD
 protected $depot ;
 protected $ancienne_vente ;
 protected $devis ;
@@ -47,6 +48,27 @@ protected $cheque_achat  ;
 protected $stock_par_categorie  ; 
 protected $etat ;                     
 
+=======
+protected $depot;
+protected $ancienne_vente;
+protected $devis;
+protected $achat_vente;
+protected $bon_commande;
+protected $commande_vendeur;
+
+protected $bon_livraison;
+protected $reglement;
+protected $facture;
+
+protected $caisse  ; 
+protected $transfert_caisse;  
+
+
+protected $recette_point_vente;
+protected $annulation;
+
+protected $etat  ; 
+>>>>>>> 3c7ed44faf704e1b70bf848f58b64bc1a178983a
 
 public function selectAllUtilisateur($moi){
 $result=connexion::getConnexion()->query("select * from utilisateur where id <>'".$moi."' order by idu desc");
