@@ -12,6 +12,7 @@ protected $remarque;
 protected $date_add;
 protected $date_update;
 protected $date_delete;
+protected $id_depot ; 
 
 
 

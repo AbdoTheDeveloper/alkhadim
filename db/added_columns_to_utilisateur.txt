@@ -31,6 +31,9 @@ add column stock_par_categorie  int null  ,
 add column etat int null , 
 ADD COLUMN inventaire_depot INT NULL;
 
+
+alter table utilisateur  ; 
+add utilisateur int not null ; 
 create table historiques_modifs_vente (
     id int primary key  auto_increment,
     id_user int not null  , 
@@ -39,6 +42,7 @@ create table historiques_modifs_vente (
     
 )
 
+ALTER TABLE `caisse` ADD `id_depot` INT(11) NOT NULL AFTER `date_delete`;
 create table historique_modifs_achat(
     id int primary key auto_increment , 
     id_user int not null  , 

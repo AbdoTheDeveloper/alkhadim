@@ -22,13 +22,13 @@ $data = $detail_vente->selectAllValide($id);
 
 
           <div class="float-sm-right text-zero">
-            <a class="btn btn-success  url " href="<?php echo BASE_URL ?>index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></a>
+            <a class="btn btn-primary url " href="<?php echo BASE_URL ?>index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></a>
           </div>
 
 
         <?php } else { ?>
           <div class="float-sm-right text-zero">
-            <button type="button" class="btn btn-success  url notlink" data-url="vente/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
+            <button type="button" class="btn btn-primary  url notlink" data-url="vente/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
           </div>
 
 

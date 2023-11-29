@@ -33,7 +33,8 @@ class auth {
 			"transfert_caisse" => $_SESSION['gs_transfert_caisse'] ,
 			"recette_point_vente" => $_SESSION['gs_recette_point_vente'] ,
 			"annulation" => $_SESSION['gs_annulation'] , 
-			"etat" => $_SESSION['gs_etat']
+			"etat" => $_SESSION['gs_etat'] , 
+			"utilisateur" => $_SESSION['gs_utilisateur']
 		);
 
 	 
@@ -75,6 +76,7 @@ class auth {
 			 $_SESSION['gs_recette_point_vente'] = $user->recette_point_vente;
 			 $_SESSION['gs_annulation'] = $user->annulation;
 			 $_SESSION['gs_etat'] = $user->etat;
+			 $_SESSION['gs_utilisateur'] = $user->utilistaeur;
 
 
 
@@ -110,6 +112,7 @@ class auth {
 			 unset($_SESSION['gs_recette_point_vente']);
 			 unset($_SESSION['gs_annulation']);
 			 unset($_SESSION['gs_etat']);
+			 unset($_SESSION['gs_utilisateur']);
 	 }
 
 	 }

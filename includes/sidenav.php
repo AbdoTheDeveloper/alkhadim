@@ -78,11 +78,18 @@ if (isset($_GET['p'])) {
                 <?php
                 }
                 ?>
+                
+                <?php
+                if ((int)auth::user()['utilisateur'] == 1 || auth::user()['privilege'] == "Admin") {
+                ?>
                 <li>
                     <a href="javascript:void(0)" data-url="utilisateur/index.php" class="url sub">
                         <i class="iconsmind-MaleFemale"></i> Utilisateur
                     </a>
                 </li>
+                <?php
+                }
+                ?>
             </ul>
             <ul class="list-unstyled" data-link="vente">
                 <?php
@@ -111,7 +118,6 @@ if (isset($_GET['p'])) {
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i>Ancienne Vente</a>
                 </li>
                 <?php }?>
-                ?>
                 <?php
                 if ((int)auth::user()['devis'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -148,7 +154,7 @@ if (isset($_GET['p'])) {
                         <i class="glyph-icon iconsmind-Shopping-Cart"></i> Bon commande</a>
                 </li>
                 <?php }?>
-                ?>
+                
                 <?php
                 if ((int)auth::user()['commande_vendeur'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
@@ -257,11 +263,7 @@ if (isset($_GET['p'])) {
                 </li>
             </ul>
             <ul class="list-unstyled" data-link="Etat">
-<<<<<<< HEAD
-                <?php if ((int)auth::user()['etat'] == 1 || auth::user()['privilege'] == "Admin") { ?> 
-=======
-                <?php if(auth::user()[' etat']== 1 || auth::user()['privilege'] == "Admin") {?>
->>>>>>> 3c7ed44faf704e1b70bf848f58b64bc1a178983a
+                <?php if(auth::user()['etat']== 1 || auth::user()['privilege'] == "Admin") {?>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/moveCaisse.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Mouvement caisse</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleur_client.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> État Meilleurs Clients</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État vente</a></li>
@@ -285,11 +287,8 @@ if (isset($_GET['p'])) {
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/inventaire_stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Inventaire Stock </a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/stock_par_category.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i>Stock par catégorie</a></li>
                 <li id='inventaire_depot' style="cursor:pointer; "><a data-url="etat/inventaire_depot.php" class="url sub"> <i class="glyph-icon simple-icon-chart"></i> Inventaire Depot </a></li>
-<<<<<<< HEAD
-                <?php }?>
-=======
-                <?php } ?>
->>>>>>> 3c7ed44faf704e1b70bf848f58b64bc1a178983a
+                <?php  } ?>
+
             </ul>
         </div>
     </div>

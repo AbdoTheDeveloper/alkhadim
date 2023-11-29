@@ -26,7 +26,7 @@ $cheque_transfert_caisse = $cheque_transfert_caisse->selectByIdTransfertCaisse($
             <div class="mb-2">
                 <h1>Transfert caisse </h1>
                 <div class="float-sm-right text-zero">
-                    <button type="button" class="btn btn-success  url notlink" data-url="transfert_caisse/index.php"> <i
+                    <button type="button" class="btn btn-primary  url notlink" data-url="transfert_caisse/index.php"> <i
                             class="glyph-icon simple-icon-arrow-left"></i></button>
                 </div>
             </div>

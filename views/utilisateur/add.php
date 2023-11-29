@@ -74,10 +74,25 @@ if (isset($_POST['ajax'])) {
                                 </select>
                             </div>
                         </div>
-                        <?php if (auth::user()['privilege'] == "Admin" || auth::user()['privilege'] == "User+") { ?>
+                        <br>
+                        <?php if (auth::user()['privilege'] == "Admin" ) { ?>
                             <h1>Priviléges Opérations</h1>
                             <div class="form-row">
+                                
+                            <div class="form-group col-md-2">
+                                    <label for="remarque">Utilisateur :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input type="radio" id="utilisateur1" value="1" name="utilisateur" class="custom-control-input">
+                                            <label class="custom-control-label" for="client1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px" class="custom-control custom-radio">
+                                            <input type="radio" id="utilisateur2" value="0" checked="true" name="utilisateur" class="custom-control-input">
+                                            <label class="custom-control-label" for="client2">Non</label>
 
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-2">
                                     <label for="remarque">Client :</label>
                                     <div class="mb-4">
@@ -429,24 +444,7 @@ if (isset($_POST['ajax'])) {
                                           class="custom-control-input">
                                       <label class="custom-control-label" for="etat_vente2">Non</label>
 
-<<<<<<< HEAD
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="form-group col-md-2">
-                              <label for="remarque">Etat Bon Livraison :</label>
-                              <div class="mb-4">
-                                  <div style="display: inline-block;" class="custom-control custom-radio">
-                                      <input type="radio" id="etat_bon_livraison1" value="1" checked="" name="etat_bon_livraison"
-                                          class="custom-control-input">
-                                      <label class="custom-control-label" for="achat1">Oui</label>
-                                  </div>
-                                  <div style="display: inline-block;margin-left: 20px"
-                                      class="custom-control custom-radio">
-                                      <input type="radio" id="etat_bon_livraison2" value="0" checked="true" name="etat_bon_livraison"
-                                          class="custom-control-input">
-                                      <label class="custom-control-label" for="etat_bon_livraison2">Non</label>
-=======
+
                                     </div>
                                 </div>
                             </div>
@@ -464,7 +462,6 @@ if (isset($_POST['ajax'])) {
                                         <input type="radio" id="fournisseur2" value="0" name="fournisseur"
                                             class="custom-control-input">
                                         <label class="custom-control-label" for="fournisseur2">Non</label>
->>>>>>> 3c7ed44faf704e1b70bf848f58b64bc1a178983a
 
                                   </div>
                               </div>
@@ -535,24 +532,6 @@ if (isset($_POST['ajax'])) {
                                           class="custom-control-input">
                                       <label class="custom-control-label" for="etat_vente_achat2">Non</label>
 
-<<<<<<< HEAD
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="form-group col-md-2">
-                              <label for="remarque">Etat Magazinier :</label>
-                              <div class="mb-4">
-                                  <div style="display: inline-block;" class="custom-control custom-radio">
-                                      <input type="radio" id="magazinier1" value="1" checked="" name="magazinier"
-                                          class="custom-control-input">
-                                      <label class="custom-control-label" for="magazinier1">Oui</label>
-                                  </div>
-                                  <div style="display: inline-block;margin-left: 20px"
-                                      class="custom-control custom-radio">
-                                      <input type="radio" id="magazinier2" value="0"  checked="true"name="magazinier"
-                                          class="custom-control-input">
-                                      <label class="custom-control-label" for="magazinier1">Non</label>
-=======
                                     </div>
                                 </div>
                             </div>
