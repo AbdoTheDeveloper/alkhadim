@@ -28,7 +28,7 @@ protected $num_dum ;
 
 public function selectAll2(){
 
-$result=connexion::getConnexion()->query("select a.valide, a.id_achat,a.date_achat,f.raison_sociale as fournisseur,f.id_fournisseur,a.remarque   ,sum(da.`prix_produit`*da.`qte_achete`)as
+$result=connexion::getConnexion()->query("select a.devise_produit, a.valide, a.id_achat,a.date_achat,f.raison_sociale as fournisseur,f.id_fournisseur,a.remarque   ,sum(da.`prix_produit`*da.`qte_achete`)as
 
  montant from achat a left join  fournisseur f on  f.id_fournisseur=a.id_fournisseur left join detail_achat da on da.id_achat=a.id_achat
 

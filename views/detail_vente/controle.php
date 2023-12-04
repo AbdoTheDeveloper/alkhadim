@@ -16,15 +16,15 @@ if ($_POST['act'] == 'getproduit') {
     </optgroup>
   <?php }
 } elseif ($_POST['act'] == 'deleterow') {
-  $detail_detail_vente = new detail_detail_vente();
+  $detail_vente = new detail_vente();
 
   if (isset($_POST['id_detail'])) {
 
-    $detail_detail_vente->delete($_POST['id_detail']);
+    $detail_vente->delete($_POST['id_detail']);
   }
 
 
-  $data = $detail_detail_vente->selectAllNonValide();
+  $data = $detail_vente->selectAllNonValide();
   $total = 0;
   foreach ($data as $ligne) {
   ?>
@@ -63,10 +63,10 @@ if ($_POST['act'] == 'getproduit') {
 
   $somme_poid = 0;
   $_POST["id_detail_vente"] = "-1" . $_SESSION['rand_a_er'];
-  $detail_detail_vente = new detail_detail_vente();
+  $detail_vente = new detail_vente();
 
-  $detail_detail_vente->insert();
-  $data = $detail_detail_vente->selectAllNonValide();
+  $detail_vente->insert();
+  $data = $detail_vente->selectAllNonValide();
   $total = 0;
 
   foreach ($data as $ligne) {

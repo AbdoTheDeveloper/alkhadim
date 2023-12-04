@@ -5,6 +5,7 @@ include('../../evr.php');
 $charge=new charge();
 $id = explode('?id=',$_SERVER["REQUEST_URI"]);
 $oldvalue=$charge->selectById($id[1]);
+// debug($oldvalue) ; 
 $charge=new charge(); 
 $data = $charge->selectDesignation();
 ?>
@@ -26,21 +27,25 @@ $data = $charge->selectDesignation();
                         <input type="hidden" name="act" value="update">
                         <input type="hidden" name="id" value="<?php echo $id[1] ;?>">
                         <div class="form-row">
-                            <div class="form-group col-md-4" >
+                            <!-- <div class="form-group col-md-4" >
                                 <label for="designation">Désignation</label>
                                 <select title="D&eacute;signation" class="form-control" name="designation" id="designation">
                                     <option></option>
                                     <?php
-                                    foreach($data as $ligne){
-                                        if ($oldvalue['designation'] == $ligne->libele ) {
-                                    echo "<option value='$ligne->libele' selected>".$ligne->libele."</option>";
-                                }
-                                else {
-                                     echo "<option value='$ligne->libele'>".$ligne->libele."</option>";
-                                }
-                                    }
+                                    // foreach($data as $ligne){
+                                         // if ($oldvalue['designation'] == $ligne->libele ) {
+                                    // echo "<option value='$ligne->libele' selected>".$ligne->libele."</option>";
+                                //}
+                                // else {
+                                   //  echo "<option value='$ligne->libele'>".$ligne->libele."</option>";
+                                // 
+                                   // }
                                     ?>
                                 </select>
+                            </div> -->
+                            <div class="form-group col-md-4">
+                                <label for="designation">Désignation : </label>
+                                <input type="text" name="designation" class="form-control" id="designation" value="<?php echo $oldvalue[0]->designation ?>" placeholder="Désignation"/>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="mode_reg">Mode de r&eacute;glement : </label>
@@ -57,23 +62,23 @@ $data = $charge->selectDesignation();
                                     document.getElementById('date_validation_tr').style.display = 'none';
                                     }">
                                     <option value=""> Choix</option>
-                                    <option value="Espece" <?php echo $oldvalue['mode_reg'] == 'Espece' ? 'selected' : '' ?> > Espece</option>
-                                    <option value="Cheque" <?php echo $oldvalue['mode_reg'] == 'Cheque' ? 'selected' : '' ?> > Cheque</option>
-                                    <option value="Virement" <?php echo $oldvalue['mode_reg'] == 'Virement' ? 'selected' : '' ?> > Virement</option>
-                                    <option value="Effet" <?php echo $oldvalue['mode_reg'] == 'Effet' ? 'selected' : '' ?> > Effet</option>
+                                    <option value="Espece" <?php echo $oldvalue[0]->mode_reg == 'Espece' ? 'selected' : '' ?> > Espece</option>
+                                    <option value="Cheque" <?php echo $oldvalue[0]->mode_reg == 'Cheque' ? 'selected' : '' ?> > Cheque</option>
+                                    <option value="Virement" <?php echo $oldvalue[0]->mode_reg == 'Virement' ? 'selected' : '' ?> > Virement</option>
+                                    <option value="Effet" <?php echo $oldvalue[0]->mode_reg == 'Effet' ? 'selected' : '' ?> > Effet</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="num_cheque">Num&eacute;ro : </label>
-                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" value="<?php echo $oldvalue['num_cheque'] ?>" placeholder="Numéro"/>
+                                <input type="text" name="num_cheque" class="form-control" id="num_cheque" value="<?php echo $oldvalue[0]->num_cheque ?>" placeholder="Numéro"/>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="montant" class="col-form-label">Montant</label>
-                                <input type="text" class="form-control" id="montant" placeholder="Montant" name="montant" value="<?php echo $oldvalue['montant'] ?>">
+                                <input type="text" class="form-control" id="montant" placeholder="Montant" name="montant" value="<?php echo $oldvalue[0]->montant ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="date_charge">Date Charge</label>
-                                <input name="date_charge" type="text"  class="form-control  datepicker" placeholder="2019-01-03" value="<?php echo $oldvalue['date_charge'] ?>"/>
+                                <input name="date_charge" type="text"  class="form-control  datepicker" placeholder="2019-01-03" value="<?php echo $oldvalue[0]->date_charge ?>"/>
                             </div>
                             <div class="form-group mb-10 col-md-4">
                                 <label>Piéce jointe</label>
@@ -86,13 +91,13 @@ $data = $charge->selectDesignation();
                             </div>
                             <div class="form-group col-md-4" id="date_validation_tr">
                                 <label for="date_validation">Date d'&eacute;ch&eacute;cance: </label>
-                                <input type="text" autocomplete="off" name="date_validation" class="form-control datepicker" id="date_validation" value="<?php echo $oldvalue['date_validation'] ?>"/>
+                                <input type="text" autocomplete="off" name="date_validation" class="form-control datepicker" id="date_validation" value="<?php echo $oldvalue[0]->date_validation ?>"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="remarque"> Remarque : </label>
                             <textarea  class="form-control" name="remarque" id="remarque"
-                            ><?php echo $oldvalue['remarque'] ;?></textarea>
+                            ><?php echo $oldvalue[0]->remarque ;?></textarea>
                         </div>
                         <div class="float-sm-right text-zero">
                             <button type="submit" class="btn btn-primary btn-lg  mr-1 " >Enregistrer</button>

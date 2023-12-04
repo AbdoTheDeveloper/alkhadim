@@ -13,6 +13,9 @@ protected $cout_device;
 protected $f_approch;
 protected $id_user;
 protected $prix_revient ; 
+
+
+
 public function selectAllNonValide(){
 	$result=connexion::getConnexion()->query("SELECT dp.nom AS depot, da.id_detail ,da.date_expiration ,da.id_produit, p.tva, p.designation,p.poid,da.prix_produit,da.qte_achete ,da.devise_produit  FROM 
 	  detail_achat da left join produit p on (p.id_produit=da.id_produit) 

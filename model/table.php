@@ -120,7 +120,6 @@ class table
 	public function delete($id)
 	{
 		$statut = connexion::getConnexion()->exec("delete from " . $this->className . " where " . $this->primary_key . "='" . $id . "'");
-		debug("delete from " . $this->className . " where " . $this->primary_key . "='" . $id . "'") ; 
 		return $statut;
 	}
 

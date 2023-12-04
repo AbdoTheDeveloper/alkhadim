@@ -131,17 +131,30 @@ $data = $boncommandevendeur->selectAll3(date('Y') . '-' . date('m'));
                     </td>
                     <td> <?php echo strlen($ligne->remarque) > 50 ? substr($ligne->remarque, 0, 50) . "..." : $ligne->remarque; ?> </td>
                     <td class="nowrap">
-                      <?php if (auth::user()['privilege'] == 'Admin') { ?>
-                        <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
-                          <i class="simple-icon-trash" style="font-size: 15px;"></i>
-                        </a>
-                        <a class="badge badge-success mb-2  url notlink" data-url="reg_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
-                          <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
-                        </a>
-                        <a class="badge badge-warning mb-2  url notlink" data-url="commande-vendeurs/update.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
-                          <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+                    <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['commande_vendeur'] == 1  ) { ?>
+                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1  ) { ?>
+                      <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                        <i class="simple-icon-trash" style="font-size: 15px;"></i>
+                      </a>
+                      <?php } ?>
+                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1  ) { ?>
+                      <a class="badge badge-warning mb-2  url notlink" data-url="commande-vendeurs/update.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                        <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+                      </a>
+                      <?php } ?>
+                      <?php 
+                      if (auth::user()['privilege'] == 'Admin' ) {  ?>                      
+                        <a class="badge badge-success mb-2 url notlink" data-url="reg_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+                        <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
+                      </a>
+                      <?php } else if(auth::user()['privilege'] == 'User+') {?>
+                        <a class="badge badge-danger  url notlink mb-2" data-url="<?php echo 'commande-vendeurs/retour_bon.php?id=' . $ligne->id_bon ?>" href="javascript:void(0)" style="color: white;cursor: pointer;" title="Retour" href='javascript:void(0)'>
+                          <i class="fa-solid fa-arrow-rotate-left" style="font-size: 15px;"></i>
                         </a>
                       <?php } ?>
+                      <?php } ?>
+                        
+
                       <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/commande-vendeurs/facture.php?id=" . $ligne->id_bon; ?>&h=15" target="_black">
                         <i class=" simple-icon-printer" style="font-size: 15px;"></i>
                       </a>

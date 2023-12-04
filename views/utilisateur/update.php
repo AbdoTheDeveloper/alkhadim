@@ -5,6 +5,7 @@ if (isset($_POST['ajax'])) {
 $utilisateur = new utilisateur();
 $id = explode('?id=', $_SERVER["REQUEST_URI"]);
 $oldvalue = $utilisateur->selectById($id[1]);
+// debug($oldvalue['supprimer'])  ; 
 // debug($oldvalue['depot']) ; 
 ?>
 <div class="container-fluid disable-text-selection">
@@ -104,6 +105,22 @@ $oldvalue = $utilisateur->selectById($id[1]);
                                             <input <?php $oldvalue['utilisateur'] == 0 ? print 'checked' : '' ?> type="radio"
                                                 id="utilisateur2" value="0" name="utilisateur" class="custom-control-input">
                                             <label class="custom-control-label" for="utilisateur2">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="remarque">Fournisseur  :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input type="radio" id="fournisseur1" value="1" <?php $oldvalue['fournisseur'] == 1 ? print 'checked' : '' ?> name="fournisseur" class="custom-control-input">
+                                            <label class="custom-control-label" for="fournisseur1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px"
+                                            class="custom-control custom-radio">
+                                            <input <?php $oldvalue['fournisseur'] == 0 ? print 'checked' : '' ?> type="radio"
+                                                id="fournisseur2" value="0" name="fournisseur" class="custom-control-input">
+                                            <label class="custom-control-label" for="fournisseur2">Non</label>
                                         </div>
                                     </div>
                                 </div>
@@ -457,6 +474,32 @@ $oldvalue = $utilisateur->selectById($id[1]);
                                             <input <?php $oldvalue['etat'] == 0 ? print 'checked' : '' ?> type="radio"
                                                 id="etat2" value="0" name="etat" class="custom-control-input">
                                             <label class="custom-control-label" for="etat2">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="bloque1">Supprimer :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input  <?php $oldvalue['supprimer'] =="1" ? print 'checked' : '' ?> type="radio" id="supprimer1" value="1" checked="" name="supprimer" class="custom-control-input">
+                                            <label class="custom-control-label" for="supprimer1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px" class="custom-control custom-radio">
+                                            <input  <?php $oldvalue['supprimer'] == 0 ? print 'checked' : '' ?> type="radio" id="supprimer2" value="0" name="supprimer" class="custom-control-input">
+                                            <label class="custom-control-label" for="supprimer2">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="bloque1">Modifier :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input  <?php $oldvalue['modifier'] == 1 ? print 'checked' : '' ?> type="radio" id="modifier1" value="1" checked="" name="modifier" class="custom-control-input">
+                                            <label class="custom-control-label" for="modifier1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px" class="custom-control custom-radio">
+                                            <input  <?php $oldvalue['modifier'] == 0 ? print 'checked' : '' ?> type="radio" id="modifier2" value="0"  name="modifier" class="custom-control-input">
+                                            <label class="custom-control-label" for="modifier2">Non</label>
                                         </div>
                                     </div>
                                 </div>

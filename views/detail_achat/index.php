@@ -133,12 +133,14 @@ $achat = $achat->selectById($id);
                     </td>
                   <?php } ?>
                   <td>
-                    <?php if (auth::user()['privilege'] == 'Admin' && !$valide) { ?>
+                    <?php if ((auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1 )  && !$valide) { ?>
                       <a id="<?php echo $ligne->id_produit ?>" class="badge badge-danger mb-2 delete"
                         data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer"
                         href='javascript:void(0)'>
                         <i class="simple-icon-trash" style="font-size: 15px;"></i>
                       </a>
+                      <?php } ?>
+                      <?php if ((auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1)  && !$valide) { ?>
                       <a class="badge badge-warning mb-2 updatee " data-id="<?php echo $ligne->id_detail; ?>"
                         style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
@@ -265,8 +267,8 @@ $achat = $achat->selectById($id);
                                 <?php echo $charge->remarque ?>
                               </td>
                               <td class="d-flex">
-                                <?php if (auth::user()['privilege'] == 'Admin') { ?>
-                                  <a class="badge badge-danger mb-2 mr-1 delete" data-id="<?php echo $charge->id; ?>"
+                                <?php if (auth::user()['privilege'] == 'Admin' ) { ?>
+                                  <a class="badge badge-danger mb-2 mr-1 delete_charge" data-id="<?php echo $charge->id; ?>"
                                     style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                                     <i class="simple-icon-trash" style="font-size: 15px;"></i>
                                   </a>
@@ -421,7 +423,7 @@ $('body').on("click", ".delete", function (event) {
           var btn = $(this);
           swal({
             title: 'Êtes-vous sûr?',
-            text: "Voulez vous vraiment Supprimer ce charge !",
+            text: "Voulez vous vraiment Supprimer ce achat !",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -431,15 +433,16 @@ $('body').on("click", ".delete", function (event) {
             if (result.value) {
               $.ajax({
                 type: "POST",
-                url: "<?php echo BASE_URL . 'views/charge/'; ?>controle.php",
+                url: "<?php echo BASE_URL . 'views/detail_achat/'; ?>controle.php",
                 data: {
                   act: "delete",
-                  id: btn.data('id')
+                  id: btn.data('id'),
+                  id_produit: btn.attr('id')
                 },
                 success: function (data) {
                   swal(
                     'Supprimer',
-                    'charge a ete bien Supprimer',
+                    'achat a ete bien Supprimer',
                     'success'
                   ).then((result) => {
                     btn.parents("td").parents("tr").remove();
@@ -527,7 +530,7 @@ $('#datatables_charges_achat').dataTable({
 
 
 
-        $('body').on("click", ".delete", function (event) {
+        $('body').on("click", ".delete_charge", function (event) {
           event.preventDefault();
           var btn = $(this);
           swal({

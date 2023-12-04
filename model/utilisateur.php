@@ -46,7 +46,9 @@ protected $cheque_vente  ;
 protected $cheque_achat  ; 
 protected $stock_par_categorie  ; 
 protected $etat ; 
-protected $utilisateur ;                     
+protected $utilisateur ;   
+protected $modifier ; 
+protected $supprimer ; 
 
 
 

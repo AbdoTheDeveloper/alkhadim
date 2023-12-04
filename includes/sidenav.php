@@ -93,7 +93,7 @@ if (isset($_GET['p'])) {
             </ul>
             <ul class="list-unstyled" data-link="vente">
                 <?php
-                if ((int)auth::user()['achat'] == 1 || auth::user()['privilege'] == "Admin") {
+                if (auth::user()['achat'] == 1 || auth::user()['privilege'] == "Admin") {
                 ?>
                     <li><a href="javascript:void(0)" data-url="achat/index.php" class="url sub">
                             <i class="glyph-icon iconsmind-Add-Bag"></i> Achat</a> </li>

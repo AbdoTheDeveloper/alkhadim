@@ -206,7 +206,7 @@
                   contentType: false,
                   processData: false,
                   success: function(data) {
-                      if (data.indexOf("success") >= 0) {
+                      if (data) {
                           swal(
                               'Ajouter',
                               'charge a ete bien Ajouter',

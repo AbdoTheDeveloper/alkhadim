@@ -990,6 +990,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         }
       });
     }
+
     return return_val;
   }
 </script>

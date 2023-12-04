@@ -34,7 +34,9 @@ class auth {
 			"recette_point_vente" => $_SESSION['gs_recette_point_vente'] ,
 			"annulation" => $_SESSION['gs_annulation'] , 
 			"etat" => $_SESSION['gs_etat'] , 
-			"utilisateur" => $_SESSION['gs_utilisateur']
+			"utilisateur" => $_SESSION['gs_utilisateur'] ,
+			"supprimer" => $_SESSION['gs_supprimer'] , 
+			"modifier" => $_SESSION['gs_modifier']
 		);
 
 	 
@@ -47,8 +49,6 @@ class auth {
 
 	public static function login($user)
 	 {      
-
-	 	
 			 $_SESSION['gs_login'] = $user->login;
 			 $_SESSION['gs_id'] = $user->id;
 			 $_SESSION['gs_email'] = $user->email;
@@ -76,7 +76,9 @@ class auth {
 			 $_SESSION['gs_recette_point_vente'] = $user->recette_point_vente;
 			 $_SESSION['gs_annulation'] = $user->annulation;
 			 $_SESSION['gs_etat'] = $user->etat;
-			 $_SESSION['gs_utilisateur'] = $user->utilistaeur;
+			 $_SESSION['gs_utilisateur'] = $user->utilisateur;
+			 $_SESSION['gs_supprimer'] = $user->supprimer;
+			 $_SESSION['gs_modifier'] = $user->modifier;
 
 
 
@@ -113,6 +115,8 @@ class auth {
 			 unset($_SESSION['gs_annulation']);
 			 unset($_SESSION['gs_etat']);
 			 unset($_SESSION['gs_utilisateur']);
+			 unset($_SESSION['gs_supprimer']);
+			 unset($_SESSION['gs_modifier']);
 	 }
 
 	 }

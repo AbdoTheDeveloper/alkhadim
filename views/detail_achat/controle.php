@@ -1,59 +1,34 @@
 <?php
 include('../../evr.php');
-if ($_POST['act'] == 'getproduit') {
-  $depot = new depot();
-  $res_depot = $depot->selectAll();
-  foreach ($res_depot as $rep_depot) {
-?>
-    <optgroup label="<?php echo $rep_depot->nom; ?> ">
-      <?php
-      $produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $_POST['id_categorie'] . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
-      foreach ($produits as $row) {
-        echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
-      } ?>
-    </optgroup>
-  <?php }
-} elseif ($_POST['act'] == 'deleterow') {
-  $detail_achat = new detail_achat();
-  if (isset($_POST['id_detail'])) {
-    $detail_achat->delete($_POST['id_detail']);
-  }
-  $data = $detail_achat->selectAllNonValide();
-  $total = 0;
-  foreach ($data as $ligne) {
-  ?>
-    <tr>
-      <td><?php echo $ligne->designation; ?></td>
-      <td><?php echo $ligne->prix_produit; ?></td>
-      <td><?php echo $ligne->qte_achete; ?></td>
-      <td><?php echo $ligne->poid * $ligne->qte_achete; ?> g </td>
-      <td width="90" style="text-align: right;">
-        <?php echo number_format($ligne->qte_achete * $ligne->prix_produit, 2, '.', ' ');
-        $total += $ligne->qte_achete * $ligne->prix_produit;
-        ?>
-      </td>
-      <td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
-          <i class="simple-icon-trash" style="font-size: 15px;"></i></a> </td>
-    </tr>
-  <?php
-  }
-  ?>
-  <tr>
-    <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
-    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right;"><?php echo number_format($total, 2, '.', ' '); ?></b></td>
-  </tr>
-  <?php
+
+
+if ($_POST['act'] == 'generate_sku') {
+
+  $detail = connexion::getConnexion()->query("SELECT * FROM detail_achat WHERE id_detail = " . $_POST['id'])->fetch(PDO::FETCH_ASSOC);
+
+
+  $produit = new produit();
+  $prod = $produit->selectById($detail['id_produit']);
+
+
+  $achat = (new achat())->selectById($detail['id_achat']);
+
+  $fournisseur = (new fournisseur())->selectById($achat['id_fournisseur']);
+
+
+  echo json_encode(['sku' => $prod['code_bar'], 'size' => $prod['designation'], 'details' => 'Fournisseur : ' . $fournisseur['raison_sociale'] . ' <br>  Date D\'Achat : ' . $achat['date_achat']]);
 }
-// ==========================================================================================================     Valider detail achat     ==============================================================================================================
+
+
+
 elseif ($_POST['act'] == 'valide_detail_achat') {
   $result2 = connexion::getConnexion()->query("select da.id_detail ,  da.id_produit, da.id_depot, da.qte_achete as qte_achete , da.valide from detail_achat da WHERE da.id_detail =" . $_POST['id']);
   $data = $result2->fetchAll(PDO::FETCH_OBJ);
   if (!$data[0]->valide ) {
     foreach ($data as $d) {
+
        
       $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel + $d->qte_achete WHERE  id_produit = ". $d->id_produit);
-      
-
       $produit_depot = new produit_depot();
       $target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
       if ($target) {
@@ -107,7 +82,7 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
       // } 
     }
     die('Validation');
-  } else {
+  } elseif(isset($_POST['qte_a_valider']) && !empty($_POST['qte_a_valider'])) {
 
     $qte_a_valider  = (int) $_POST['qte_a_valider'];
     foreach ($data as $d) {
@@ -171,28 +146,85 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     }
     die('Revalidation');
   }
-} elseif($_POST['act'] == "cloturer"){
+}
+elseif($_POST['act'] == "cloturer"){
   $id = $_POST['id']  ;  
   $prix_revient =  $_POST['prix_revient'] ;
   $statut = connexion::getConnexion()->query("UPDATE detail_achat SET prix_revient = $prix_revient where id_detail  = $id") ; 
   if($statut){
     die("Cloturage") ; 
   }else{
-    die("Pas Cloturer") ;
+    die("Pas Cloturer") ;   
   }
 }
-elseif ($_POST['act'] == 'addProduct') {
+
+if ($_POST['act'] == 'getproduit') {
+  $depot = new depot();
+  $res_depot = $depot->selectAll();
+  foreach ($res_depot as $rep_depot) {
+?>
+    <optgroup label="<?php echo $rep_depot->nom; ?> ">
+      <?php
+      $produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $_POST['id_categorie'] . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
+      foreach ($produits as $row) {
+        echo '<option value="' . $row->id_produit . '">' . $row->designation . '</option>';
+      } ?>
+    </optgroup>
+  <?php }
+} elseif ($_POST['act'] == 'deleterow') {
+  $detail_achat = new detail_achat();
+
+  if (isset($_POST['id_detail'])) {
+    $detail_achat->delete($_POST['id_detail']);
+  }
+
+
+  $data = $detail_achat->selectAllNonValide();
+  $total = 0;
+  foreach ($data as $ligne) {
+  ?>
+    <tr>
+
+      <td><?php echo $ligne->designation; ?></td>
+      <td><?php echo $ligne->prix_produit; ?></td>
+      <td><?php echo $ligne->qte_achete; ?></td>
+
+      <td><?php echo $ligne->poid * $ligne->qte_achete; ?> g </td>
+      <td width="90" style="text-align: right;">
+        <?php echo number_format($ligne->qte_achete * $ligne->prix_produit, 2, '.', ' ');
+        $total += $ligne->qte_achete * $ligne->prix_produit;
+        ?>
+
+      </td>
+      <td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+          <i class="simple-icon-trash" style="font-size: 15px;"></i></a> </td>
+    </tr>
+
+  <?php
+  }
+  ?>
+
+  <tr>
+    <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
+    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right;"><?php echo number_format($total, 2, '.', ' '); ?></b></td>
+
+  </tr>
+  <?php
+} elseif ($_POST['act'] == 'addProduct') {
   if (!isset($_SESSION['rand_a_er']) || $_SESSION['rand_a_er'] === "") {
     $_SESSION['rand_a_er'] = rand(10, 1000);
   }
   $_POST["id_user"] = auth::user()["id"];
+
   $somme_poid = 0;
   $_POST["id_detail_achat"] = "-1" . $_SESSION['rand_a_er'];
   $detail_achat = new detail_achat();
   $detail_achat->insert();
   $data = $detail_achat->selectAllNonValide();
   $total = 0;
+
   foreach ($data as $ligne) {
+
   ?>
     <tr>
       <td><?php echo $ligne->designation; ?></td>
@@ -217,32 +249,36 @@ elseif ($_POST['act'] == 'addProduct') {
   <tr>
     <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
     <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right;"><?php echo number_format($total, 2, '.', ' '); ?></b></td>
+
   </tr>
 <?php
 } elseif ($_POST['act'] == 'insert') {
   if (isset($_POST["id_produit"])) {
-    $id_achat = $_POST["id"];
-    $data = connexion::getConnexion()->query("select cout_device  , devise_produit from detail_achat where id_achat = $id_achat")->fetch(PDO::FETCH_OBJ);
-    $_POST['cout_device'] = $data->cout_device ; 
-    $_POST['devise_produit'] =  $data->devise_produit; 
     $_POST["id_achat"] = $_POST["id"];
     $_POST["id_user"] = auth::user()["id"];
     $_POST["prix_produit"] = trim($_POST["prix_produit"]);
-    $id_produit =  $_POST['id_produit'] ; 
-    $_POST['id_depot'] = connexion::getConnexion()->query("select emplacement from produit where id_produit = $id_produit")->fetch(PDO::FETCH_OBJ)->emplacement ;
-      
     $detail_achat = new detail_achat();
+
     $detail_achat->insert();
+
     connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+" . $_POST["qte_achete"] . " WHERE  id_produit =" . $_POST["id_produit"]);
   }
   die("success");
 } elseif ($_POST['act'] == 'update') {
 } elseif ($_POST['act'] == 'delete') {
   try {
+
+
     $detail_achat = new detail_achat();
+
+
     $qte_to_restore = connexion::getConnexion()->query("select qte_achete from detail_achat where id_detail= " . $_POST['id'])->fetchColumn();
+
+
     connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+" . (int)$qte_to_restore . " WHERE  id_produit =" . $_POST["id_produit"]);
+
     $detail_achat->delete($_POST["id"]);
+
     die('success');
   } catch (Exception $e) {
     die($e);
@@ -252,17 +288,29 @@ elseif ($_POST['act'] == 'addProduct') {
   $ligne = $produit->selectById($_POST['id_produit']);
   echo  $ligne['prix_achat'] . "/" . $ligne['qte_actuel'];
 } elseif ($_POST['act'] == 'update_detail') {
+
   $detail_achat = new detail_achat();
+
   $new_qte = $_POST['qte_achete'];
+
   $old_qte = $_POST['qte_acheteh'];
+
   if ((int)$new_qte > (int)$old_qte) {
     connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel-" . ($new_qte - $old_qte) . " WHERE  id_produit =" . $_POST["id_produit"]);
   } else {
     connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel+" . ($old_qte - $new_qte) . " WHERE  id_produit =" . $_POST["id_produit"]);
   }
+
+
+
+
   $detail_achat->update($_POST['id_detail']);
   $produit = new produit();
+
+
+
   $totale = $detail_achat->gettotale($_POST['id_achat']);
+
   die(number_format($totale['totale'], 2, '.', ''));
 }
 ?>

@@ -9,7 +9,7 @@ if ($_POST['act'] == 'filter') {
   }
   if ($_POST['anne'] == 0)
     $data = $vente->selectAll3all();
-?>
+  ?>
   <table class="table  responsive table-striped table-bordered table-hover" id="datatables">
     <thead>
       <tr>
@@ -31,24 +31,30 @@ if ($_POST['act'] == 'filter') {
         $id_facture = $result->id_facture;
         $nbr = $result->nbr;
         // if ($nbr > 0) {
-      ?>
+        ?>
         <tr>
           <td>
             <?php echo $ligne->id_vente; ?>
           </td>
           <td class="nowrap">
-            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>"><?php echo $ligne->client;
-                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client == " ") {
-                                                                                                                                                          echo $ligne->nom_prenom_ar;
-                                                                                                                                                        }
-                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client != " ") {
-                                                                                                                                                          echo "/" . $ligne->nom_prenom_ar;
-                                                                                                                                                        }
-                                                                                                                                                        ?> </a>
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink"
+              data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+              <?php echo $ligne->client;
+              if ($ligne->nom_prenom_ar != "" && $ligne->client == " ") {
+                echo $ligne->nom_prenom_ar;
+              }
+              if ($ligne->nom_prenom_ar != "" && $ligne->client != " ") {
+                echo "/" . $ligne->nom_prenom_ar;
+              }
+              ?>
+            </a>
           </td>
           <td class="nowrap">
             <?php if ($ligne->numbon != 0) { ?>
-              <a target="_blank" href="<?php echo BASE_URL . "views/vente/facturebon.php?id=" . $ligne->id_vente; ?>&h=15" class="badge badge-primary"><?php echo $ligne->date_vente; ?></a>
+              <a target="_blank" href="<?php echo BASE_URL . "views/vente/facturebon.php?id=" . $ligne->id_vente; ?>&h=15"
+                class="badge badge-primary">
+                <?php echo $ligne->date_vente; ?>
+              </a>
             <?php } else { ?>
               <span class="badge badge-success">
                 <?php echo $ligne->date_vente; ?>
@@ -56,7 +62,8 @@ if ($_POST['act'] == 'filter') {
             <?php } ?>
           </td>
           <td style="text-align: right;" class="nowrap" data-href="#">
-            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink"
+              data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
               <?php
               // var_dump($ligne->motunitv);
               if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
@@ -90,46 +97,60 @@ if ($_POST['act'] == 'filter') {
           </td>
           <td class="nowrap">
             <?php if (auth::user()['privilege'] == 'Admin') { ?>
-              <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+              <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_vente; ?>"
+                style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                 <i class="simple-icon-trash" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-success mb-2  url notlink" data-url="reg_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+              <a class="badge badge-success mb-2  url notlink"
+                data-url="reg_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;"
+                title="Régler" href='javascript:void(0)'>
                 <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-warning mb-2  url notlink" data-url="vente/update.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+              <a class="badge badge-warning mb-2  url notlink" data-url="vente/update.php?id=<?php echo $ligne->id_vente; ?>"
+                style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                 <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
               </a>
-              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/vente/facture.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
+              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer"
+                href="<?php echo BASE_URL . "views/vente/facture.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
                 <i class=" simple-icon-printer" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-secondary mb-2 url notlink" data-url="detail_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
+              <a class="badge badge-secondary mb-2 url notlink"
+                data-url="detail_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;"
+                title="voir Detail" href="javascript:void(0)">
                 <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
               </a>
               <?php if ($ligne->numbon == 0) { ?>
-                <a class="badge badge-warning mb-2  url notlink" data-url="vente/transfer.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Bon livraison" href='javascript:void(0)'>
+                <a class="badge badge-warning mb-2  url notlink"
+                  data-url="vente/transfer.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;"
+                  title="Bon livraison" href='javascript:void(0)'>
                   <i class="iconsmind-Add-Cart" style="font-size: 15px;"></i>
                 </a>
               <?php } ?>
               <?php if ($nbr == 0) { ?>
-                <a class="badge badge-primary mb-2 url notlink" style="color: white;cursor: pointer;" title="Facture" data-url="<?php echo "facture/add.php?idv[]=" . $ligne->id_vente; ?>" href='javascript:void(0)'>
+                <a class="badge badge-primary mb-2 url notlink" style="color: white;cursor: pointer;" title="Facture"
+                  data-url="<?php echo "facture/add.php?idv[]=" . $ligne->id_vente; ?>" href='javascript:void(0)'>
                   <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
                 </a>
               <?php } ?>
-              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Pro-format" href="<?php echo BASE_URL . "views/devis/facture_pro_format.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
+              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Pro-format"
+                href="<?php echo BASE_URL . "views/devis/facture_pro_format.php?id=" . $ligne->id_vente; ?>&h=15"
+                target="_black">
                 <i class=" simple-icon-printer" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-primary mb-2 notlink" style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket" href='<?php echo BASE_URL . '/views/vente/ticket.php?id=' . $ligne->id_vente; ?>' target="_black">
+              <a class="badge badge-primary mb-2 notlink"
+                style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket"
+                href='<?php echo BASE_URL . '/views/vente/ticket.php?id=' . $ligne->id_vente; ?>' target="_black">
                 <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
               </a>
               <?php //} 
-              ?>
-          </td>
-        </tr>
-    <?php }
-          } ?>
+                    ?>
+            </td>
+          </tr>
+        <?php }
+      } ?>
     </tbody>
   </table>
-<?php
+  <?php
 }
 // ============================================================================================== Afficher la quantité du produit par depot  ==============================================================================================================  
 if ($_POST['act'] == 'getDepotQte') {
@@ -180,7 +201,7 @@ if ($_POST['act'] == 'filterbon') {
     $date_format = $_POST['mois'];
     $data = $vente->selectallbond($date_format, 0);
   }
-?>
+  ?>
   <?php
   #custom
   #endcustom
@@ -204,29 +225,32 @@ if ($_POST['act'] == 'filterbon') {
         $result = $query->fetch(PDO::FETCH_OBJ);
         $id_facture = $result->id_facture;
         $nbr = $result->nbr;
-      ?>
+        ?>
         <tr>
           <!-- <td> <?php //echo $ligne->numbon; 
-                    ?></td> -->
+              ?></td> -->
           <td>
             <?php if ($nbr == 0 && $ligne->numbon != 0) { ?>
               <input type="checkbox" name="multyFact[]" class="multyFact" value="<?php echo $ligne->id_vente; ?>">
               <input type="hidden" class="slecli" value="<?php echo $ligne->id_client; ?>">
-            <?php echo $ligne->numbon;
+              <?php echo $ligne->numbon;
             } else { ?>
               <input type="checkbox" disabled name="multyFact[]" class="multyFact" value="<?php echo $ligne->id_vente; ?>">
-            <?php echo $ligne->numbon;
+              <?php echo $ligne->numbon;
             } ?>
           </td>
           <td class="nowrap">
-            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>"><?php echo $ligne->client;
-                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client == " ") {
-                                                                                                                                                          echo $ligne->nom_prenom_ar;
-                                                                                                                                                        }
-                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client != " ") {
-                                                                                                                                                          echo "/" . $ligne->nom_prenom_ar;
-                                                                                                                                                        }
-                                                                                                                                                        ?> </a>
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink"
+              data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+              <?php echo $ligne->client;
+              if ($ligne->nom_prenom_ar != "" && $ligne->client == " ") {
+                echo $ligne->nom_prenom_ar;
+              }
+              if ($ligne->nom_prenom_ar != "" && $ligne->client != " ") {
+                echo "/" . $ligne->nom_prenom_ar;
+              }
+              ?>
+            </a>
           </td>
           <td class="nowrap">
             <?php echo $ligne->date_vente; ?>
@@ -248,30 +272,54 @@ if ($_POST['act'] == 'filterbon') {
           </td>
           <td class="nowrap">
             <?php if (auth::user()['privilege'] == 'Admin') { ?>
-              <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
-                <i class="simple-icon-trash" style="font-size: 15px;"></i>
-              </a>
-              <a class="badge badge-warning mb-2  url notlink" data-url="vente/updatebon.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Modifier" href='javascript:void(0)'>
-                <i class="iconsmind-Pen-5" style="font-size: 15px;"></i>
-              </a>
-              <a class="badge badge-success mb-2  url notlink" data-url="reg_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+              <?php
+              if (auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1) {
+                ?>
+                <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_achat; ?>"
+                  style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                  <i class="simple-icon-trash" style="font-size: 15px;"></i>
+                </a>
+                <?php
+              }
+              ?>
+              <?php
+              if (auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1) {
+                ?>
+                <a class="badge badge-warning mb-2  url notlink" data-url="achat/update.php?id=<?php echo $ligne->id_achat; ?>"
+                  style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                  <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+                </a>
+                <?php
+              }
+              ?>
+              <a class="badge badge-success mb-2  url notlink"
+                data-url="reg_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;"
+                title="Régler" href='javascript:void(0)'>
                 <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer sans prix" href="<?php echo BASE_URL . "views/vente/facturebon.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
+              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer sans prix"
+                href="<?php echo BASE_URL . "views/vente/facturebon.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
                 <i class=" simple-icon-printer" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer avec prix" href="<?php echo BASE_URL . "views/vente/facturebon_prix.php?id=" . $ligne->id_vente; ?>&h=15" target="_black">
+              <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer avec prix"
+                href="<?php echo BASE_URL . "views/vente/facturebon_prix.php?id=" . $ligne->id_vente; ?>&h=15"
+                target="_black">
                 <i class=" simple-icon-printer" style="font-size: 15px;"></i>
               </a>
-              <a class="badge badge-secondary mb-2 url notlink" data-url="detail_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
+              <a class="badge badge-secondary mb-2 url notlink"
+                data-url="detail_vente/index.php?id=<?php echo $ligne->id_vente; ?>" style="color: white;cursor: pointer;"
+                title="voir Detail" href="javascript:void(0)">
                 <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
               </a>
               <?php if ($nbr == 0 && $ligne->numbon != 0) { ?>
-                <a class="badge badge-primary mb-2 url notlink" style="color: white;cursor: pointer;" title="Facture" data-url="<?php echo "facture/add.php?idv[]=" . $ligne->id_vente; ?>" href='javascript:void(0)'>
+                <a class="badge badge-primary mb-2 url notlink" style="color: white;cursor: pointer;" title="Facture"
+                  data-url="<?php echo "facture/add.php?idv[]=" . $ligne->id_vente; ?>" href='javascript:void(0)'>
                   <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
                 </a>
               <?php } ?>
-              <a class="badge badge-primary mb-2 notlink" style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket" href='<?php echo BASE_URL . '/views/vente/ticketbon.php?id=' . $ligne->id_vente; ?>' target="_black">
+              <a class="badge badge-primary mb-2 notlink"
+                style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket"
+                href='<?php echo BASE_URL . '/views/vente/ticketbon.php?id=' . $ligne->id_vente; ?>' target="_black">
                 <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
               </a>
             <?php } ?>
@@ -298,7 +346,7 @@ if ($_POST['act'] == 'getproduit') {
   $depot = new depot();
   $res_depot = $depot->selectAll();
   foreach ($res_depot as $rep_depot) {
-  ?>
+    ?>
     <?php
     $produits = $depot->selectQuery("SELECT  id_produit,designation  FROM produit where   id_categorie=" . $_POST['id_categorie'] . " and   emplacement='" . $rep_depot->id . "' order by designation asc");
     foreach ($produits as $row) {
@@ -310,7 +358,7 @@ if ($_POST['act'] == 'rech') {
   $depot = new depot();
   $res_depot = $depot->selectAll();
   foreach ($res_depot as $rep_depot) {
-  ?>
+    ?>
     <optgroup label="<?php echo $rep_depot->nom; ?> ">
       <?php
       $produits = $depot->selectQuery("SELECT  id_produit,designation as designation   FROM produit where  code_bar like '" . $_POST['id'] . "%' and   emplacement='" . $rep_depot->id . "' and produit.bloque = 0 order by designation asc");
@@ -324,7 +372,7 @@ if ($_POST['act'] == 'rech_qte_achete') {
   $depot = new depot();
   $res_depot = $depot->selectAll();
   foreach ($res_depot as $rep_depot) {
-  ?>
+    ?>
     <?php
     $produits = $depot->selectQuery("SELECT produit.id_produit,produit.designation as designation  , sum(da.qte_achete) as qte   FROM produit 
       left join  detail_achat da on da.id_produit = produit.id_produit  where da.id_achat =" . $_POST['id_achat'] .
@@ -336,13 +384,13 @@ if ($_POST['act'] == 'rech_qte_achete') {
     } else {
       die("error");
     }
-    ?>
+  ?>
   <?php }
 } elseif ($_POST['act'] == 'rech_designation') {
   $depot = new depot();
   $res_depot = $depot->selectAll();
   foreach ($res_depot as $rep_depot) {
-  ?>
+    ?>
     <optgroup label="<?php echo $rep_depot->nom; ?> ">
       <?php
       $produits = $depot->selectQuery("SELECT  id_produit,designation as designation FROM produit where  designation like '" . $_POST['designation'] . "%' and   emplacement='" . $rep_depot->id . "'  and produit.bloque = 0 order by designation asc");
@@ -359,7 +407,7 @@ if ($_POST['act'] == 'rech_qte_achete') {
   $data = $detail_vente->selectAllNonValide();
   $total = 0;
   foreach ($data as $ligne) {
-  ?>
+    ?>
     <tr>
       <td>
         <?php echo $ligne->designation; ?>
@@ -385,10 +433,11 @@ if ($_POST['act'] == 'rech_qte_achete') {
         }
         ?>
       </td>
-      <td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+      <td><a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
+          style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
           <i class="simple-icon-trash" style="font-size: 15px;"></i></a> </td>
     </tr>
-  <?php
+    <?php
   }
   ?>
   <tr>
@@ -420,7 +469,7 @@ if ($_POST['act'] == 'rech_qte_achete') {
   $data = $detail_vente->selectAllNonValide();
   $total = 0;
   foreach ($data as $ligne) {
-  ?>
+    ?>
     <tr>
       <td>
         <?php echo $ligne->designation; ?>
@@ -458,12 +507,13 @@ if ($_POST['act'] == 'rech_qte_achete') {
         }
         ?>
       </td>
-      <td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+      <td> <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
+          style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
           <i class="simple-icon-trash" style="font-size: 15px;"></i>
         </a>
       </td>
     </tr>
-  <?php
+    <?php
   }
   ?>
   <tr>
@@ -714,9 +764,11 @@ where a.id_vente=$dernier_vente group by  da.id_produit");
   $bons = $boncommande->selectBonsClient($_POST['id_client']);
   echo "<option value='0'>Choisir un bon</option>";
   foreach ($bons as $bon) {
-  ?>
-    <option value="<?php echo $bon->id_bon ?>" <?php echo (isset($_POST['bon']) and $_POST['bon'] == $bon->id_bon) ? 'selected' : '' ?>><?php echo $bon->id_bon ?></option>
-<?php
+    ?>
+    <option value="<?php echo $bon->id_bon ?>" <?php echo (isset($_POST['bon']) and $_POST['bon'] == $bon->id_bon) ? 'selected' : '' ?>>
+      <?php echo $bon->id_bon ?>
+    </option>
+    <?php
   }
 }
 ?>

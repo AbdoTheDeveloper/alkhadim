@@ -403,6 +403,32 @@ if (isset($_POST['ajax'])) {
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group col-md-2">
+                                    <label for="bloque1">Supprimer :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input type="radio" id="supprimer1" value="1" checked="" name="supprimer" class="custom-control-input">
+                                            <label class="custom-control-label" for="supprimer1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px" class="custom-control custom-radio">
+                                            <input type="radio" id="supprimer2" value="0" checked="true" name="supprimer" class="custom-control-input">
+                                            <label class="custom-control-label" for="supprimer2">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="bloque1">Modifier :</label>
+                                    <div class="mb-4">
+                                        <div style="display: inline-block;" class="custom-control custom-radio">
+                                            <input type="radio" id="modifier1" value="1" checked="" name="modifier" class="custom-control-input">
+                                            <label class="custom-control-label" for="modifier1">Oui</label>
+                                        </div>
+                                        <div style="display: inline-block;margin-left: 20px" class="custom-control custom-radio">
+                                            <input type="radio" id="modifier2" value="0" checked="true" name="modifier" class="custom-control-input">
+                                            <label class="custom-control-label" for="modifier2">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </div>

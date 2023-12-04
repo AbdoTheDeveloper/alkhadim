@@ -84,7 +84,7 @@ if ($id) {
               </thead>
               <tbody>
                 <?php
-                $total_montant = 0 ; 
+                $total_montant = 0;
                 foreach ($data as $charge) {
                   // $sub_data = connexion::getConnexion()->query("select c.devise_produit , c.cout_device from charge c where c.id = $charge->id limit 1 ")->fetchAll(PDO::FETCH_OBJ);
                   ?>
@@ -93,10 +93,11 @@ if ($id) {
                       <?php echo $charge->id ?>
                     </td>
                     <td>
-                      <?php 
-                      $c = new charge() ; 
-                      $fournisseur  = $c->selectFournisseurbyIdCharge( $charge->id_fournisseur)  ;
-                      if($fournisseur) echo $fournisseur  ; ?>
+                      <?php
+                      $c = new charge();
+                      $fournisseur = $c->selectFournisseurbyIdCharge($charge->id_fournisseur);
+                      if ($fournisseur)
+                        echo $fournisseur; ?>
                     </td>
                     <td>
                       <?php echo $charge->num_cheque ?>
@@ -108,11 +109,11 @@ if ($id) {
                       <?php echo $charge->date_charge ?>
                     </td>
                     <td>
-                      <?php echo $charge->montant ." ". $charge->devise_produit ;  ?>
+                      <?php echo $charge->montant . " " . $charge->devise_produit; ?>
                     </td>
                     <td>
-                      <?php echo $charge->montant * $charge->cout_device . " DH" ; 
-                       $total_montant += $charge->montant * $charge->cout_device; ?>
+                      <?php echo $charge->montant * $charge->cout_device . " DH";
+                      $total_montant += $charge->montant * $charge->cout_device; ?>
                     </td>
                     <td>
                       <?php echo $charge->remarque ?>
@@ -142,11 +143,13 @@ if ($id) {
                   </tr>
                 <?php } ?>
               </tbody>
-             
+
             </table>
-            <h1>Total  : <?php echo $total_montant ; ?> DH</h1>
+            <h1>Total :
+              <?php echo $total_montant; ?> DH
+            </h1>
           </div>
-          
+
         </div>
       </div>
     </div>
