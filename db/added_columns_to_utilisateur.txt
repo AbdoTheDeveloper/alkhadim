@@ -55,6 +55,7 @@ update detail_commande set valide = 0 ;
 ALTER TABLE `production` CHANGE `id_prduction` `id_production` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `production` CHANGE `id_lot` `id_lot` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `utilisateur` CHANGE `privilege` `privilege` VARCHAR(25) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `production` CHANGE `date` `date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP;
 
 
 
