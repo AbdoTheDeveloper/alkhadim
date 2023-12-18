@@ -53,6 +53,7 @@ create table historique_modifs_achat(
 ALTER TABLE detail_commande ADD valide INT(1) NULL DEFAULT NULL ;
 update detail_commande set valide = 0 ; 
 ALTER TABLE `production` CHANGE `id_prduction` `id_production` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `production` CHANGE `id_lot` `id_lot` INT(11) NULL DEFAULT NULL;
 
 
 
