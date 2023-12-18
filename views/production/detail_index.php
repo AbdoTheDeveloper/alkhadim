@@ -179,7 +179,7 @@ $(document).ready(function () {
         // document.getElementById('btn_valide_' + id).style.display = 'none';
         $.ajax({
           type: "POST",
-          url: "<?php echo BASE_URL . 'views/bon-commande/controle.php' ?>",
+          url: "<?php echo BASE_URL . 'views/production/controle.php' ?>",
           data: {
             act: 'valide_detail_commande',
             id_detail_commande: id_detail_commande , 
@@ -237,205 +237,15 @@ $(document).ready(function () {
 
 
 
-            $('body').on( "click",".delete", function( event ) {
-             event.preventDefault();
+          
 
-
-                    var btn = $(this);
-                swal({
-                 title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Supprimer ce commande !",
-                  type: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#d33',
-                  cancelButtonColor: '#3085d6',
-                  confirmButtonText: 'Oui, Supprimer !'
-                }).then((result) => {
-                  if (result.value) {
-
-                $.ajax({
-                type: "POST",
-                url: "<?php echo BASE_URL.'views/detail_commande/' ;?>controle.php",
-                data: {act:"delete",id: btn.data('id')},
-                success: function (data) {
-                   
-                   swal(
-                      'Supprimer',
-                      'commande a ete bien Supprimer',
-                      'success'
-                    ).then((result) => {
-                        btn.parents("td").parents("tr").remove();
-                        location.reload();
-                    });
-                   
-                }
-                 });
-                    
-                  }
-                });
-           
-            });
-
-
-        $('body').on( "click",".archive", function( event ) {
-             event.preventDefault();
-
-
-                    var btn = $(this);
-                swal({
-                 title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Archiver ce commande !!",
-                  type: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#145388',
-                  cancelButtonColor: '#3085d6',
-                  confirmButtonText: 'Oui, Archiver!'
-                }).then((result) => {
-                  if (result.value) {
-
-                $.ajax({
-                type: "POST",
-                url: "<?php echo BASE_URL.'views/detail_commande/' ;?>controle.php",
-                data: {act:"archive",id: btn.data('id'),val:btn.data('arc')},
-                success: function (data) {
-                   
-                               swal(
-                                 "Archived",
-                                  'Your Product has been archived.',
-                                  'success'
-                                ).then((result) => {
-                                    btn.parents("td").parents("tr").remove();
-                                });
-                               
-                            }
-                        });
-                    
-                  }
-                });
-           
-            });
+        
             
 
-              $('body').on( "click",".static", function( event ) {
-                 event.preventDefault();
 
-                  var btn = $(this); 
-                     $.ajax({
-                    type: "POST",
-                    url: "<?php echo BASE_URL.'views/detail_commande/' ;?>controle.php",
-                    data: {act:"getName",id: btn.data('id')},
-                    success: function (datas) {
-                        var data = datas.split(';;;');
-                                $('#exampleModalRight .modal-title').html("Etat commande "+data[1]);
-                                $('#idstatic').val(data[0]);
-                                }
-                            });
-
-          
-           
-            });
-
-
-        $("#Staticform" ).on( "submit", function( event ) {
-             event.preventDefault();
-
-             var form = $( this );
-             $.ajax({
-                type: "POST",
-                url: "<?php echo BASE_URL.'views/detail_commande/' ;?>controle.php",
-                data: new FormData(this),
-                dataType: 'text',  // what to expect back from the PHP script, if anything
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                
-
-                      $('#etatstatic').html(data);  
-                         
-                                              
-                        }
-                    });
-                   
-         });
-
-
-        $('#datatables tbody').on( 'click', '.updatee', function () {
-
-
-var value = $(this).data('id');
-    $('#' + value).find("label").hide();
-    $('#' + value).find("input[type='text']").show();
-    $('#' + value).children("td:eq(9)").html("<input type='button' class='Applique'  value='Applique'data-id= '" + value + "' />");
-
-    
-} );
-
- 
-$('#datatables tbody').on( 'click', '.Applique', function () 
-  {
-
-	
-    var value = $(this).data('id');
-    var qte = $('#' + value).find("input[type='text']:eq(2)").val();
-    var reste_stock = parseInt($('#qte' + value).html());
-    var prix = $('#' + value).find("input[type='text']:eq(0)").val();
-    var remise = $('#' + value).find("input[type='text']:eq(1)").val();
-    var unit = $('#' + value).find("input[type='text']:eq(4)").val();
-    var valunit = $('#' + value).find("input[type='text']:eq(3)").val();
-	    
-    $.ajax({
-    type: "POST",
-    url: "<?php echo BASE_URL.'views/detail_commande/' ;?>controle.php",
-    data: {act:'update_detail', 
-		   id_detail: $(this).data('id'),
-		   id_bon: $('#id_bon').val(),
-		   remise: remise,
-		   prix_produit: prix,
-		   qte_vendu: qte, 
-		   unit: $('#' + value).find("input[type='text']:eq(4)").val(),
-		   valunit: $('#' + value).find("input[type='text']:eq(3)").val(),
-		   id_produit: $('#' + value).children("td:eq(1)").attr('id'),
-		   qte_venduh: $('#' + value).find("label:eq(2)").html(),
-		  
-		  },
-    success: function (data) {
-	console.log(data);
-		
-    $('#' + value).find("label:eq(0)").html($('#' + value).find("input[type='text']:eq(0)").val());
-    $('#' + value).find("label:eq(1)").html($('#' + value).find("input[type='text']:eq(1)").val());
-    $('#' + value).find("label:eq(2)").html($('#' + value).find("input[type='text']:eq(2)").val());
-    $('#' + value).find("label:eq(3)").html($('#' + value).find("input[type='text']:eq(3)").val()+' '+$('#' + value).find("input[type='text']:eq(4)").val());
       
-    $('#' + value).find("label").show();
-    $('#' + value).find("input[type='text']").hide();
-   
-    $('#' + value).children("td:eq(9)").html(`<a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)' >
-                      <i class="simple-icon-trash" style="font-size: 15px;"></i>
-                    </a>
-                    
-                    <a class="badge badge-warning mb-2 updatee " data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Modifier"
-                      href="javascript:void(0)">
-                      <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
-                    </a>`);
-    if(valunit!=null || valunit!=0)
-    {
-      $('#' + value).children("td:eq(7)").html(parseFloat(prix) *parseFloat(valunit) * (1 - remise/100) );
-    } if(valunit==null || valunit==0){
-      alert(parseFloat(prix) *parseFloat(qte) * (1 - remise/100) );
-      $('#' + value).children("td:eq(7)").html(parseFloat(prix) *parseFloat(qte) * (1 - remise/100) );
-    }             
-    
-    $('#qte' + value).html("");
-    $('#total').html("Total : "+data+" DH");
-  
-    },error: function(error){
-      console.log(error);
-    }
-    });
-    
-    })
 
+        
 
 
 
