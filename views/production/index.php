@@ -194,7 +194,7 @@ $data = $boncommande->selectAll3(date('Y') . '-' . date('m') );
 $("#id_client").change(function() {
 $.ajax({
   type: "POST",
-  url: "<?php echo BASE_URL . 'views/bon-commande/'; ?>controle.php",
+  url: "<?php echo BASE_URL . 'views/production/'; ?>controle.php",
   dataType: 'text',
   data: {
     act: "get_bon_commandes",
@@ -232,7 +232,7 @@ $(".sub").on("click", function(event) {
       var form = $(this);
       $.ajax({
         type: "POST",
-        url: "<?php echo BASE_URL . 'views/bon-commande/'; ?>controle.php",
+        url: "<?php echo BASE_URL . 'views/production/'; ?>controle.php",
         data: {
           act:"get_bon_commandes" , 
           anne  : $('#anne').val() , 
