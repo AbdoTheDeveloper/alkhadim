@@ -182,6 +182,11 @@ $data = $vente->selectAll3(date('Y') . '-' . date('m'));
                           target="_black">
                           <i class=" simple-icon-printer" style="font-size: 15px;"></i>
                         </a>
+                        <!-- <a class="badge badge-success mb-2  " style="color: white;cursor: pointer;" title="Imprimmer Avec Prix"
+                          href="<?php // echo BASE_URL . "views/vente/facturebon_avec_prix.php?id=" . $ligne->id_vente . "&h=15?id=" . $ligne->id_vente; ?>&h=15"
+                          target="_black">
+                          <i class=" simple-icon-printer" style="font-size: 15px;"></i>
+                        </a> -->
                         </a>
                         <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Pro-format"
                           href="<?php echo BASE_URL . "views/devis/facture_pro_format.php?id=" . $ligne->id_vente; ?>&h=15"

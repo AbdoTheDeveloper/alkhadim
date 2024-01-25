@@ -6,6 +6,7 @@ class client extends table {
    protected $nom;
    protected $prenom;
    protected $nom_prenom_ar;
+   protected $code ; 
    protected $cin;
    protected $telephone;
    protected $email;

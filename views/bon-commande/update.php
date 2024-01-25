@@ -139,35 +139,33 @@ $(".select2-single").select2({
                 processData: false,
                 success: function (data) {
 
-               if (data.indexOf("success")>=0) {
-                   
-                    swal(
-                      'Modification',
-                      'bon a ete bien modifie',
-                      'success'
-                    ).then((result) => {
-                    $.ajax({
-
-                              method:'POST',
-                              data: {ajax:true},
-                              url: `<?php echo BASE_URL."views/bon-commande/index.php";?>`,
-                              context: document.body,
-                              success: function(data) { 
-                                      history.pushState({},"",`<?php echo BASE_URL."bon_commande/index.php";?>` );
-                                      $("#main").html( data );
+                    if (data.indexOf("success") >= 0) {
+                        swal(
+                            'Modification',
+                            'Bon Commande a ete bien modifie',
+                            'success'
+                        ).then((result) => {
+                            $.ajax({
+                                method: 'POST',
+                                data: {
+                                    ajax: true
+                                },
+                                url: `<?php echo BASE_URL . "views/bon-commande/index.php"; ?>`,
+                                context: document.body,
+                                success: function (data) {
+                                    history.pushState({}, "", `<?php echo BASE_URL . "bon-commande/index.php"; ?>`);
+                                    $("#main").html(data);
                                 }
                             });
-                    });
-                }
-                else{
-
-                     form.append(` <div id="alert-danger" class="alert  alert-danger alert-dismissible fade show rounded mb-0" role="alert">
+                        });
+                    } else {
+                        form.append(` <div id="alert-danger" class="alert  alert-danger alert-dismissible fade show rounded mb-0" role="alert">
                                 <strong>${data}</strong> 
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>`);
-                }
+                    }
                 }
             });
 });

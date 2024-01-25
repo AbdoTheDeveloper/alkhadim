@@ -74,7 +74,7 @@ $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
 
 
 
-        // ========================================================================================================== Rehercher produit acheté par référence ========================================================================================================
+        // =========================================================================== Rehercher produit acheté par référence ===========================================================================
 
 
 
@@ -87,14 +87,13 @@ $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
                 );
                 $('#qte_actuelle').val('');
                 $("#select2-id_produit-container").css('color', 'black')
-                return ; 
             }
             if (id.trim() != "") {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
+                    url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
                     data: {
-                        act: "rech_qte_achete",
+                        act: "get_produit_achtee",
                         id: id,
                         id_achat: id_achat
                     },
@@ -116,44 +115,27 @@ $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
         });
 
 
-        // ========================================================================================================== Rehercher produit acheté par Désignation ========================================================================================================
+        // ================================================================= Rehercher produit acheté par Désignation ===============================================================================================
         
-        
-        $("#rech_designation").keyup(function() {
-            var id_achat = $('#id_achat').val();
-            var designation = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
-                data: {
-                    act: "rech_designation",
-                    designation: designation.trim(),
-                    id_achat: id_achat
-                },
-                success: function(data) {
-                    $('#id_produit').html(data);
-                    $("#id_produit").change();
-                },
-            });
-        });
-        
+
         
         $("#id_produit").change(function() {
             var id_achat = $('#id_achat').val();
             var id_produit = $(this).val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php",
-                dataType: 'json',
+                url: "<?php echo BASE_URL . 'views/achat/'; ?>controle.php", 
+                dadaType : "JSON" ,
                 data: {
                     act: "getAcheteQte",
                     id_produit: id_produit,
                     id_achat: id_achat
                 },
-                success: function(data) {
+                success: function(data) { 
+                    data = JSON.parse(data) ; 
                     if (data) {
-                        $('#qte_actuelle').val(data.qte);
-                        $('#id_detail').val(data.id_detail);
+                        $('#qte_actuelle').val(data[0].qte);
+                        $('#id_detail').val(data[0].id_detail);
                     } else {
                         $('#qte_actuelle').val('0');
                     }

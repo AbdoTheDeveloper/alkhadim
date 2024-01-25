@@ -92,8 +92,7 @@ $data = $charge->selectDesignation();
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="image" name="image">
-                                        <label class="custom-file-label" for="inputGroupFile04">Choisir piéce jointe
-                                            charge</label>
+                                        <label class="custom-file-label" for="inputGroupFile04">Choisir piéce jointe charge</label>
                                     </div>
                                 </div>
                             </div>

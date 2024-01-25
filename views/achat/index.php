@@ -141,10 +141,16 @@ $data = $achat->selectAll3(date('Y') . '-' . date('m'));
                   ?>
                   <tr>
                     <td class="nowrap">
+                      <a href=<?php echo "update.php?id=$ligne->id_achat" ?> class ="badge badge-primary">
                       <?php echo $ligne->id_achat; ?>
+                      </a>
+                     
                     </td>
                     <td class="nowrap">
+                      <a class ="badge badge-primary text-white" href=<?php echo BASE_URL . "fournisseur/update.php?id=$ligne->id_fournisseur"  ; ?>   >
                       <?php echo $ligne->fournisseur; ?>
+                      </a>
+                      
                     </td>
                     <td class="nowrap">
                       <?php echo $ligne->date_achat; ?>

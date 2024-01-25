@@ -17,7 +17,11 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         <div class="col-12">
             <div class="mb-2">
                 <h1>bon commande des vendeurs </h1>
-                
+                <div class="float-sm-right text-zero">
+                    <button type="button" class="btn btn-success  url notlink"
+                        data-url="commande-vendeurs/index.php?id=<?php echo $id ?>"> <i
+                            class="glyph-icon simple-icon-arrow-left"></i></button>
+                </div>
             </div>
             
             <div class="separator mb-5"></div>

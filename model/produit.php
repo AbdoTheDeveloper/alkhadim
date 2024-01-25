@@ -61,7 +61,6 @@ class produit extends table
 
 	public function archiver($id, $val, $id_user)
 	{
-
 		die("UPDATE  produit SET archive=$val ,date_archive= '" . date("Y-m-d") . "',id_archiveur=$id_user WHERE id_produit=$id");
 		$statut = connexion::getConnexion()->exec("UPDATE  produit SET archive=$val ,date_archive= '" . date("Y-m-d") . "',id_archiveur=$id_user WHERE id_produit=$id");
 		return $statut;

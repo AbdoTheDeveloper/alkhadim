@@ -86,8 +86,11 @@ $data = $client->selectAllNonArchive();
                           <a class="badge badge-danger m-1 " href="<?php echo BASE_URL . 'views/etat/client_etat_pv.php?id=' . $ligne->id_client; ?>" target="_blanck" style="color: white;cursor: pointer;" title="Etat des Ventes">
                             <i class="iconsmind-Billing" style="font-size: 15px;"></i>
                           </a>
+                          <a class="badge badge-primary m-1 " href="<?php echo BASE_URL . 'views/etat/etat_achat_vente.php?id=' . $ligne->id_client; ?>" target="_blanck" style="color: white;cursor: pointer;" title="Etat Achat vente">
+                            <i class="iconsmind-Billing" style="font-size: 15px;"></i>
+                          </a>
                           <br>
-    <a class="badge badge-danger m-1 " href="<?php echo BASE_URL . 'views/etat/etat_stock_pv.php?id=' . $ligne->id_client; ?>" target="_blanck" style="color: white;cursor: pointer;" title="Etat du stock pv" href="javascript:void(0)">
+                          <a class="badge badge-danger m-1 " href="<?php echo BASE_URL . 'views/etat/etat_stock_pv.php?id=' . $ligne->id_client; ?>" target="_blanck" style="color: white;cursor: pointer;" title="Etat du stock pv" href="javascript:void(0)">
                           <i class="simple-icon-pie-chart" style="font-size: 15px;"></i>
                         </a>
 
@@ -197,7 +200,12 @@ $data = $client->selectAllNonArchive();
         },
         success: function(data) {
           console.log(data);
-          $('#compte_fiche').val();
+
+          if(data.type_compte ==  "0"){
+            $('#compte_fiche').val("Client") ; 
+          }else{
+            $('#compte_fiche').val("Société") ; 
+          }
           $('#compte_code').val(data.code);
           $('#compte_nom').val(data.nom);
           $('#compte_prenom').val(data.prenom);

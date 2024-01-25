@@ -5,6 +5,7 @@ include('../../evr.php');
 $caisse=new caisse();
 $id = explode('?id=',$_SERVER["REQUEST_URI"]);
 $oldvalue=$caisse->selectById($id[1]);
+// debug($oldvalue) ;
 ?>
 <div class="container-fluid disable-text-selection">
 <div class="row">
@@ -55,7 +56,7 @@ $oldvalue=$caisse->selectById($id[1]);
                                 ?>
                                 <select class="form-control select2-single" name="id_depot" id="id_depot">
                                     <?php foreach ($res_depot as $d):?>
-                                        <option <?php  echo $oldvalue['id_depot'] == $d->id?  'selected' : "" ?> 
+                                        <option <?php  echo $oldvalue['id_depot'] == $d->id?  'selected=selected' : "" ?> 
                                         value="<?php echo $d->id ?>">
                                             <?php echo $d->nom ?>
                                         </option>

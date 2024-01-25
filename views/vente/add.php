@@ -20,7 +20,7 @@ $depot = new depot();
 $data_depot = $depot->selectAll();
 $produit = new produit();
 $data_cat = $produit->selectAllCat();
-$vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE privilege = 'Vendeur' and bloque = 0 ORDER BY nom ASC")->fetchAll(PDO::FETCH_OBJ);
+$vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE privilege = 'Vendeur' and bloque = 0 ")->fetchAll(PDO::FETCH_OBJ);
 ?>
 <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 <div class="container-fluid disable-text-selection">
@@ -29,8 +29,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
       <div class="mb-2">
         <h1>vente </h1>
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-success  url notlink" data-url="vente/index.php"> <i
-              class="glyph-icon simple-icon-arrow-left"></i></button>
+          <button type="button" class="btn btn-success  url notlink" data-url="vente/index.php"> <i class="glyph-icon simple-icon-arrow-left"></i></button>
         </div>
       </div>
       <div class="separator mb-5"></div>
@@ -43,10 +42,8 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           <h5 class="mb-4">Ajouter Une Nouvelle vente</h5>
           <form id="addform" method="post" name="form_produit" enctype="multipart/form-data">
             <input type="hidden" name="act" value="insert">
-            <input type="hidden" name="client_key" id="client_key_input"
-              value="<?php echo (isset($client_key)) ? $client_key : '' ?>">
-            <input type="hidden" name="bon_key" id="bon_key_input"
-              value="<?php echo (isset($bon_key)) ? $bon_key : '' ?>">
+            <input type="hidden" name="client_key" id="client_key_input" value="<?php echo (isset($client_key)) ? $client_key : '' ?>">
+            <input type="hidden" name="bon_key" id="bon_key_input" value="<?php echo (isset($bon_key)) ? $bon_key : '' ?>">
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="id_client">Client : </label>
@@ -56,9 +53,9 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                   $clients = $client->selectChamps("*", '', '', 'nom', 'asc');
                   foreach ($clients as $row) {
                     if (isset($client_key)) {
-                      echo '<option value="' . $row->id_client . '" ' . (($row->id_client == $client_key) ? "selected" : "") . '>' . $row->nom . '</option>';
+                      echo '<option value="' . $row->id_client . '" ' . (($row->id_client == $client_key) ? "selected" : "") . '>' . $row->nom . $row->prenom . '</option>';
                     } else {
-                      echo '<option value="' . $row->id_client . '">' . $row->nom . '</option>';
+                      echo '<option value="' . $row->id_client . '">' . $row->nom . $row->prenom . '</option>';
                     }
                   } ?>
                 </select>
@@ -66,7 +63,8 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               <div class="form-group col-md-4">
                 <label for="id_client">Vendeur : </label>
                 <select class="form-control select2-single" name="id_vendeur" id="id_vendeur">
-                  <?php foreach ($vendeurs as $row): ?>
+                  <option value="0">Selectionnez vendeur</option>
+                  <?php foreach ($vendeurs as $row) : ?>
                     <option value="<?php echo $row->id ?>">
                       <?php echo $row->nom ?>
                     </option>
@@ -75,8 +73,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               </div>
               <div class="form-group col-md-4">
                 <label for="date_vente">Date :</label>
-                <input type="text" class="form-control datepicker" id="date_vente" name="date_vente"
-                  value="<?php echo date('Y-m-d'); ?>">
+                <input type="text" class="form-control datepicker" id="date_vente" name="date_vente" value="<?php echo date('Y-m-d'); ?>">
               </div>
             </div>
             <div class="form-row">
@@ -99,8 +96,8 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 $numbon = connexion::getConnexion()->query("SELECT count(*) as numbon FROM vente ")->fetch(PDO::FETCH_OBJ);
                 ?>
                 <input type="text" class="form-control" id="numbon" name="numbon" value="<?php
-                echo $last_num;
-                ?>">
+                                                                                          echo $last_num;
+                                                                                          ?>">
               </div>
               <div class="form-group col-md-3">
                 <label for="bon_commande">Bon commande :</label>
@@ -110,7 +107,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 ?>
                 <select name="bon_commande" id="bon_commande" class="form-control select2-single">
                   <option value='0'>Choisir un bon</option>
-                  <?php foreach ($listbon as $bon): ?>
+                  <?php foreach ($listbon as $bon) : ?>
                     <option value="<?php echo $bon->id_bon ?>" <?php ($bon->id_bon == $bon_key_temp) ? 'selected' : '' ?>>
                       <?php echo $bon->id_bon ?>
                     </option>
@@ -132,8 +129,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
             <div class="form-row" style="align-items:center;">
               <div class="form-group col-md-4">
                 <label for="remarque"> Remarque : </label>
-                <textarea class="form-control" name="remarque"
-                  id="remarque"><?php echo ($bon_cmd) ? $bon_cmd->remarque : '' ?></textarea>
+                <textarea class="form-control" name="remarque" id="remarque"><?php echo ($bon_cmd) ? $bon_cmd->remarque : '' ?></textarea>
               </div>
               <div class="form-group col-md-4">
                 <label for="rech"> Recherche Référence: </label>
@@ -144,8 +140,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 <input type="text" class="form-control" style="border-color: red" id="rech_designation">
               </div>
               <div class="form-group col-md-3">
-                <button style="display: none;" type="button" data-toggle="modal" data-target="#addModal"
-                  class="btn btn-secondary" style="margin-top:30px;">
+                <button style="display: none;" type="button" data-toggle="modal" data-target="#addModal" class="btn btn-secondary" style="margin-top:30px;">
                   <i class='bx bx-globe'></i> Liste des produits
                 </button>
               </div>
@@ -186,7 +181,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 $res_depot = $depot->selectAll();
                 ?>
                 <select class="form-control select2-single" name="id_depot" id="id_depot">
-                  <?php foreach ($res_depot as $d): ?>
+                  <?php foreach ($res_depot as $d) : ?>
                     <option value="<?php echo $d->id ?>">
                       <?php echo $d->nom ?>
                     </option>
@@ -195,8 +190,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               </div>
               <div class="form-group col-md-1">
                 <label for="reste_stock">Stock</label>
-                <span class="badge badge-danger mb-1" style=" display: block; margin-top: 10px;"
-                  id="reste_stock">0</span>
+                <span class="badge badge-danger mb-1" style=" display: block; margin-top: 10px;" id="reste_stock">0</span>
               </div>
               <div class="form-group col-md-1">
                 <label for="prix_produit">P.U</label>
@@ -210,13 +204,11 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 <label for="qte_vendu">Qte</label>
                 <input type="text" name="qte_vendu" id="qte_vendu" class="form-control" value="0">
               </div>
-              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="min-width:80%;">
                   <div class="modal-content" style="padding:0px; background-color:initial;">
                     <div class="modal-body" style="padding:0px; background-color:initial;">
-                      <div
-                        style=" background-color:white; border-radius:8px; overflow:hidden; border-top:2px solid #2a93d5;">
+                      <div style=" background-color:white; border-radius:8px; overflow:hidden; border-top:2px solid #2a93d5;">
                         <div>
                           <h2 style="
                             padding: 8px;
@@ -242,14 +234,13 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                                   <div class="form-row">
                                     <div class="form-group   col-md-3">
                                       <label> &nbsp;&nbsp;Code / Nom : </label>
-                                      <input type="text" id="keywords" class="form-control"
-                                        placeholder="Recherche par Num ou Nom" onkeyup="searchFilter()" />
+                                      <input type="text" id="keywords" class="form-control" placeholder="Recherche par Num ou Nom" onkeyup="searchFilter()" />
                                     </div>
                                     <div class="form-group   col-md-2">
                                       <label> &nbsp;&nbsp;Emplacement : </label>
                                       <select id="depot" onchange="searchFilter()" class="form-control">
                                         <option value="0">Tous</option>
-                                        <?php foreach ($data_depot as $depot): ?>
+                                        <?php foreach ($data_depot as $depot) : ?>
                                           <option value="<?php echo $depot->id; ?>">
                                             <?php echo $depot->nom ?>
                                           </option>
@@ -258,11 +249,10 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                                     </div>
                                     <div class="form-group   col-md-2">
                                       <label> Fournisseur : </label>
-                                      <select id="fournisseur" class="form-control select2-single"
-                                        onchange="searchFilter()">
-                                        
+                                      <select id="fournisseur" class="form-control select2-single" onchange="searchFilter()">
+
                                         <option value='-1' selected>Choisir un fournisseur</option>
-                                        <?php foreach ($fournisseurs as $fournisseur): ?>
+                                        <?php foreach ($fournisseurs as $fournisseur) : ?>
                                           <option value="<?php echo $fournisseur->nom; ?>">
                                             <?php echo $fournisseur->nom ?>
                                           </option>
@@ -271,10 +261,9 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                                     </div>
                                     <div class="form-group   col-md-3">
                                       <label> &nbsp;&nbsp;Catégorie :</label>
-                                      <select id="categorie" onchange="searchFilter()"
-                                        class="form-control select2-single">
+                                      <select id="categorie" onchange="searchFilter()" class="form-control select2-single">
                                         <option value="0">Choisir la catégorie</option>
-                                        <?php foreach ($data_cat as $cat): ?>
+                                        <?php foreach ($data_cat as $cat) : ?>
                                           <option value="<?php echo $cat->id_categorie; ?>">
                                             <?php echo $cat->nom ?>
                                           </option>
@@ -323,8 +312,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                             <p id="barcode_footer" style="font-weight:900; font-size:16pt;"></p>
                           </center>
                         </div>
-                        <div class=""
-                          style="font-weight:900; font-size:16pt;height:8px;background-color:#2a93d5;border-style: none;color: white;font-size: 12pt;font-weight: 900;width: 100%; cursor:pointer; ">
+                        <div class="" style="font-weight:900; font-size:16pt;height:8px;background-color:#2a93d5;border-style: none;color: white;font-size: 12pt;font-weight: 900;width: 100%; cursor:pointer; ">
                         </div>
                       </div>
                     </div>
@@ -334,22 +322,18 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               <div class="form-group col-md-2">
                 <label for="valunite">Unité</label>
                 <div class="d-flex flex-row">
-                  <input style="max-width: 250px;" type="text" name="valunite" id="valunite" class="form-control "
-                    value="0">
+                  <input style="max-width: 250px;" type="text" name="valunite" id="valunite" class="form-control " value="0">
                   <input type="text" name="unite" id="unite" class="form-control ml-3" placeholder="Kg ou M²...">
                 </div>
               </div>
               <div class="form-group col-md-1">
                 <label for="unite2">Unité 2</label>
                 <div class="d-flex flex-row">
-                  <input style="max-width: 250px;" type="text" name="unite2" id="unite2" class="form-control " value="1"
-                    disabled>
+                  <input style="max-width: 250px;" type="text" name="unite2" id="unite2" class="form-control " value="1" disabled>
                 </div>
               </div>
               <div class="form-group col-md-2">
-                <button id="addProduct" type="button"
-                  class="pull-right btn btn-success default btn-lg btn-block addProd  mr-1 "
-                  style="margin-top: 31px;">Ajouter</button>
+                <button id="addProduct" type="button" class="pull-right btn btn-success default btn-lg btn-block addProd  mr-1 " style="margin-top: 31px;">Ajouter</button>
               </div>
             </div>
             <div class="table-responsive">
@@ -372,7 +356,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                   $total = 0;
                   foreach ($data as $ligne) {
                     // var_dump($ligne->tva1);die();
-                    ?>
+                  ?>
                     <tr>
                       <td>
                         <?php echo $ligne->designation; ?>
@@ -405,19 +389,17 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                         ?>
                       </td>
                       <td>
-                        <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>"
-                          style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                        <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                           <i class="simple-icon-trash" style="font-size: 15px;"></i>
                         </a>
                       </td>
                     </tr>
-                    <?php
+                  <?php
                   }
                   ?>
                   <tr>
                     <td colspan="4" style="text-align: center;font-size: 15px;"> <b>Total</b> </td>
-                    <td style="text-align: right;" colspan="3"> <b
-                        style="font-size: 15px;color: green;text-align: right;">
+                    <td style="text-align: right;" colspan="3"> <b style="font-size: 15px;color: green;text-align: right;">
                         <?php echo number_format($total, 2, '.', ' '); ?>
                       </b></td>
                   </tr>
@@ -446,10 +428,10 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
       type: 'POST',
       url: "<?php echo BASE_URL . 'views/produit/'; ?>controle.php",
       data: 'act=filter_vente&keywords=' + keywords + '&depot=' + depot + '&categorie=' + categorie + '&stock=' + stock + '&sortBy=' + sortBy + '&fournisseur=' + fournisseur,
-      beforeSend: function () {
+      beforeSend: function() {
         $('.loading-overlay').show();
       },
-      success: function (html) {
+      success: function(html) {
         $('#posts_content').html(html);
         $('#datatables').dataTable({
           responsive: false,
@@ -466,7 +448,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               next: "<i class='simple-icon-arrow-right'></i>"
             }
           },
-          drawCallback: function () {
+          drawCallback: function() {
             $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
               $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
               $(".dataTables_wrapper .pagination").addClass("pagination-sm")
@@ -475,7 +457,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
       }
     });
   }
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('#datatables').dataTable({
       responsive: false,
       searching: false,
@@ -491,13 +473,13 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           next: "<i class='simple-icon-arrow-right'></i>"
         }
       },
-      drawCallback: function () {
+      drawCallback: function() {
         $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"),
           $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"),
           $(".dataTables_wrapper .pagination").addClass("pagination-sm")
       }
     });
-    $('body').on('click', '.add_v2_btn', function () {
+    $('body').on('click', '.add_v2_btn', function() {
       //get values
       let id = $(this).data('id');
       let prix = $('#prix_' + id).val();
@@ -542,7 +524,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
             unit: unit,
             id_depot: depot
           },
-          success: function (data) {
+          success: function(data) {
             $('#detail_commande').html(data);
             let count = $('#el_nbr_count').val() + 1;
             $('#el_nbr_count').val(count);
@@ -565,12 +547,12 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_client: $("#id_client").val(),
           bon: $("#bon_key_input").val()
         },
-        success: function (data) {
+        success: function(data) {
           $('#bon_commande').html(data);
         }
       });
     }
-    $("#bon_commande").change(function () {
+    $("#bon_commande").change(function() {
       var id_bon = $(this).val();
       $.ajax({
         type: "POST",
@@ -580,13 +562,13 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_bon: id_bon
         },
         dataType: 'json',
-        success: function (data) {
+        success: function(data) {
           $("#id_categorie").html(data.cat);
           $("#id_produit").html(data.prod);
         }
       });
     });
-    $("#id_client").change(function () {
+    $("#id_client").change(function() {
       var id_produit = $('#id_produit').val();
       $('#add_access').val(1);
       $.ajax({
@@ -598,7 +580,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_produit: id_produit,
           id_client: $("#id_client").val()
         },
-        success: function (data) {
+        success: function(data) {
           var tab = data.val.split('/');
           $('#prix_produit').val(tab[0]);
           $('#reste_stock').html(tab[1]);
@@ -612,12 +594,12 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           act: "getCommandes",
           id_client: $("#id_client").val()
         },
-        success: function (data) {
+        success: function(data) {
           $('#bon_commande').html(data);
         }
       });
     });
-    $(".bon").click(function () {
+    $(".bon").click(function() {
       var $type_compte = $(this).val();
       var bonv = 0;
       if ($type_compte == 0) {
@@ -629,14 +611,57 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         $("#bon").val(bonv);
       }
     });
-    $('#qte_vendu').keyup(function () {
+    $('#qte_vendu').keyup(function() {
       let text = $(this).val();
       if (text == '') {
         text = 0;
       }
-      $('#valunite').val(text);
+
+      $.ajax({
+        type: "POST",
+        url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
+        data: {
+          act: 'getProd',
+          id_prod: localStorage.getItem('id_prod'),
+
+        },
+        success: function(data) {
+          setTimeout(() => {
+            let poid = JSON.parse(data).poid;
+            $('#valunite').val(parseInt(text) * parseInt(poid));
+          }, 200)
+        }
+      })
+
     });
-    $("#rech").keyup(function () {
+
+    $('#valunite').keyup(function() {
+      let text = $(this).val();
+      if (text == '') {
+        text = 0;
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
+        data: {
+          act: 'getProd',
+          id_prod: localStorage.getItem('id_prod'),
+
+        },
+        success: function(data) {
+          setTimeout(() => {
+            let poid = JSON.parse(data).poid;
+
+            $('#qte_vendu').val(parseInt(text) / parseInt(poid));
+          }, 200)
+        }
+      })
+
+    });
+
+
+    $("#rech").keyup(function() {
       var id = $(this).val();
       $.ajax({
         type: "POST",
@@ -645,22 +670,22 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           act: "rech",
           id: id.trim()
         },
-        success: function (data) {
+        success: function(data) {
           $('#id_produit').html(data);
           $("#id_produit").change();
         }
       });
     });
-    $("#rech_designation").keyup(function () {
+    $("#rech_designation").keyup(function() {
       var designation = $(this).val();
       $.ajax({
         type: "POST",
         url: "<?php echo BASE_URL . 'views/vente/'; ?>controle.php",
         data: {
           act: "rech_designation",
-          designation: designation.trim() , 
+          designation: designation.trim(),
         },
-        success: function (data) {
+        success: function(data) {
           $('#id_produit').html(data);
           $("#id_produit").change();
         }
@@ -679,7 +704,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         rightArrow: '<i class="simple-icon-arrow-right"></i>'
       }
     });
-    $("#id_categorie").change(function () {
+    $("#id_categorie").change(function() {
       var id_categorie = $(this).val();
       $.ajax({
         type: "POST",
@@ -689,7 +714,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_categorie: id_categorie,
           id_bon: $('#bon_commande').val()
         },
-        success: function (data) {
+        success: function(data) {
           $('#id_produit').html(data);
           $('#id_produit option:eq(1)').prop('selected', true);
           let id_produit = $('#id_produit').val();
@@ -703,7 +728,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 id_produit: id_produit,
                 id_client: $("#id_client").val()
               },
-              success: function (data) {
+              success: function(data) {
                 var tab = data.val.split('/');
                 $("#id_depot").html(data.depots);
                 $('#prix_produit').val(tab[0]);
@@ -721,7 +746,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                       id_produit: id_produit,
                       id_depot: id_depot
                     },
-                    success: function (data) {
+                    success: function(data) {
                       if (data) {
                         $('#reste_stock').html(data.qte);
                       } else {
@@ -736,7 +761,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         }
       });
     });
-    $("#id_produit").change(function () {
+    $("#id_produit").change(function() {
       var id_produit = $(this).val();
       $.ajax({
         type: "POST",
@@ -747,8 +772,9 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_produit: id_produit,
           id_client: $("#id_client").val()
         },
-        success: function (data) {
-           
+        success: function(data) {
+
+          localStorage.setItem('id_prod', id_produit);
           var tab = data.val.split('/');
           $("#id_depot").html(data.depots);
           $('#prix_produit').val(tab[0]);
@@ -766,7 +792,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 id_produit: id_produit,
                 id_depot: id_depot
               },
-              success: function (data) {
+              success: function(data) {
                 if (data) {
                   $('#reste_stock').html(data.qte);
                 } else {
@@ -778,7 +804,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         }
       });
     });
-    $("#id_depot").change(function () {
+    $("#id_depot").change(function() {
       var id_depot = $(this).val();
       var id_produit = $('#id_produit').val();
       $.ajax({
@@ -790,7 +816,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_produit: id_produit,
           id_depot: id_depot
         },
-        success: function (data) {
+        success: function(data) {
           if (data) {
             $('#reste_stock').html(data.qte);
           } else {
@@ -799,7 +825,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         }
       });
     });
-    $("#addProduct").click(function () {
+    $("#addProduct").click(function() {
       verifierPlafond()
       if ($('#access_add').val() == 1) {
         var id_produit = $(this).val();
@@ -835,20 +861,20 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
             unit: unit,
             id_depot: $("#id_depot").val()
           },
-          success: function (data) {
+          success: function(data) {
             $('#detail_commande').html(data);
           }
         });
       }
     });
-    $('#qte_vendu').focusin(function () {
+    $('#qte_vendu').focusin(function() {
       let unite2 = $('#unite2').val();
       let unite = $('#valunite').val();
       if (unite != '') {
         $('#qte_vendu').val(unite2 * unite);
       }
     });
-    $('body').on("click", ".delete", function (event) {
+    $('body').on("click", ".delete", function(event) {
       event.preventDefault();
       totale = $('#detail_commande').last('tr').find('b').eq(1).html();
       var btn = $(this);
@@ -869,7 +895,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
               act: "deleterow",
               id_detail: btn.data('id')
             },
-            success: function (data) {
+            success: function(data) {
               swal(
                 'Supprimer',
                 'Client a ete bien Supprimer',
@@ -882,7 +908,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         }
       });
     });
-    $("body").on("click", "#senddata", function (event) {
+    $("body").on("click", "#senddata", function(event) {
       event.preventDefault();
       var form = document.getElementById('addform');
       $.ajax({
@@ -893,7 +919,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data) {
+        success: function(data) {
           if (data.indexOf("success") >= 0) {
             swal(
               'Ajouter',
@@ -907,7 +933,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                 },
                 url: `<?php echo BASE_URL . "views/vente/index.php" ?>`,
                 context: document.body,
-                success: function (data) {
+                success: function(data) {
                   history.pushState({}, "", `<?php echo BASE_URL . "vente/index.php"; ?>`);
                   $("#main").html(data);
                 }
@@ -925,6 +951,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
       });
     });
   });
+
   function verifierPlafond() {
     var return_val = true;
     prix = $("#prix_produit").val();
@@ -947,7 +974,7 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
           id_produit: $("#id_produit").val(),
         },
         dataType: "json",
-        success: function (o) {
+        success: function(o) {
           if ($('#numbon').val() != null) {
             if (totale != 0) {
               montantTotF = o.montantTot;
@@ -979,13 +1006,13 @@ $vendeurs = connexion::getConnexion()->query("SELECT * FROM utilisateur WHERE pr
                   cancelButtonColor: '#3085d6',
                   confirmButtonText: 'Ignorer'
                 }).then((result) => {
-                  if (result.value) { }
+                  if (result.value) {}
                 });
               }
             }
           }
         },
-        error: function (error) {
+        error: function(error) {
           console.error(error);
         }
       });

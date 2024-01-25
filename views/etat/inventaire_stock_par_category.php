@@ -49,7 +49,7 @@ include("../../model/select.php");
  
 </head>
 
-<body style="width:1000px;margin:auto;">
+<body style="width:1300px;margin:auto;">
 
 
 
@@ -94,13 +94,13 @@ $data= $categorie->selectProduitBtCategory($rep_cat->id_categorie,$_POST['dd']);
 	<tr class="row">
     <th width="5%">Ref</th>
 		<th width="26%">D&eacute;signation</th> 
-		<th width="10%"> Poid (kg)</th> 
-		<th width="10%"> QStock(U)</th>
-		<th width="10%"> QStock(kg)</th>
+		<th width="5%"> Poid (kg)</th> 
+		<th width="5%"> QStock(U)</th>
+		<th width="5%"> QStock(kg)</th>
 		<th width="5%"> P.Achat</th>
-		<th width="5%"> P.Vente</th>
+		<th width="10%"> P.Vente</th>
         <th width="5%"> P.A*U</th>
-        <th width="5%"> P.V*U</th>
+        <th width="10%"> P.V*U</th>
         <?php foreach($depots as $d): ?>
 		   <th width="8%"><?php echo $d->nom ?></th>
 		<?php endforeach; ?>
@@ -168,8 +168,8 @@ $data= $categorie->selectProduitBtCategory($rep_cat->id_categorie,$_POST['dd']);
 <h4 class="header">Total</h4>
 <table class="datatables"  border=1  >
     <tr class="footer">
-            <td width="27%" style="text-align: center;" colspan="3" > Total</td>
-            <td width="8%" style="text-align: center;" > <strong><?php echo number_format($tqte_act,2,'.',' ') ; ?></strong> </td>
+            <td width="21%" style="text-align: center;" colspan="3" > Total</td>
+            <td width="7%" style="text-align: center;" > <strong><?php echo number_format($tqte_act,2,'.',' ') ; ?></strong> </td>
 			<td width="7%" style="text-align: center;" > <strong><?php echo number_format($tqte_stock,2,'.',' ') ; ?></strong> </td>
             <td width="7%" style="text-align: center;" > <strong><?php echo number_format($tpr_achat,2,'.',' ') ; ?></strong></td>
             <td width="6%" style="text-align: center;" > <strong><?php echo number_format($tpr_vente,2,'.',' ') ; ?></strong></td>

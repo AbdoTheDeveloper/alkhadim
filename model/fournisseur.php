@@ -76,5 +76,13 @@ public function archiver($id,$val,$id_user){
       $result = connexion::getConnexion()->query("select * from reg_achat where id_achat = ".$id_achat." ");
       return $result->fetchAll(PDO::FETCH_OBJ);
    }
+   public function  selectByDesignation($nom){
+	$result  = connexion::getConnexion()->query("select * from ".$this->className." where raison_sociale =" . "'". $nom. "'")  ; 
+	if($result) return $result->fetchAll(PDO::FETCH_ASSOC) ;
+
 }
+}
+	
+
+
 ?>

@@ -5,7 +5,7 @@ if (isset($_POST['ajax'])) {
   include('../../evr.php');
 }
 $boncommandevendeur = new boncommandevendeur();
-$data = $boncommandevendeur->selectAll3(date('Y') . '-' . date('m'));
+$data = $boncommandevendeur->selectAll3(date('Y') . '-' . date('m')); 
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="container-fluid disable-text-selection">
@@ -57,133 +57,146 @@ $data = $boncommandevendeur->selectAll3(date('Y') . '-' . date('m'));
           </form>
           <div id="results">
             <table class="table responsive table-striped table-bordered" id="datatables">
-              <thead>
-                <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col"> Client</th>
-                  <th scope="col"> Date</th>
-                  <th scope="col"> Montant</th>
-                  <th scope="col"> Etat</th>
-                  <th scope="col"> Reste</th>
-                  <th scope="col"> Remarque</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                foreach ($data as $ligne) {
-                ?>
-                  <tr>
-                    <td> <?php echo $ligne->id_bon; ?></td>
-                    <td>
-                      <?php echo $ligne->client ?>
-                    </td>
-                    <td>
-                      <?php echo $ligne->date_bon; ?>
-                    </td>
-                    <td style="text-align: right;" class="nowrap" data-href="#">
-                      <button class="mb-1" style="
-    color: #034dff;
-    border-style: none;
-">
-                        <?php
-                        if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
-                          echo number_format($ligne->motunitv, 2, '.', ' ');
-                        } else {
-                          echo number_format($ligne->montantv, 2, '.', ' ');
+            <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Client</th>
+        <th class="nowrap"> Date</th>
+        <th scope="col"> Montant</th>
+        <th scope="col"> Montant Retour</th>
+        <th scope="col"> Différence</th>
+        <th scope="col"> Reste</th>
+        <th scope="col"> Remarque</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach ($data as $ligne) {
+      ?>
+        <tr>
+          <td> <?php echo $ligne->id_bon; ?></td>
+          <td class="nowrap">
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>"><?php echo $ligne->client;
+                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client == " ") {
+                                                                                                                                                          echo $ligne->nom_prenom_ar;
+                                                                                                                                                        }
+                                                                                                                                                        if ($ligne->nom_prenom_ar != "" && $ligne->client != " ") {
+                                                                                                                                                          echo "/" . $ligne->nom_prenom_ar;
+                                                                                                                                                        }
+                                                                                                                                                        ?> </a>
+          </td>
+          <td>
+            <?php echo $ligne->date_bon; ?>
+          </td>
+          <td style="text-align: right;" class="nowrap" data-href="#">
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+              <?php
+              if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
+                echo number_format($ligne->motunitv, 2, '.', ' ');
+              } else {
+                echo number_format($ligne->montantv, 2, '.', ' ');
+              }
+              ?>
+            </a>
+            &nbsp;&nbsp;
+          </td>
+          <td>
+          <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+              <?php echo number_format($ligne->montant_retour, 2, '.', ' ');?>
+              </a>
+          </td>
+          <td style="text-align: right;" class="nowrap" data-href="#">
+            <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="client/update.php?id=<?php echo $ligne->id_client; ?>">
+              <?php
+              if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
+                echo number_format($ligne->diff, 2, '.', ' ');
+              } else {
+                echo number_format($ligne->diff, 2, '.', ' ');
+              }
+              ?>
+            </a>
+            &nbsp;&nbsp;
+          </td>
+          <td style="text-align: right;"> <?php
+                                          $query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_commande where id_bon=" . $ligne->id_bon);
+                                          $result = $query->fetch(PDO::FETCH_OBJ);
+                                          $paye = $result->paye != null  ?  $result->paye : 0;
+                                          if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
+                                            $tr = $ligne->motunitv - $paye;
+                                          } else {
+                                            $tr = $ligne->montantv - $paye;
+                                          }
+                                          $tr = ($tr < 0 && $tr >= -250) ? 0 : $tr;
+                                          echo number_format($tr, 2, '.', ' ');
+                                          ?> &nbsp;&nbsp;
+          </td>
+
+          <td> <?php echo strlen($ligne->remarque) > 50 ? substr($ligne->remarque, 0, 50) . "..." : $ligne->remarque; ?> </td>
+          <td class="nowrap">
+            <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['commande_vendeur'] == 1) { ?>
+              <!-- <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                <i class="simple-icon-trash" style="font-size: 15px;"></i>
+              </a>
+              <a class="badge badge-warning mb-2  url notlink" data-url="commande-vendeurs/update.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+              </a> -->
+
+              <?php
+                        if (auth::user()['privilege'] == 'Admin'  || auth::user()['supprimer'] == 1) {
+                          ?>
+                          <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_bon; ?>"
+                            style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
+                            <i class="simple-icon-trash" style="font-size: 15px;"></i>
+                          </a>
+                          <?php
                         }
                         ?>
-                      </button>
-                      &nbsp;&nbsp;
-                    </td>
-                    <td>
-                      <?php if ($ligne->etat == 'En cours') : ?>
-                        <span class="badge badge-success">En cours</span>
-                      <?php else : ?>
-                        <span class="badge badge-danger">Retour</span>
-                      <?php endif; ?>
-                    </td>
-                    <td style="text-align: right;"> <?php
-                                                    //$query = $result = connexion::getConnexion()->query("SELECT sum(montant) as paye FROM reg_commande where id_bon=" . $ligne->id_bon);
-                                                    $query = $result = connexion::getConnexion()->query("SELECT IFNULL((SELECT SUM((qte_vendu - qte_actuel)*prix_produit) FROM detail_bon_vendeur WHERE id_bon = " . $ligne->id_bon . " GROUP BY id_bon) , 0)  - IFNULL((SELECT SUM(montant) FROM reg_vendeur WHERE id_bon = " . $ligne->id_bon . " GROUP BY id_bon) , 0) AS reste");
-                                                    $result = $query->fetchColumn();
-                                                    print_r($result);
-                                                    //$paye = $result != null  ?  $result : 0;
-                                                    //if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
-                                                    //$tr = $ligne->motunitv - $paye;
-                                                    //} else {
-                                                    //$tr = $ligne->montantv - $paye;
-                                                    // }
-                                                    //
-                                                    // if ($paye == 0) {
-                                                    //  $tr = 0;
-                                                    //} else {
-                                                    //if ($ligne->motunitv != 0 || !empty($ligne->motunitv)) {
-                                                    // $tr = $ligne->motunitv - $paye;
-                                                    //} else {
-                                                    // $tr = $ligne->montantv - $paye;
-                                                    // }
-                                                    //}
-                                                    // $tr = ($tr < 0 && $tr >= -250) ? 0 : $tr;
-                                                    // echo number_format($tr, 2, '.', ' ');
-                                                    //
-                                                    ?> &nbsp;&nbsp;
-                    </td>
-                    <td> <?php echo strlen($ligne->remarque) > 50 ? substr($ligne->remarque, 0, 50) . "..." : $ligne->remarque; ?> </td>
-                    <td class="nowrap">
-                    <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['commande_vendeur'] == 1  ) { ?>
-                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1  ) { ?>
-                      <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
-                        <i class="simple-icon-trash" style="font-size: 15px;"></i>
-                      </a>
-                      <?php } ?>
-                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1  ) { ?>
-                      <a class="badge badge-warning mb-2  url notlink" data-url="commande-vendeurs/update.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
-                        <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
-                      </a>
-                      <?php } ?>
-                      <?php 
-                      if (auth::user()['privilege'] == 'Admin' ) {  ?>                      
-                        <a class="badge badge-success mb-2 url notlink" data-url="reg_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
-                        <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
-                      </a>
-                      <?php } else if(auth::user()['privilege'] == 'User+') {?>
-                        <a class="badge badge-danger  url notlink mb-2" data-url="<?php echo 'commande-vendeurs/retour_bon.php?id=' . $ligne->id_bon ?>" href="javascript:void(0)" style="color: white;cursor: pointer;" title="Retour" href='javascript:void(0)'>
-                          <i class="fa-solid fa-arrow-rotate-left" style="font-size: 15px;"></i>
+                          <?php
+                        if (auth::user()['privilege'] == 'Admin'  || auth::user()['modifier'] == 1) {
+                          ?>
+                          <a class="badge badge-warning mb-2  url notlink"
+                          data-url="commande-vendeurs/update.php?id=<?php echo $ligne->id_bon; ?>"
+                          style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                          <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                         </a>
-                      <?php } ?>
-                      <?php } ?>
-                        
+                          <?php
+                        }
+                        ?>
 
-                      <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/commande-vendeurs/facture.php?id=" . $ligne->id_bon; ?>&h=15" target="_black">
-                        <i class=" simple-icon-printer" style="font-size: 15px;"></i>
-                      </a>
-                      <?php
-                      $id_vente = connexion::getConnexion()->query("SELECT id_vente FROM vente WHERE id_bon = " . $ligne->id_bon)->fetchColumn();
-                      ?>
-                      <a class="badge badge-primary mb-2 notlink" style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket" href='<?php echo BASE_URL . '/views/vente/ticket.php?id=' . $id_vente; ?>' target="_black">
-                        <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
-                      </a>
-                      <a class="badge badge-secondary mb-2 url notlink" data-url="detail_bon_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
-                        <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
-                      </a>
-                      <?php if ($ligne->etat == 'En cours' && auth::user()['privilege'] == 'Admin') : ?>
-                        <a class="badge badge-danger  url notlink mb-2" data-url="<?php echo 'commande-vendeurs/retour_bon.php?id=' . $ligne->id_bon ?>" href="javascript:void(0)" style="color: white;cursor: pointer;" title="Retour" href='javascript:void(0)'>
-                          <i class="fa-solid fa-arrow-rotate-left" style="font-size: 15px;"></i>
-                        </a>
-                      <?php endif; ?>
-                      <?php if ($ligne->etat == 'En cours' && auth::user()['privilege'] == 'Vendeur') : ?>
-                        <a class="badge badge-warning mb-2 " style="color: white;cursor: pointer;" title="Vente" href='<?php echo BASE_URL ?>vente_bon/index.php?bon=<?php echo $ligne->id_bon ?>'>
-                          <i class="iconsmind-Add-Cart" style="font-size: 15px;"></i>
-                        </a>
-                      <?php endif; ?>
-                      <a class="badge badge-success" href='<?php echo BASE_URL ?>commande-vendeurs/map.php?id=<?php echo $ligne->id_bon ?>' style="font-size:10pt;">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                      </a>
-                    </td>
-                  </tr>
-                <?php } ?>
-              </tbody>
+              <a class="badge badge-success mb-2  url notlink" data-url="reg_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="Régler" href='javascript:void(0)'>
+                <i class=" iconsmind-Money-2" style="font-size: 15px;"></i>
+              </a>
+            <?php } ?>
+            <a class="badge badge-info mb-2  " style="color: white;cursor: pointer;" title="Imprimmer" href="<?php echo BASE_URL . "views/commande-vendeurs/facture.php?id=" . $ligne->id_bon; ?>&h=15" target="_black">
+              <i class=" simple-icon-printer" style="font-size: 15px;"></i>
+            </a>
+            <?php
+            $id_vente = connexion::getConnexion()->query("SELECT id_vente FROM vente WHERE id_bon = " . $ligne->id_bon)->fetchColumn();
+            ?>
+            <a class="badge badge-primary mb-2 notlink" style="background-color: #d322e8!important;color: white;cursor: pointer;" title="Ticket" href='<?php echo BASE_URL . '/views/vente/ticket.php?id=' . $id_vente; ?>' target="_black">
+              <i class=" iconsmind-Billing" style="font-size: 15px;"></i>
+            </a>
+            <a class="badge badge-secondary mb-2 url notlink" data-url="detail_bon_vendeur/index.php?id=<?php echo $ligne->id_bon; ?>" style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
+              <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
+            </a>
+            <?php if ($ligne->etat == 'En cours' && auth::user()['privilege'] == 'Admin') : ?>
+              <a class="badge badge-danger  url notlink mb-2" data-url="<?php echo 'commande-vendeurs/retour_bon.php?id=' . $ligne->id_bon ?>" href="javascript:void(0)" style="color: white;cursor: pointer;" title="Retour" href='javascript:void(0)'>
+                <i class="fa-solid fa-arrow-rotate-left" style="font-size: 15px;"></i>
+              </a>
+            <?php endif; ?>
+            <?php if ($ligne->etat == 'En cours' && auth::user()['privilege'] == 'Vendeur') : ?>
+              <a class="badge badge-warning mb-2 " style="color: white;cursor: pointer;" title="Vente" href='<?php echo BASE_URL ?>vente_bon/index.php?bon=<?php echo $ligne->id_bon ?>'>
+                <i class="iconsmind-Add-Cart" style="font-size: 15px;"></i>
+              </a>
+            <?php endif; ?>
+            <a class="badge badge-success" href='<?php echo BASE_URL ?>commande-vendeurs/map.php?id=<?php echo $ligne->id_bon ?>' style="font-size:10pt;">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </a>
+          </td>
+        </tr>
+      <?php } ?>
+    </tbody>
             </table>
           </div>
         </div>

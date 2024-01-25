@@ -158,7 +158,7 @@ include('../../evr.php');
                     var btn = $(this);
                 swal({
                  title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Supprimer ce commande !",
+                  text: "Voulez vous vraiment Supprimer cet commande !",
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#d33',
@@ -198,7 +198,7 @@ include('../../evr.php');
                     var btn = $(this);
                 swal({
                  title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Archiver ce commande !!",
+                  text: "Voulez vous vraiment Archiver cet commande !!",
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#145388',
@@ -356,7 +356,7 @@ $('#datatables tbody').on( 'click', '.Applique', function ()
 
         swal({
                   title: 'Êtes-vous sûr?',
-                  text: "Voulez vous vraiment Retourner ce commande !",
+                  text: "Voulez vous vraiment Retourner cet commande !",
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#d33',

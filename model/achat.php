@@ -2,8 +2,6 @@
 
 class achat extends table{
 
-
-
 protected $id_achat; 
 
 protected $id_fournisseur;
@@ -54,7 +52,7 @@ public function selectAll3($date ){
 	   {
 		  $dateCondition = "DATE_FORMAT(a.date_achat,'%Y') = '$year'";
 	   }
-	
+
 		$result=connexion::getConnexion()->query("select a.devise_produit , a.id_achat,a.valide, a.date_achat,f.raison_sociale as fournisseur,f.id_fournisseur,a.remarque   ,sum(da.`prix_produit`*da.`qte_achete`)as
 
 		 montant from achat a left join  fournisseur f on  f.id_fournisseur=a.id_fournisseur left join detail_achat da on da.id_achat=a.id_achat
@@ -63,7 +61,8 @@ public function selectAll3($date ){
 
 		group by  a.id_achat  order by id_achat desc");
 
-	   return $result->fetchAll(PDO::FETCH_OBJ);
+		$result =  $result->fetchAll(PDO::FETCH_OBJ);
+	   if($result) return $result ; 
 }
 
 

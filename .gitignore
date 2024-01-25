@@ -8,6 +8,7 @@ php.ini
 user.ini
 .user.ini
 !.gitignore
+exporter.php
 
 #ignore all files within uploads directory
 views/**/uploads/**
@@ -17,3 +18,4 @@ views/**/uploads/**
 
 eve.php
 .htaccess
+node_modules

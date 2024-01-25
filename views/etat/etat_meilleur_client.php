@@ -89,10 +89,48 @@ function design_ar($design, $design_ar)
         </table>
         <tbody>
         <?php
-        debug("select c.nom_prenom_ar , sum(da.qte_vendu) as quantité_totale  , sum(da.prix_produit * da.qte_vendu) as montant_acheté , sum(r.montant) as avance from client c ,vente v , detail_vente da  , 
-        reg_vente r where v.id_vente  = da.id_vente and  r.id_vente = v.id_vente and v.date_vente between " . $_POST['dd'] . " and " .  $_POST['df'])   ; 
-        $data  = connexion::getConnexion()->query("select c.nom_prenom_ar , sum(da.qte_vendu) as quantité_totale  , sum(da.prix_produit * da.qte_vendu) as montant_acheté , sum(r.montant) as avance from client c ,vente v , detail_vente da  , 
-                                                      reg_vente r where v.id_vente  = da.id_vente and  r.id_vente = v.id_vente and v.date_vente between " . $_POST['dd'] . " and " .  $_POST['df'])->fetchAll(PDO::FETCH_OBJ);
+
+        debug("SELECT 
+        c.id_client,
+        c.client_name,
+        SUM(dv.qte_vendu) AS quantité_totale, 
+        SUM(da.prix_produit * (IF(da.valunit = 0, da.qte_vendu, da.valunit)) * (1 - da.remise / 100)) 
+            AS montant_achete 
+    FROM 
+        client c 
+    LEFT JOIN 
+        vente v ON v.id_vente = c.id_vente 
+    LEFT JOIN 
+        detail_vente da ON v.id_vente = da.id_vente 
+    WHERE
+        v.date_vente BETWEEN  ".  $_POST['dd']. " and  ". $_POST['df']. "
+    GROUP BY 
+        c.id_client
+    ORDER BY 
+        montant_achete DESC, quantité_totale DESC
+    LIMIT 10
+    ") ;
+        $data =  connexion::getConnexion()->query("SELECT 
+        c.id_client,
+        c.client_name,
+        SUM(dv.qte_vendu) AS quantité_totale, 
+        SUM(da.prix_produit * (IF(da.valunit = 0, da.qte_vendu, da.valunit)) * (1 - da.remise / 100)) 
+            AS montant_achete 
+    FROM 
+        client c 
+    LEFT JOIN 
+        vente v ON v.id_vente = c.id_vente 
+    LEFT JOIN 
+        detail_vente da ON v.id_vente = da.id_vente 
+    WHERE
+        v.date_vente BETWEEN".  $_POST['dd']. " and  ". $_POST['df'].  "AND 'end_date'
+    GROUP BY 
+        c.id_client
+    ORDER BY 
+        montant_achete DESC, quantité_totale DESC
+    LIMIT 10
+    ") ->fetchAll(PDO::FETCH_OBJ); 
+        //  debug($data)  ;
 
         if($data){ 
         foreach ($data as $key => $value) { ?>

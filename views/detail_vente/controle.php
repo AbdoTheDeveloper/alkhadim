@@ -100,7 +100,8 @@ if ($_POST['act'] == 'getproduit') {
   <?php
 } elseif ($_POST['act'] == 'insert') {
   if (isset($_POST["id_produit"])) {
-    connexion::getConnexion()->exec("UPDATE produit SET qte_actuel=qte_actuel - " . $_POST["qte_vendu"] . " WHERE  id_produit =" . $_POST["id_produit"]);
+    connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel - " 
+    . $_POST["qte_vendu"] . " WHERE  id_produit =" . $_POST["id_produit"]);
 
     $_POST["id_vente"] = $_POST["id"];
     $_POST["id_user"] = auth::user()["id"];

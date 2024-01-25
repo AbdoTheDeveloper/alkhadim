@@ -28,6 +28,10 @@ $id_produit = $id[1];
     <div class="col-12">
       <div class="mb-2">
         <h1>Produits </h1>
+        <div class="float-sm-right text-zero">
+          <button type="button" class="btn btn-success  url notlink" data-url="produit/index.php"> <i
+              class="glyph-icon simple-icon-arrow-left"></i></button>
+        </div>
       </div>
 
       <div class="separator mb-5"></div>

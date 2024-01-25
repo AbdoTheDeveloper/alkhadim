@@ -19,7 +19,11 @@ class vente extends table
    protected $id_bon;
    protected $localisation;
    protected $created_at;
-   protected $id_vendeur  ;  
+   protected $id_vendeur  ; 
+   protected $espece ;
+   protected $cheque    ;
+   protected $autre ;
+    
    public function selectVenteByClient($id_client, $date)
    {
       $result = connexion::getConnexion()->query("
@@ -133,8 +137,9 @@ group by  v.id_vente  order by id_vente desc ");
 
       $result = connexion::getConnexion()->query("SELECT t1.*,t2.avance from 
 (select v.id_vente,v.numbon,DATE_FORMAT(v.date_vente,'%d-%m-%Y')as date_vente,concat_ws(' ',c.nom,c.prenom)  as client
-	,c.id_client,c.nom_prenom_ar,v.remarque   ,sum(dv.prix_produit*dv.qte_vendu*(1-dv.remise/100)) as montantv ,
-   sum(dv.prix_produit*(if(dv.valunit=0,dv.qte_vendu,dv.valunit))*(1-dv.remise/100) )as motunitv from vente v 
+,c.id_client,c.nom_prenom_ar,v.remarque   ,
+sum(dv.prix_produit*dv.qte_vendu*(1-dv.remise/100)) as montantv ,
+sum(dv.prix_produit*(if(dv.valunit=0,dv.qte_vendu,dv.valunit))*(1-dv.remise/100) )as motunitv from vente v 
 left join client c on c.id_client=v.id_client 
 inner join detail_vente dv on dv.id_vente=v.id_vente 
 inner join produit p on dv.id_produit=p.id_produit

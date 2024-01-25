@@ -95,7 +95,8 @@ function design_ar($design, $design_ar)
 
         <?php
 
-        $data = connexion::getConnexion()->query("SELECT    c.nom,
+        $data = connexion::getConnexion()->query("SELECT    
+                                                  c.nom,
                                                   Sum(da.prix_produit * da.qte_vendu) AS total_montant_achetes,
                                                   Sum(da.qte_vendu)                   AS total_quantite,
                                                   Sum(r.montant)                      AS avance

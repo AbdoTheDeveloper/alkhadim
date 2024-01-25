@@ -21,12 +21,11 @@ $query = $result = connexion::getConnexion()->query($sql);
 $result = $query->fetch(PDO::FETCH_OBJ);
 
 
-if($result->nbr ==1) 
+
+if($result->nbr == 1) 
 {
   auth::login($result);
-
   header("Location:index.php");
-
 } 
 else
 {

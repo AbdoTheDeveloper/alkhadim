@@ -147,6 +147,11 @@ $data = $result->fetchAll(PDO::FETCH_OBJ);
                         style="color: white;cursor: pointer;" title="voir Detail" href="javascript:void(0)">
                         <i class="glyph-icon simple-icon-list" style="font-size: 15px;"></i>
                       </a>
+                      <a class="badge badge-warning mb-2  url notlink"
+                          data-url="vente_bon/update.php?id=<?php echo $ligne->id_vente; ?>"
+                          style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
+                          <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
+                        </a>
                       <?php if (auth::user()['privilege'] == 'Admin') { ?>
                         <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_vente; ?>"
                           style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>

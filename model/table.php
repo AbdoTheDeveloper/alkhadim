@@ -19,7 +19,11 @@ class table
 		$this->primary_key = $name;
 	}
 
-	public function insert(){
+	public function insert()
+	{
+
+
+
 		try {
 			$fields = "";
 			$values = "'";
@@ -32,10 +36,10 @@ class table
 			}
 			$fields = substr($fields, 0, strlen($fields) - 1);
 			$values = substr($values, 0, strlen($values) - 2);
-			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")"; 
-
+			$query = "insert into " . $this->className . "(" . $fields . ") values(" . $values . ")";
 			// debug($query) ; 
 			$statut = connexion::getConnexion()->exec($query);
+			// debug($statut) ; 
 
 
 		} catch (PDOException $e) {
@@ -58,10 +62,10 @@ class table
 			}
 			$sqlupdate = substr($sqlupdate, 0, strlen($sqlupdate) - 2);
 			$sqlupdate .= " where " . $this->primary_key . "=$index";
- 
+	
 
 			$statut = connexion::getConnexion()->exec($sqlupdate);
-		
+
 
 		} catch (PDOException $e) {
 			die(handle_sql_errors($statut, $e->getMessage()));
@@ -104,7 +108,7 @@ class table
 
 	public function selectById($id)
 	{
-		$result = connexion::getConnexion()->query("select * from " . $this->className . " where " . $this->primary_key . "=" . $id); 
+		$result = connexion::getConnexion()->query("select * from " . $this->className . " where " . $this->primary_key . "=" . $id);
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -123,7 +127,7 @@ class table
 		return $statut;
 	}
 
-	public 	function selectChamps($ch = '', $whr = '', $grby = '', $orby = '', $trie = '', $lim = '')
+	public function selectChamps($ch = '', $whr = '', $grby = '', $orby = '', $trie = '', $lim = '')
 	{
 		$where = (isset($whr) && ($whr <> '')) ? 'WHERE ' . $whr : '';
 		$groupBy = (isset($grby) && ($grby <> '')) ? 'GROUP BY ' . $grby : '';
@@ -138,7 +142,7 @@ class table
 		return $result->fetchAll(PDO::FETCH_OBJ);
 	}
 
-	public 	function getById($id)
+	public function getById($id)
 	{
 
 		$query = "SELECT * FROM " . $this->className . " WHERE id =" . $id;
@@ -147,7 +151,7 @@ class table
 		return $result->fetchAll(PDO::FETCH_OBJ);
 	}
 
-	public 	function selectAll()
+	public function selectAll()
 	{
 
 		$result = connexion::getConnexion()->query('SELECT * FROM ' . $this->className);

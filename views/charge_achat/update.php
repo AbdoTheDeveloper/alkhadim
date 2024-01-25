@@ -1,12 +1,13 @@
 <?php
-use function PHPSTORM_META\type;
 if (isset($_POST['ajax'])) {
     include('../../evr.php');
 }
 $charge = new charge();
 $exploded = explode('?id=', $_SERVER["REQUEST_URI"]);
-$exploded_ids = explode('&id_achat=', $exploded[1]);
+$exploded_ids = explode('&id_achat=', $exploded[1]); 
 $oldvalue = (array) $charge->selectById($exploded_ids[0])[0];
+$id_achat =  explode('&', $exploded_ids[1])[0];
+
 $charge = new charge();
 $data = $charge->selectDesignation();
 // var_dump($data) ;  
@@ -19,7 +20,7 @@ $data = $charge->selectDesignation();
                 <h1>charges d'achat </h1>
                 <div class="float-sm-right text-zero">
                     <button type="button" class="btn btn-success  url notlink"
-                        data-url="charge_achat/index.php?id=<?php echo $exploded_ids[1]; ?>"> <i
+                        data-url="detail_achat/index.php?id=<?php echo $id_achat; ?>"> <i
                             class="glyph-icon simple-icon-arrow-left"></i></button>
                 </div>
             </div>
@@ -34,7 +35,7 @@ $data = $charge->selectDesignation();
                     <form id="addform" method="post" name="form_charge" enctype="multipart/form-data">
                         <input type="hidden" name="act" value="update">
                         <input type="hidden" name="id" value="<?php echo $exploded_ids[0]; ?>">
-                        <input type="hidden" name="id_achat" value="<?php echo $exploded_ids[1]; ?>">
+                        <input type="hidden" name="id_achat" value="<?php echo $id_achat; ?>">
                         <div class="form-row">
 
 
@@ -207,10 +208,10 @@ $data = $charge->selectDesignation();
                             $.ajax({
                                 method: 'POST',
                                 data: { ajax: true },
-                                url: `<?php echo BASE_URL . "views/charge_achat/index.php?id=$exploded_ids[1]"; ?>`,
+                                url: `<?php echo BASE_URL . "views/charge_achat/index.php?id=$id_achat"; ?>`,
                                 context: document.body,
                                 success: function (data) {
-                                    history.pushState({}, "", `<?php echo BASE_URL . "index.php?id=$exploded_ids[1];" ?>`);
+                                    history.pushState({}, "", `<?php echo BASE_URL . "index.php?id=$id_achat;" ?>`);
                                     $("#main").html(data);
                                 }
                             });

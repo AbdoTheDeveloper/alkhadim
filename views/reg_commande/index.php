@@ -40,7 +40,7 @@ if(!empty($result->totalunit) || $result->totalunit!=0){
                 <div class="float-sm-right text-zero">
                     <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="reg_commande/add.php?id=<?php echo $id ?>" >AJOUTER</button>
 
-                    <button type="button" class="btn btn-success  url notlink" data-url="vente/index.php?id=<?php echo $id ?>" > <i class="glyph-icon simple-icon-arrow-left"></i></button>
+                    <button type="button" class="btn btn-success  url notlink" data-url="bon-commande/index.php?id=<?php echo $id ?>" > <i class="glyph-icon simple-icon-arrow-left"></i></button>
                 </div>
             </div>
             <div class="separator mb-5"></div>

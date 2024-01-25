@@ -166,7 +166,7 @@ include('../../evr.php');
             <td><?php echo $ligne->prix_produit ; ?></td>
             <td><?php echo $ligne->qte_vendu ; ?></td>
             <td><?php echo $ligne->poid*$ligne->qte_vendu ;
-                                    $somme_poid+=$ligne->poid*$ligne->qte_vendu;
+             $somme_poid+=$ligne->poid*$ligne->qte_vendu;
             ?> g </td>
             <td width="90" style="text-align: right;" >
                 <?php  echo number_format($ligne->qte_vendu * $ligne->prix_produit,2,'.',' ');

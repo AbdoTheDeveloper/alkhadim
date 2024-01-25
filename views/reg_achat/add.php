@@ -9,9 +9,9 @@ $id = explode('?id=',$_SERVER["REQUEST_URI"])[1];
  
  
  $total=0;
-$query=$result=connexion::getConnexion()->query("SELECT sum(prix_produit*qte_achete)as total FROM detail_achat  WHERE id_achat=".$id);
+$query=$result=connexion::getConnexion()->query("SELECT cout_device ,sum(prix_produit*qte_achete)as total FROM detail_achat  WHERE id_achat=".$id);
 $result=$query->fetch(PDO::FETCH_OBJ);
-$total=$result->total;
+$total=$result->total  * $result->cout_device ;
 
  $avance=0;
  foreach($data as $ligne){
@@ -113,7 +113,7 @@ $total=$result->total;
                                     <label for="id_compte">Compte</label>
                                     <select name="id_compte" class="form-control" id="id_compte">
                                       <?php $compte = new compte();
-                                            $compte = $compte->selectAll();
+                                            // $compte = $compte->selectAll();
                                                 foreach ($compte as $cpt) {
                                                  
                                                  echo "<option value=".$cpt->id.">".$cpt->nom_compte."</option>";

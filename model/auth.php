@@ -49,6 +49,7 @@ class auth {
 
 	public static function login($user)
 	 {      
+		 
 			 $_SESSION['gs_login'] = $user->login;
 			 $_SESSION['gs_id'] = $user->id;
 			 $_SESSION['gs_email'] = $user->email;

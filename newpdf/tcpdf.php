@@ -183,7 +183,7 @@ class MYPDF extends TCPDF {
 		
 		$this->SetY(-18);
 		// Police Arial italique 8
-		$this->Line(0,275,210,275);
+		// $this->Line(0,275,210,275);
 		//$this->SetFont('helvetica', '', 10);
 		//$this->Cell(35,5,$this->societe['raisonsocial'],0,0,'R',0);
 		/*
@@ -196,7 +196,7 @@ class MYPDF extends TCPDF {
          //$this->Cell(190,5,'ICE: 000217830000088                    PATENTE: 38000232', 0, 0, 'C');
 
 		//Main footer
-		$this->writeHTMLCell(170, 120, '', '', $html);
+		// $this->writeHTMLCell(170, 120, '', '', $html);
 		
 		// Page Number
 		$this->SetFont('helvetica', 'b', 8);

@@ -16,7 +16,7 @@ $charges = connexion::getConnexion()->query("select (sum(c.montant) * c.cout_dev
 $total_prix_produit = connexion::getConnexion()->query("select (sum(da.prix_produit) * da.cout_device) as total_prix_produit from detail_achat da where id_achat  = $id  ")->fetchAll(PDO::FETCH_OBJ)[0];
 $data = $detail_achat->selectAllValide($id);
 $achat = $achat->selectById($id);
-// debug($data[0]) ; 
+ 
 ?>
 <div class="container-fluid disable-text-selection">
   <div class="row">
@@ -146,8 +146,8 @@ $achat = $achat->selectById($id);
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                       </a>
                     <?php } ?>
-                    <?php if ($valide): ?>
-                      <a class="badge  mb-2   <?php echo !$ligne->valide ? 'badge-success valide_detail_achat ' : 'badge-secondary ' ?>"
+                    <?php if ($valide):  ?>
+                      <a class="badge  mb-2   <?php echo  !$ligne->valide  ? 'badge-success valide_detail_achat ' : 'badge-secondary ' ?>"
                         title="<?php echo $ligne->valide ? 'commande validé ' : 'valider commande' ?>" type="button"
                         style="color: white;cursor: pointer;" id="btn_valide_<?php echo $ligne->detail; ?>"
                         data-id="<?php echo $ligne->id_detail; ?>">
@@ -156,7 +156,7 @@ $achat = $achat->selectById($id);
                     <?php endif; ?>
                     <?php if ($valide): ?>
                       <a class="badge  mb-2   <?php echo !$ligne->prix_revient ? 'badge-success cloturer' : 'badge-secondary ' ?>"
-                        title="<?php echo $ligne->valide ? 'commande cloturé ' : 'cloturer commande' ?>" type="button"
+                        title="<?php echo $ligne->prix_revient ? 'commande cloturé ' : 'cloturer commande' ?>" type="button"
                         style="color: white;cursor: pointer;" id="btn_valide_<?php echo $ligne->detail; ?>"
                         data-id="<?php echo $ligne->id_detail; ?>">
                         <!-- <i class="simple-icon-check" style="font-size: 15px;"></i> -->
@@ -175,12 +175,11 @@ $achat = $achat->selectById($id);
           </table>
           <br>
           <h1 id="total">Total Sans Charge :
-            <?php echo number_format($total / $data[0]->cout_device, 2, '.', '') . " " . $data[0]->devise_produit ?>
+            <?php echo number_format($total * $data[0]->cout_device, 2, '.', '') . " DH"  ?>
           </h1>
           <br>
           <?php
-
-          $id = explode('?id=', $_SERVER["REQUEST_URI"])[1];
+;
           $charge = new charge();
           if ($id) {
             $data = [];
@@ -273,11 +272,11 @@ $achat = $achat->selectById($id);
                                     <i class="simple-icon-trash" style="font-size: 15px;"></i>
                                   </a>
                                 <?php } ?>
-                                <!-- <a class="badge badge-warning mb-2  url notlink"
+                                <a class="badge badge-warning mb-2  url notlink"
                                   data-url="charge_achat/update.php?id=<?php echo $charge->id; ?>&id_achat=<?php echo $id; ?>&from_detail=true"
                                   style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                                   <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
-                                </a> -->
+                                </a>
                                 <?php if ($charge->image != '' || $charge->deux_image != '') {
                                   $img = $charge->image != '' ? $charge->image : $charge->deux_image; ?>
                                   <a class="badge badge-success " data-fancybox
@@ -323,7 +322,7 @@ $achat = $achat->selectById($id);
     <script>
       $('body').on("click", ".valide_achat", function () {
         let id = $(this).attr('data-id');
-        // document.getElementById('btn_valide_' + id).style.display = 'none';
+
         $.ajax({
           type: "POST",
           url: "<?php echo BASE_URL . 'views/achat/controle.php' ?>",
@@ -347,7 +346,7 @@ $achat = $achat->selectById($id);
       $('body').on("click", ".valide_detail_achat", function (e) {
         // e.preventDefault() ; 
         let id = $(this).attr('data-id');
-        // document.getElementById('btn_valide_' + id).style.display = 'none';
+
         $.ajax({
           type: "POST",
           url: "<?php echo BASE_URL . 'views/detail_achat/controle.php' ?>",

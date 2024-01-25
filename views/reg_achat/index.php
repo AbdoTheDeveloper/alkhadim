@@ -14,7 +14,7 @@ $infos=connexion::getConnexion()->query("
  $data=$reg_achat->selectAll2($id);
  
  $total=0;
-$query=$result=connexion::getConnexion()->query("SELECT sum(prix_produit*qte_achete)as total FROM detail_achat  WHERE id_achat=".$id);
+$query=$result=connexion::getConnexion()->query("SELECT cout_device,  sum(prix_produit*qte_achete)as total FROM detail_achat  WHERE id_achat=".$id);
 $result=$query->fetch(PDO::FETCH_OBJ);
 $total=$result->total;
 ?>
@@ -37,7 +37,7 @@ $total=$result->total;
         <div class="col-xl-12 col-lg-12 mb-4">
             <div class="card h-100">
                 <div class="card-body">
-                     <h5 class="mb-2">Reglement d'achat N&deg; <?php echo $id; ?>  Total est: <?php echo number_format($total,2,'.',' ') ; ?> Dh </h5>
+                     <h5 class="mb-2">Reglement d'achat N&deg; <?php echo $id; ?>  Total est: <?php echo number_format($total *  $result->cout_device,2,'.',' ') ; ?> Dh </h5>
                  
                     
                     <table class="table responsive table-striped " id="datatables">
@@ -81,7 +81,7 @@ $total=$result->total;
                             </tbody>
                         </table>
 
-                        <h5 class="mb-2">Le reste est : <?php echo  number_format($total-$avance,2,'.',' ') ; ?> Dh </h5>
+                        <h5 class="mb-2">Le reste est : <?php echo  number_format($total * $result->cout_device -$avance,2,'.',' ') ; ?> Dh </h5>
                        
                     </div>
                 </div>

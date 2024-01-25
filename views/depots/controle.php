@@ -420,7 +420,7 @@ $response = curl_exec($curl);
 // Close cURL session
 curl_close($curl);
 // Output response
-echo $response;
+// echo $response;
 	//minus qte from source
 	$query1 = "UPDATE produit_depot SET qte = qte - " . $qte . " WHERE id_produit = " . $id_produit . " AND id_depot = " . $id_src;
 	$test = $query1;

@@ -24,6 +24,7 @@
   }
 
   $montant_a_paye =  $total - $avance;
+  
   ?>
 
   <div class="container-fluid disable-text-selection">
@@ -49,15 +50,13 @@
             <p><strong> doit payer : </strong>
               <?php
 
-              $query = $result = connexion::getConnexion()->query("SELECT IFNULL((SELECT SUM((qte_vendu - qte_actuel)*prix_produit) FROM detail_bon_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0)  - IFNULL((SELECT SUM(montant) FROM reg_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0) AS reste");
-
-
-
+              $query = $result = connexion::getConnexion()->query("SELECT IFNULL((SELECT SUM((qte_vendu - qte_actuel)*prix_produit) FROM
+                WHERE id_bon = " . $id . " GROUP BY id_bon) , 0)  - IFNULL((SELECT SUM(montant) FROM reg_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0) AS reste");
               $result = $query->fetchColumn();
 
-              ?>
-              <span id="total_reste" val="<?php echo $montant_a_paye ?>" class="badge badge-pill badge-danger mb-1"> <?php echo number_format($result, 2, ".", " "); ?> DH</span>
-            </p>
+              ?>                               
+              <span id="total_reste" val="<?php echo $montant_a_paye ?>" class="badge badge -pill badge-danger mb-1"> <?php echo number_format($result, 2, ".", " "); ?> DH</span>
+            </p>         
             <form id="addform" method="post" name="form_reg_vendeur" enctype="multipart/form-data">
 
               <input type="hidden" name="act" value="insert">

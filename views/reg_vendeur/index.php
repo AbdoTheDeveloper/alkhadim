@@ -9,14 +9,13 @@ $reg_vendeur = new reg_vendeur();
 $data = $reg_vendeur->selectAll2($id);
 
 $infos = connexion::getConnexion()->query(
-  "
- select c.* from utilisateur c,boncommandevendeur v 
+  "select c.* from utilisateur c,boncommandevendeur v 
  where v.id_vendeur=c.id
  and v.id_bon=" . $id
 )->fetch(PDO::FETCH_ASSOC);
 
 
-$query = $result = connexion::getConnexion()->query("SELECT sum(dv.prix_produit*(dv.qte_vendu-dv.qte_actuel)*(1-dv.remise/100)) as total ,
+$query = $result = connexion::getConnexion()->query("SELECT sum(dv.prix_produit*(dv.qte_vendu-dv.qte_retour)*(1-dv.remise/100)) as total ,
 sum(dv.prix_produit*dv.valunit*(1-dv.remise/100)) as totalunit 
 FROM detail_bon_vendeur dv 
  inner join produit p on dv.id_produit=p.id_produit WHERE id_bon=" . $id);
@@ -48,7 +47,7 @@ $total = $result->total;
 
           <?php
 
-          $query = $result = connexion::getConnexion()->query("SELECT IFNULL((SELECT SUM((qte_vendu - qte_actuel)*prix_produit) FROM detail_bon_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0)  - IFNULL((SELECT SUM(montant) FROM reg_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0) AS reste");
+          $query = $result = connexion::getConnexion()->query("SELECT IFNULL((SELECT SUM((qte_vendu -  qte_retour )*prix_produit) FROM detail_bon_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0)  - IFNULL((SELECT SUM(montant) FROM reg_vendeur WHERE id_bon = " . $id . " GROUP BY id_bon) , 0) AS reste");
 
 
 

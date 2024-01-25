@@ -51,10 +51,8 @@ public function selectAll3($date, $search_type = 0)
 		   }
 	   }
 	
-	$result=connexion::getConnexion()->query("select * from transfert_caisse  where 
-	 $dateCondition
-	order by id desc" );
-	 return $result->fetchAll(PDO::FETCH_OBJ);
+	$result=connexion::getConnexion()->query("select * from transfert_caisse  where  $dateCondition order by id desc" );
+	 if($result) return $result->fetchAll(PDO::FETCH_OBJ);
 } 
 
 

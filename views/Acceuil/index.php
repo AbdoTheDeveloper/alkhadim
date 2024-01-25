@@ -567,9 +567,7 @@ if ($recette > $depense) {
                 <?php foreach ($produits as $ligne) { ?>
 
                   <tr>
-                    <td>
-                      <a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="produit/update.php?id=<?php echo $ligne->id_produit; ?>"><?php echo $ligne->designation; ?></a>
-                    </td>
+                    <td><a href="javascript:void(0)" class="badge badge-primary mb-1 url notlink" data-url="produit/update.php?id=<?php echo $ligne->id_produit; ?>"><?php echo $ligne->designation; ?></a></td>
                     <td><?php echo $ligne->poid; ?>g</td>
                     <td><?php echo $ligne->qtevendu; ?></td>
                     <td><?php echo $ligne->nom; ?></td>

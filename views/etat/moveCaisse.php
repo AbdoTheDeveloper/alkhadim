@@ -141,7 +141,7 @@ $tot2+=$caiss['montant'];
             foreach($regcli as $regclis){?>
             <tr>
                 <td align="center"  ><?php echo $regclis['date_reg'] ?></td>
-                <td  align="center"><?php echo $regclis['nom'] ?></td>
+                <td  align="center"><?php echo $regclis['nom'] . $regclis['prenom'] ?></td>
                 <td  class="montant"><?php echo $regclis['numbon'] ?></td>
                 <td  class="montant"><?php echo $regclis['mode_reg'] ?></td>
                 <td  class="montant"><?php echo number_format($regclis['montantr'],2,'.',' '); ?></td>

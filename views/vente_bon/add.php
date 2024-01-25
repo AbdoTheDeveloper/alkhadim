@@ -4,6 +4,8 @@
     include('../../evr.php');
   }
 
+
+  
   $queries = explode('?', $_SERVER['REQUEST_URI']);
   if (count($queries) > 1) {
     $keys = explode('&', $queries[1]);
@@ -86,6 +88,26 @@
                   </div>
                 </div>
               </div>
+              <div >
+
+              </div>
+              
+              <!-- <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="cheque">Chéque :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="localisation" name="localisation" placeholder="localiser votre client">
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="autre">Autre :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="localisation" name="localisation" placeholder="localiser votre client">
+                  </div>
+                </div>
+              </div> -->
               <!-- <div id="my-map" style="height:160px"></div> -->
               <div class="form-group">
                 <label for="remarque"> Remarque : </label>
@@ -119,17 +141,13 @@
                   <label for="id_categorie"> Catégorie :</label>
 
                   <select class="form-control select2-single" name="id_categorie" id="id_categorie">
+                    <option value="Séléctionnez catégorie">Séléctionnez Catégorie</option>
                     <?php
-
                     $categorie = new categorie();
-
                     $categories = $categorie->selectAll();
-
                     foreach ($data_cat as $row) {
-
                       echo '<option value="' . $row->id_categorie . '">' . $row->nom . '</option>';
                     } ?>
-
                   </select>
 
                 </div>
@@ -139,7 +157,7 @@
                   <label for="id_produit"> Produit :</label>
 
                   <select class="form-control select2-single" name="id_produit" id="id_produit">
-
+                    <option value="Sélectionnez Produit" >Sélectionnez Produit</option>
                     <?php
                     $query_p = "SELECT p.id_produit, p.designation,d.id_detail
                                             FROM detail_bon_vendeur d 
@@ -147,7 +165,7 @@
                                             WHERE d.id_bon = $bon_key AND p.id_categorie = " . $data_cat[0]->id_categorie . "
                                             ORDER BY p.designation ASC";
 
-                    $produits = connexion::getConnexion()->query($query_p)->fetchAll(PDO::FETCH_OBJ);
+                    $produits = connexion::getConnexion()->query($query_p)->fetchAll(PDO::FETCH_OBJ);  
                     foreach ($produits as $row) {
                       echo '<option data-id="'.$row->id_detail.'" value="' . $row->id_produit . '">' . $row->designation . '</option>';
                     } ?>
@@ -298,6 +316,25 @@
                 <div class="form-group col-md-2">
 
                   <button id="addProduct" type="button" class="pull-right btn btn-success default btn-lg btn-block addProd  mr-1 " style="margin-top: 31px;">Ajouter</button>
+                </div>
+
+                <div class="form-group col-md-2">
+                  <label for="espece">Espece:</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="espece" name="espece" placeholder="payer par espece">
+                  </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="cheque">Chéque :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="cheque" name="cheque" placeholder="payer par cheque">
+                  </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="autre">Autre :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="autre" name="autre" placeholder="payer par une autre méthode ">
+                  </div>
                 </div>
 
               </div>

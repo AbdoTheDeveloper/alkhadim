@@ -265,9 +265,9 @@ if (isset($_GET['p'])) {
             <ul class="list-unstyled" data-link="Etat">
                 <?php if(auth::user()['etat']== 1 || auth::user()['privilege'] == "Admin") {?>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/moveCaisse.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> Mouvement caisse</a> </li>
-                <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleur_client.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> État Meilleurs Clients</a> </li>
+                <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleurs_clients.php' ?>"><i class="glyph-icon  iconsmind-Billing"></i> État Meilleurs Clients</a> </li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État vente</a></li>
-                <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleurs_clients.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État Meilleurs Clients</a></li>
+                <!-- <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_meilleurs_clients.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État Meilleurs Clients</a></li> -->
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_bl.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État BL</a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_cmd_vendeurs.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État commande vendeurs</a></li>
                 <li><a target="_blank" href="<?php echo BASE_URL . 'views/etat/etat_vente_impayes.php' ?>"> <i class="glyph-icon  iconsmind-Money-2"></i> État ventes Impayées</a></li>

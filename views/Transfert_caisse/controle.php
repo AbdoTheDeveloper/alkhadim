@@ -111,6 +111,8 @@ if ($_POST['act'] == 'filter') {
 
   $Transfert_caisse = new transfert_caisse();
   $Transfert_caisse->insert();
+
+
   $id = $Transfert_caisse->laset_insert();
   $effet_transfert_caisse = new effet_transfert_caisse();
   $cheque_transfert_caisse = new cheque_transfert_caisse();

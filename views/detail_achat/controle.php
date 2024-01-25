@@ -17,18 +17,12 @@ if ($_POST['act'] == 'generate_sku') {
 
 
   echo json_encode(['sku' => $prod['code_bar'], 'size' => $prod['designation'], 'details' => 'Fournisseur : ' . $fournisseur['raison_sociale'] . ' <br>  Date D\'Achat : ' . $achat['date_achat']]);
-}
-
-
-
-elseif ($_POST['act'] == 'valide_detail_achat') {
+} elseif ($_POST['act'] == 'valide_detail_achat') {
   $result2 = connexion::getConnexion()->query("select da.id_detail ,  da.id_produit, da.id_depot, da.qte_achete as qte_achete , da.valide from detail_achat da WHERE da.id_detail =" . $_POST['id']);
   $data = $result2->fetchAll(PDO::FETCH_OBJ);
-  if (!$data[0]->valide ) {
+  if (!$data[0]->valide  && !isset($_POST['qte_a_valider'])) {
     foreach ($data as $d) {
-
-       
-      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel + $d->qte_achete WHERE  id_produit = ". $d->id_produit);
+      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = qte_actuel + $d->qte_achete WHERE  id_produit = " . $d->id_produit);
       $produit_depot = new produit_depot();
       $target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
       if ($target) {
@@ -82,13 +76,13 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
       // } 
     }
     die('Validation');
-  } elseif(isset($_POST['qte_a_valider']) && !empty($_POST['qte_a_valider'])) {
+  } elseif (isset($_POST['qte_a_valider']) && !empty($_POST['qte_a_valider'])) {
 
     $qte_a_valider  = (int) $_POST['qte_a_valider'];
+
     foreach ($data as $d) {
-      $new_quantity = $qte_a_valider - (int) $d->qte_achete ;       
-      // debug("UPDATE produit SET qte_actuel = qte_actuel +  $new_quantity  WHERE  id_produit = " . $d->id_produit ) ; 
-      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = (qte_actuel - $d->qte_achete +  $qte_a_valider  )  WHERE  id_produit = " . $d->id_produit);
+      $new_quantity =  $qte_a_valider - $d->qte_achete;
+      $rd = connexion::getConnexion()->exec("UPDATE produit SET qte_actuel = (qte_actuel + $new_quantity )  WHERE  id_produit = " . $d->id_produit);
       $produit_depot = new produit_depot();
       $target = $produit_depot->get_produit_depot($d->id_produit, $d->id_depot);
       if ($target) {
@@ -101,10 +95,10 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     foreach ($data as $d) {
       // valider detail achat  
       if ($d->valide) {
-        $new_quantity = $qte_a_valider - (int)$d->qte_achete ; 
+
         // debug("UPDATE detail_achat SET qte_achete =  qte_achete + $new_quantity , valide = 1 , date_validation = CURDATE() WHERE id_detail =" . $d->id_detail);
-        $statut = connexion::getConnexion()->exec('UPDATE detail_achat SET qte_achete = qte_achete + ' . $new_quantity. ' , valide = 1 , date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
-       
+        $statut = connexion::getConnexion()->exec('UPDATE detail_achat SET qte_achete =   ' . $qte_a_valider . ' , valide = 1 , date_validation = CURDATE() WHERE id_detail =' . $d->id_detail);
+
         //avoir produit
         $prod = connexion::getConnexion()->query("SELECT * FROM produit WHERE id_produit = " . $d->id_produit)->fetch(PDO::FETCH_OBJ);
         //Si produit est composant
@@ -146,15 +140,14 @@ elseif ($_POST['act'] == 'valide_detail_achat') {
     }
     die('Revalidation');
   }
-}
-elseif($_POST['act'] == "cloturer"){
-  $id = $_POST['id']  ;  
-  $prix_revient =  $_POST['prix_revient'] ;
-  $statut = connexion::getConnexion()->query("UPDATE detail_achat SET prix_revient = $prix_revient where id_detail  = $id") ; 
-  if($statut){
-    die("Cloturage") ; 
-  }else{
-    die("Pas Cloturer") ;   
+} elseif ($_POST['act'] == "cloturer") {
+  $id = $_POST['id'];
+  $prix_revient =  $_POST['prix_revient'];
+  $statut = connexion::getConnexion()->query("UPDATE detail_achat SET prix_revient = $prix_revient where id_detail  = $id");
+  if ($statut) {
+    die("Cloturage");
+  } else {
+    die("Pas Cloturer");
   }
 }
 
@@ -255,8 +248,14 @@ if ($_POST['act'] == 'getproduit') {
 } elseif ($_POST['act'] == 'insert') {
   if (isset($_POST["id_produit"])) {
     $_POST["id_achat"] = $_POST["id"];
+    $_POST['devise_produit'] = connexion::getConnexion()->query('select devise_produit from achat where id_achat = ' . $_POST["id_achat"])->fetch(PDO::FETCH_OBJ)->devise_produit;
+    $_POST['cout_device'] = connexion::getConnexion()->query('select cout_device from detail_achat where id_achat = ' . $_POST["id_achat"])->fetch(PDO::FETCH_OBJ)->cout_device;
+    // debug($_POST['cout_device']) ;  
     $_POST["id_user"] = auth::user()["id"];
     $_POST["prix_produit"] = trim($_POST["prix_produit"]);
+
+    $_POST['id_depot'] = connexion::getConnexion()->query('select id_depot from produit_depot where id_produit = ' . $_POST["id_produit"])->fetch(PDO::FETCH_OBJ)->id_depot;
+    //  debug($_POST['id_depot']) ; 
     $detail_achat = new detail_achat();
 
     $detail_achat->insert();

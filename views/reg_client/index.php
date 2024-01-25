@@ -50,7 +50,7 @@ $montant_a_paye = $total_ventes - $montant_paye;
 
 
  $reg_client=new reg_client();
- $data=$reg_client->selectAll2($id);
+ $data=$reg_client->selectAll3($id);
 
  $client=new client();
  $client=$client->selectById($id);

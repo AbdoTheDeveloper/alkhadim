@@ -34,7 +34,7 @@ $vente1=$vente->selectById($_GET["id"]);
 
  <style type="text/css">
 
- .tableform{background-color:#999999; width:400px; margin:150px auto; }
+ /* .tableform{background-color:#999999; width:400px; margin:150px auto; }
 
  .inputText{height:22px; width:80%; border-radius:3px;margin-top:10px;}
 
@@ -48,9 +48,119 @@ $vente1=$vente->selectById($_GET["id"]);
 
  .row{background-color:#CCCCCC;}
 
- .montant{text-align:right;}
+ .montant{text-align:right;} */
 
- </style>
+
+ /* Apply a zebra-striping effect to the table */
+/* .datatables tr:nth-child(even) {
+  background-color: #f2f2f2;
+} */
+
+/* Set the border and spacing for the table */
+.datatables {
+  border-collapse: collapse;
+  width: 100%;
+}
+/* 
+.datatables th, .datatables td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+} */
+
+/* Style the header row */
+/* .datatables th {
+  background-color: #f2f2f2;
+  color: black;
+} */
+
+body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+
+    /* 
+    h3 {
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+
+    #container {
+        width: 500px;
+        margin: auto;
+    }
+
+    #header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #header h3 {
+        margin: 5px 0;
+    }
+
+    #table-container {
+        margin-bottom: 20px;
+    }
+
+    .datatables {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .datatables th, .datatables td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .datatables .row {
+        background-color: #CCCCCC;
+    }
+
+    .datatables th {
+        background-color: #f2f2f2;
+    }
+
+    .montant {
+        text-align: right;
+    }
+
+    #footer {
+        text-align: center;
+    } */
+
+
+
+
+    .datatables {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.datatables td, .datatables th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.datatables tr:nth-child(even){background-color: #f2f2f2;}
+
+.datatables tr:hover {background-color: #ddd;}
+
+.datatables th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+</style>
+
+
+ 
 
  
 
@@ -77,11 +187,11 @@ $vente1=$vente->selectById($_GET["id"]);
 <table class="datatables"  border=1  >
 
   <tr class="row">
-     <th width="60%"> Produit </th> 
+     <th width="50%"> Produit </th> 
      <th width="10%"> Qte </th> 
      <th width="10%"> PU </th>
      <th width="10%"> PR </th>
-     <th width="10%"> TTH </th>
+     <th width="20%"> TTH </th>
    </tr>
 
    <?php 
@@ -122,8 +232,8 @@ $vente1=$vente->selectById($_GET["id"]);
 
   <tr class="row">
 
-    <th width="85%"> Total </th> 
-    <th width="15%" style="font-size: 17px;"> <?php echo number_format($totalht + $totaltva,2,"."," "); ?> </th>
+    <th width="70%"> Total </th> 
+    <th width="30%" style="font-size: 17px;"> <?php echo number_format($totalht + $totaltva,2,"."," "); ?> </th>
 
 
    </tr>

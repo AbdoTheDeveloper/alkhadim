@@ -14,6 +14,8 @@ protected $f_approch;
 protected $id_user;
 protected $prix_revient ; 
 
+protected $valide  ; 
+
 
 
 public function selectAllNonValide(){

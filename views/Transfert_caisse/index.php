@@ -2,8 +2,8 @@
 if (isset($_POST['ajax'])) {
 include('../../evr.php');
 }
-$transfert_caisse = new transfert_caisse();
 
+$transfert_caisse = new transfert_caisse();
 $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
 ?>
 <div class="container-fluid disable-text-selection">
@@ -12,16 +12,16 @@ $data = $transfert_caisse->selectAll3(date('Y') . '-' . date('m'), 1);
       <div class="mb-2">
         <h1>Liste des Transferts caisses</h1>
         <div class="float-sm-right text-zero">
-          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="Transfert_caisse/add.php" >AJOUTER</button>
+          <button type="button" class="btn btn-primary btn-lg  mr-1 url notlink" data-url="transfert_caisse/add.php" >AJOUTER</button>
         </div>
       </div>
       <div class="separator mb-5"></div>
     </div>
-  </div>
+</div>
+
+
+
   <div class="row">
-    
-    
-    
     <div class="col-xl-12 col-lg-12 mb-4">
       <div class="card h-100">
         <div class="card-body">

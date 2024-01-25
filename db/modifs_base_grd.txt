@@ -1,0 +1,3 @@
+ALTER TABLE `vente` ADD `espece` VARCHAR(25) NULL DEFAULT NULL AFTER `id_vendeur`, 
+ADD `cheque` VARCHAR(25) NULL DEFAULT NULL AFTER `espece`, 
+ADD `autre` VARCHAR(25) NULL DEFAULT NULL AFTER `cheque`;

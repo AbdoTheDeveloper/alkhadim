@@ -71,4 +71,7 @@ $pagination = new Pagination($pagConfig);
 $query = $produit->selectQuery("select p.* from produit p $whereSQL order by p.designation asc LIMIT $start,$limit");
 
 
-if($query->num_rows > 0){ ?>
+if($query->num_rows > 0){  }
+
+}
+?>

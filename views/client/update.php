@@ -63,7 +63,7 @@ $oldvalue = $client->selectById($id[1]);
               </div>
               <div class="form-group col-md-4 societe">
                 <label for="nom"> Raison Social :</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $oldvalue['nom'] . ' ' . $oldvalue['prenom']; ?>">
+                <input type="text" class="form-control" id="nom" name="nom_prenom_ar" value="<?php echo $oldvalue['nom_prenom_ar']  ?>">
               </div>
             </div>
             <div class="form-row mb-3">

@@ -26,6 +26,11 @@ class reg_client extends table {
 
       return $result->fetchAll(PDO::FETCH_OBJ);
    }
+   public function selectAll3($id){
+      //select * from reg_vente where id_reg_client = (SELECT id_reg FROM reg_client where id_client = 6);
+      $result = connexion::getConnexion()->query("select * from reg_vente where id_reg_client = (SELECT id_reg FROM reg_client where id_client = $id)");
+      return $result->fetchAll(PDO::FETCH_OBJ);
+   }
 
    public function getUnpaidVentesWithRemainingAmount($id_client){
 

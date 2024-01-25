@@ -125,7 +125,6 @@ $data = $detail_vente->selectAllValide($id);
                       echo number_format($ligne->qte_vendu * $prixr, 2, '.', '');
                     }
 
-                    // var_dump($tva);
                     if (!empty($ligne->valunit) || $ligne->valunit != 0) {
                       $total += ($ligne->valunit * $prixr);
                     } else {
@@ -134,20 +133,25 @@ $data = $detail_vente->selectAllValide($id);
 
                     ?>
                   </td>
-
+                    <?php 
+                    
+                    ?>
                   <td>
-                    <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['privilege'] == 'Vendeur' || auth::user()['vente'] == 1  ) { ?>
-                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1 ) { ?>
+                    <?php 
+
+                    
+                  //   if (auth::user()['privilege'] == 'Admin' || auth::user()['privilege'] == 'Vendeur' || auth::user()['vente'] == 1  ) { ?>
+                      <?php//  if (auth::user()['privilege'] == 'Admin' || auth::user()['supprimer'] == 1 ) { ?>
                       <a class="badge badge-danger mb-2 delete" data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Supprimer" href='javascript:void(0)'>
                         <i class="simple-icon-trash" style="font-size: 15px;"></i>
                       </a>
-                      <?php } ?>
-                      <?php if (auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1 ) { ?>
+                      <?php // } ?>
+                      <?php // if (auth::user()['privilege'] == 'Admin' || auth::user()['modifier'] == 1 ) { ?>
                       <a class="badge badge-warning mb-2 updatee " data-id="<?php echo $ligne->id_detail; ?>" style="color: white;cursor: pointer;" title="Modifier" href="javascript:void(0)">
                         <i class="iconsmind-Pen-5" style="font-size: 15px;"> </i>
                       </a>
-                      <?php } ?>
-                    <?php } ?>
+                      <?php//  } ?>
+                    <?php // } ?>
 
                   </td>
                 </tr>

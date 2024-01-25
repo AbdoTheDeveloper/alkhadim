@@ -145,8 +145,22 @@ and  (a.date_achat  between '" . $_POST["dd"] . "' and '" . $_POST["df"] . "') g
         <?php foreach ($data as $ligne) {   ?>
 
           <?php
-          $data2 = connexion::getConnexion()->query("SELECT da.id_detail,p.id_produit,p.qte_actuel,p.designation,p.designation_ar,p.poid,da.prix_produit,da.qte_achete  FROM   detail_achat da 
-  left join produit p on (p.id_produit=da.id_produit) where da.id_achat=" . $ligne['id_achat'] . " order by da.id_detail desc");
+          $data2 = connexion::getConnexion()->query("SELECT 
+          da.id_detail, 
+          p.id_produit, 
+          p.qte_actuel, 
+          p.designation, 
+          p.designation_ar, 
+          p.poid, 
+          da.prix_produit, 
+          da.qte_achete 
+        FROM 
+          detail_achat da 
+          left join produit p on (p.id_produit = da.id_produit) 
+        where 
+          da.id_achat = " . $ligne['id_achat'] . " 
+        order by 
+          da.id_detail desc");
 
           $query = $result = connexion::getConnexion()->query("select  sum(ra.montant) as paye from achat a left join reg_achat ra on ra.id_achat=a.id_achat where a.id_achat=" . $ligne["id_achat"]);
 
@@ -157,6 +171,7 @@ and  (a.date_achat  between '" . $_POST["dd"] . "' and '" . $_POST["df"] . "') g
           $total_prix_res = 0;
 
           ?>
+
           <?php foreach ($data2 as $ligne2) {
             $total_mt += $ligne2["qte_achete"] * $ligne2["prix_produit"];
             $total_prix_res += $ligne2['qte_actuel'] * $ligne2['prix_produit'];
@@ -165,17 +180,12 @@ and  (a.date_achat  between '" . $_POST["dd"] . "' and '" . $_POST["df"] . "') g
             <tr>
               <td align="left" style="font-size: 16px"><?php echo $ligne['date_achat'] ?></td>
               <td align="left" style="font-size: 16px" scope="col"><?php echo $ligne2["designation"] ?></td>
-
-              <td align="right" style="font-size: 16px " scope="col"><?php echo number_format($ligne['qte_achete'], 2, ',', '.');
-                                                                      $qte += $ligne2["qte_achete"] ?> &nbsp;&nbsp;&nbsp;&nbsp; </td>
-
-              <td align="right" style="font-size: 16px" scope="col"><?php echo number_format($ligne['prix_produit'], 2, ',', '.') ?>&nbsp;&nbsp;</td>
-
-              <td align="right" style="font-size: 16px" scope="col"><?php
-                                                                    $sum_achats += $ligne2["qte_achete"] * $ligne2["prix_produit"];
-                                                                    echo number_format($ligne2["qte_achete"] * $ligne2["prix_produit"], 2, '.', ' '); ?></td>
-
-              <td align="right" style="font-size: 16px"><?php echo number_format($ligne['qte_actuel'], 2, ',', '.') ?></td>
+              <td align="right" style="font-size: 16px " scope="col"><?php echo number_format($ligne2['qte_achete'], 2, ',', '.'); 
+              $qte += $ligne2["qte_achete"] ?> &nbsp;&nbsp;&nbsp;&nbsp; </td>
+              <td align="right" style="font-size: 16px" scope="col"><?php echo number_format($ligne2['prix_produit'], 2, ',', '.') ?>&nbsp;&nbsp;</td>
+              <td align="right" style="font-size: 16px" scope="col"><?php $sum_achats += $ligne2["qte_achete"] * $ligne2["prix_produit"];
+                                            echo number_format($ligne2["qte_achete"] * $ligne2["prix_produit"], 2, '.', ' '); ?></td>
+              <td align="right" style="font-size: 16px"><?php echo number_format($ligne2['qte_actuel'], 2, ',', '.') ?></td>
               <td align="right" style="font-size: 16px"><?php echo number_format($ligne2['qte_actuel'] * $ligne2['prix_produit'], 2, ',', '.') ?></td>
               <td align="left" style="font-size: 16px"><?php echo number_format($ligne['remarque'], 2, ',', '.') ?></td>
 
